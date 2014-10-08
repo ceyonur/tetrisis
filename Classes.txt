@@ -6,11 +6,25 @@
 -level
 -board
 +play()
++init()
 
 *GUI
+-InitialGUI
+-PlayGUI
+-HighScoresGUI
+-SettingsGUI
 +showGame()
 +showSettings()
 +showScores()
+
+*InitialGUI
+
+*PlayGUI
+-pauseGUI
+
+*HighScoresGUI
+
+*SettingsGUI
 
 *Settings
 -PieceChoice
