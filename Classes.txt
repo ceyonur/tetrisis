@@ -58,7 +58,9 @@
 
 *HighScores
 -playerList
-+setters&getters
++addPlayer
++getPlayer
++toString
 
 *Player
 -name
