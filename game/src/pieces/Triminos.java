@@ -1,5 +1,5 @@
 package pieces;
 
-public class Triminos {
+public class Triminos extends Piece{
 
 }

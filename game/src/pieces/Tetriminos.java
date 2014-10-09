@@ -1,5 +1,5 @@
 package pieces;
 
-public class Tetriminos {
+public class Tetriminos extends Piece{
 
 }
