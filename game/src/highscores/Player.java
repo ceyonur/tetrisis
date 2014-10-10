@@ -7,9 +7,9 @@ import java.util.Date;
  * @author bedirhancaldir
  */
 public class Player {
-	String name;
-	int score;
-	Date date;
+	private String name;
+	private int score;
+	private Date date;
 
 	/**
 	 * The constructor of the Player class.

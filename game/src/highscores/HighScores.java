@@ -7,8 +7,8 @@ import java.util.ArrayList;
  * @author bedirhancaldir
  */
 public class HighScores {
-	ArrayList<Player> playerList;
-	final int UPPERBOUND = 5;
+	private ArrayList<Player> playerList;
+	private final int UPPERBOUND = 5;
 
 	/**
 	 * The constructor of the HighScores class. HighScores holds the players having the highest scores up to 5 players.
