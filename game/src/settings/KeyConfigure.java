@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class KeyConfigure {
 	
 	/** The map. */
-	HashMap<String, Integer> map;
+	private HashMap<String, Integer> map;
 
 	/**
 	 * Default constructor for the KeyConfigure class. Generates a map.

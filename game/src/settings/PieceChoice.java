@@ -1,8 +1,6 @@
 package settings;
 
-import pieces.Piece;
-import pieces.Tetriminos;
-
+// TODO: Auto-generated Javadoc
 /**
  * The Class PieceChoice. This class stores the choice of pieces.(Tetriminos or
  * triminos)
@@ -12,46 +10,35 @@ import pieces.Tetriminos;
 public class PieceChoice {
 
 	/** The choice. */
-	private Piece choice1;
+	private boolean triminos;
 	
 	/** The choice2. */
-	private Piece choice2;
+	private boolean tetriminos;
 
 	/**
 	 * Default constructor for the PieceChoice class. Sets the choice to Tetriminos
 	 */
 	public PieceChoice() {
-		setPieceChoice(new Tetriminos());
+		triminos = true;
+		triminos = false;		
 	}
 
 	/**
-	 * Sets the choice. Checks whether the given Piece is Tetriminos or Triminos, otherwise sets the choice to Tetriminos.
+	 * Sets the Tetriminos.
 	 *
-	 * @param choice the new choice
+	 * @param choice the new tetriminos boolean
 	 */
-	public void setPieceChoice(Piece choice) {
-		if (choice.isTetriminos() || choice.isTriminos()) {
-			this.choice1 = choice;
-			this.choice2 = null;
-		} else {
-			this.choice1 = new Tetriminos();
-		}
+	public void setTetriminos(boolean choice) {
+		tetriminos = choice;
 	}
 
 	/**
-	 * Sets the choice.
+	 * Sets the  triminos.
 	 *
-	 * @param choice1 the choice1
-	 * @param choice2 the choice2
+	 * @param choice the new triminos boolean
 	 */
-	public void setPieceChoice(Piece choice1, Piece choice2) {
-		setPieceChoice(choice1);
-		if(choice2.isTetriminos() || choice2.isTriminos()){			
-			this.choice2 = choice2;
-		}
-		else {			
-			this.choice2 = null;
-		}
+	public void setTriminos(boolean choice) {
+		triminos = choice;
 	}
 
 	
@@ -61,7 +48,7 @@ public class PieceChoice {
 	 * @return true, if successful
 	 */
 	public boolean hasTriminos(){
-		return choice1.isTriminos() || choice2.isTriminos();
+		return triminos;
 	}
 	
 	/**
@@ -70,7 +57,7 @@ public class PieceChoice {
 	 * @return true, if successful
 	 */
 	public boolean hasTetriminos(){
-		return choice1.isTetriminos() || choice2.isTetriminos();
+		return tetriminos;
 	}
 	
 	/**

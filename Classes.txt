@@ -36,14 +36,11 @@
 *PieceChoice
 -hasTetriminos
 -hasTriminos
+-hasBoth
 +setters&getters
 
 *KeyConfiguration
--left
--right
--down
--rotate
--pause
+-map
 +setters&getters
 
 *LevelChoice
@@ -52,8 +49,9 @@
 +setters&getters
 
 *BoardSize
--width
--height
+-small
+-medium
+-large
 +setters&getters
 
 *HighScores

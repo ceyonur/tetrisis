@@ -1,9 +1,6 @@
 package pieces;
 
-import javax.swing.*;
-
 import java.awt.*;
-import java.awt.event.*;
 
 /**
  * This class is the building stone of all of the pieces (both Tetriminoses and Triminoses).
