@@ -2,14 +2,27 @@ package pieces;
 
 import java.awt.Color;
 
+/**
+ * This class corresponds to the J-Tetriminos shape.
+ * @author bedirhancaldir
+ */
 public class JTetriminos extends Tetriminos{
 
+	/**
+	 * The constructor of the class JTetriminos. Sets the color, x and y coordinates of the JTetriminos
+	 * @param x The x-position of the upper-left corner of the JTetriminos
+	 * @param y The y-position of the upper-left corner of the JTetriminos
+	 * @param color The color of the JTetriminos
+	 */
 	public JTetriminos(int x, int y, Color color) {
 		super(x, y, color);
-		assembleBlocks();
+		assembleBlocks(); // To assemble the blocks in a specific way for JTetriminos
 	}
 
 	@Override
+	/**
+	 * This method orders the blocks of the JTetriminos to obtain its specific shape
+	 */
 	protected void assembleBlocks() {
 		for (int i=0; i<NUMBER_OF_PIECES; i++){
 			Block currentBlock = getBlockAt(i);
@@ -21,6 +34,9 @@ public class JTetriminos extends Tetriminos{
 	}
 
 	@Override
+	/**
+	 * This method rotates the JTetriminos 90 degrees clockwise
+	 */
 	public void rotate() {
 
 	}

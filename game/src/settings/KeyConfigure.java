@@ -3,7 +3,6 @@ package settings;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class KeyConfigure. This class maps the game functions to keys.
  * @author ceyonur
@@ -28,7 +27,7 @@ public class KeyConfigure {
 	/**
 	 * Gets the left.
 	 *
-	 * @return the key of function Left.
+	 * @return The key of function Left.
 	 */
 	public int getLeft() {
 		return map.get("Left");
@@ -37,7 +36,7 @@ public class KeyConfigure {
 	/**
 	 * Sets the left.
 	 *
-	 * @param left the new key for function Left. It checks whether this key is already used;
+	 * @param left The new key for function Left. It checks whether this key is already used;
 	 * if it is used, then the key is removed from last location.   
 	 */
 	public void setLeft(int left) {
@@ -55,7 +54,7 @@ public class KeyConfigure {
 	/**
 	 * Gets the right.
 	 *
-	 * @return the key of function Right.
+	 * @return The key of function Right.
 	 */
 	public int getRight() {
 		return map.get("Right");
@@ -64,7 +63,7 @@ public class KeyConfigure {
 	/**
 	 * Sets the right.
 	 *
-	 * @param right the new key for function Right. It checks whether this key is already used;
+	 * @param right The new key for function Right. It checks whether this key is already used;
 	 * if it is used, then the key is removed from last location. 
 	 */
 	public void setRight(int right) {
@@ -82,7 +81,7 @@ public class KeyConfigure {
 	/**
 	 * Gets the down.
 	 *
-	 * @return the key of function Down.
+	 * @return The key of function Down.
 	 */
 	public int getDown() {
 		return map.get("Down");
@@ -91,7 +90,7 @@ public class KeyConfigure {
 	/**
 	 * Sets the down.
 	 *
-	 * @param down the new key for function Down. It checks whether this key is already used;
+	 * @param down The new key for function Down. It checks whether this key is already used;
 	 * if it is used, then the key is removed from last location. 
 	 */
 	public void setDown(int down) {
@@ -109,7 +108,7 @@ public class KeyConfigure {
 	/**
 	 * Gets the rotate.
 	 *
-	 * @return the key of function Rotate.
+	 * @return The key of function Rotate.
 	 */
 	public int getRotate() {
 		return map.get("Rotate");
@@ -118,7 +117,7 @@ public class KeyConfigure {
 	/**
 	 * Sets the rotate.
 	 *
-	 * @param rotate the new key for function Rotate. It checks whether this key is already used;
+	 * @param rotate The new key for function Rotate. It checks whether this key is already used;
 	 * if it is used, then the key is removed from last location. 
 	 */
 	public void setRotate(int rotate) {
@@ -136,7 +135,7 @@ public class KeyConfigure {
 	/**
 	 * Gets the pause.
 	 *
-	 * @return the key of function Pause. 
+	 * @return The key of function Pause. 
 	 */
 	public int getPause() {
 		return map.get("Pause");
@@ -145,7 +144,7 @@ public class KeyConfigure {
 	/**
 	 * Sets the pause.
 	 *
-	 * @param pause the new key for function Pause. It checks whether this key is already used;
+	 * @param pause The new key for function Pause. It checks whether this key is already used;
 	 * if it is used, then the key is removed from last location. 
 	 */
 	public void setPause(int pause) {

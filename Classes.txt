@@ -74,13 +74,14 @@
 
 *Piece(abstract)
 -state
--blocks
 +rotate()
 +setters&getters
 
 *Tetriminos(abstract)
+-blocks
 
 *Triminos(abstract)
+-blocks
 
 *STetriminos
 *ZTetriminos

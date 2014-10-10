@@ -3,7 +3,6 @@ package settings;
 import pieces.Piece;
 import pieces.Tetriminos;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class PieceChoice. This class stores the choice of pieces.(Tetriminos or
  * triminos)

@@ -2,14 +2,27 @@ package pieces;
 
 import java.awt.Color;
 
+/**
+ * This class corresponds to the L-Tetriminos shape.
+ * @author bedirhancaldir
+ */
 public class LTetriminos extends Tetriminos{
 
+	/**
+	 * The constructor of the class LTetriminos. Sets the color, x and y coordinates of the LTetriminos
+	 * @param x The x-position of the upper-left corner of the LTetriminos
+	 * @param y The y-position of the upper-left corner of the LTetriminos
+	 * @param color The color of the LTetriminos
+	 */
 	public LTetriminos(int x, int y, Color color) {
 		super(x, y, color);
-		assembleBlocks();
+		assembleBlocks(); // To assemble the blocks in a specific way for LTetriminos
 	}
 
 	@Override
+	/**
+	 * This method orders the blocks of the LTetriminos to obtain its specific shape
+	 */
 	protected void assembleBlocks() {
 		for (int i=0; i<NUMBER_OF_PIECES; i++){
 			Block currentBlock = getBlockAt(i);
@@ -21,6 +34,9 @@ public class LTetriminos extends Tetriminos{
 	}
 
 	@Override
+	/**
+	 * This method rotates the LTetriminos 90 degrees clockwise
+	 */
 	public void rotate() {
 		
 	}
