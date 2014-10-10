@@ -1,6 +1,7 @@
 package pieces;
 
 import java.awt.Color;
+import java.awt.Rectangle;
 
 /**
  * This class corresponds to the I-Triminos shape.
@@ -25,9 +26,18 @@ public class ITriminos extends Triminos{
 	 */
 	protected void assembleBlocks() {
 		for (int i=0; i<NUMBER_OF_PIECES; i++){
-			Block currentBlock = getBlockAt(i);
+			Block currentBlock = getBlockAt(i+1);
 			currentBlock.move(0, currentBlock.getBlockSize() * i);
 		}
+	}
+	
+	@Override
+	/**
+	 * This method gives the rectangle covering the piece.
+	 * @return The box covering to the piece's area
+	 */
+	public Rectangle boundingBox() {
+		return new Rectangle(getX(), getY(), getBlockAt(1).getBlockSize()+1, NUMBER_OF_PIECES * getBlockAt(1).getBlockSize()+1);
 	}
 
 	@Override

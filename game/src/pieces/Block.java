@@ -7,7 +7,7 @@ import java.awt.*;
  * @author bedirhancaldir
  */
 public class Block {
-	private static int SIZE = 10; // The size (width and height) of a block
+	private static int SIZE = 15; // The size (width and height) of a block
 	private final static Color defaultColor = Color.BLACK; // The default color of a block
 	
 	private int x; // The x-position of the upper-left corner of the block

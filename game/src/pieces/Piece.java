@@ -1,7 +1,6 @@
 package pieces;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * This abstract class is a template for all of the pieces (both Tetriminoses and Triminoses).
@@ -61,7 +60,7 @@ public abstract class Piece {
 	 * This method returns the x coordinate of the upper-left corner of the piece
 	 * @return The x coordinate of the upper-left corner of the piece
 	 */
-	public int geX(){
+	public int getX(){
 		return upperLeftCornerX;
 	}
 	
@@ -92,4 +91,5 @@ public abstract class Piece {
 	public abstract void move(int x, int y); // To move the whole piece. Since the blocks aren't implemented in here, this must be abstract
 	public abstract void rotate(); // To rotate the whole piece. Since the blocks aren't implemented in here, this must be abstract
 	public abstract void paint(Graphics g); // To paint the whole piece. Since the blocks aren't implemented in here, this must be abstract
+	public abstract Rectangle boundingBox(); // To obtain the rectangle circling the piece.
 }

@@ -40,6 +40,8 @@ public abstract class Triminos extends Piece{
 		for (int i=0; i<NUMBER_OF_PIECES; i++){
 			blocks.get(i).move(x, y);
 		}
+		setUpperLeftCornerX(getX() + x);
+		setUpperLeftCornerY(getY() + y);
 	}
 	
 	/**
