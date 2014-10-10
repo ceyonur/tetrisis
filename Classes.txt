@@ -69,6 +69,8 @@
 *Board
 -matrix
 +setters&getters
++checkLinesForCompletion
++removeCompletedLine
 
 *Piece(abstract)
 -state
