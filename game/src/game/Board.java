@@ -9,8 +9,8 @@ public class Board {
 	private final static int DEFAULT_ROW_SIZE = settings.BoardSize.getRow(); // The default row size
 	private final static int DEFAULT_COLUMN_SIZE = settings.BoardSize.getColumn(); // The default column size
 
-	private int rowSize;
-	private int columnSize;
+	private int rowSize; // The field holding the row size of the board
+	private int columnSize; // The field holding the column size of the board
 
 	/**
 	 * The constructor of the class Board. Creates the matrix of the given dimensions

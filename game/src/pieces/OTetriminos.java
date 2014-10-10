@@ -45,10 +45,8 @@ public class OTetriminos extends Tetriminos{
 
 	@Override
 	/**
-	 * This method rotates the OTetriminos 90 degrees clockwise
+	 * This method does nothing for OTetriminos since the rotation of this piece gives itself all the time
 	 */
-	public void rotate() {
-		
-	}
+	public void rotate() {}
 
 }

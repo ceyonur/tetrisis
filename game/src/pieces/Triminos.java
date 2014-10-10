@@ -45,6 +45,27 @@ public abstract class Triminos extends Piece{
 	}
 	
 	/**
+	 * This method moves the whole piece a block size down
+	 */
+	public void moveABlockDown(){
+		move(0, blocks.get(0).getBlockSize());
+	}
+	
+	/**
+	 * This method moves the whole piece a block size right
+	 */
+	public void moveABlockRight(){
+		move(blocks.get(0).getBlockSize(), 0);
+	}
+	
+	/**
+	 * This method moves the whole piece a block size left
+	 */
+	public void moveABlockLeft(){
+		move(-1 * blocks.get(0).getBlockSize(), 0);
+	}
+	
+	/**
 	 * This method returns the block whose order in the list is given. The classes extend this abstract class,
 	 * which are Triminos pieces, should be able to reach them to obtain their specific shape.
 	 * @param index The number of the piece if it is assumed that each of the blocks is given a number from 1 to NUMBER_OF_PIECES.

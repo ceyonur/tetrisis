@@ -12,6 +12,8 @@ public abstract class Piece {
 	private int upperLeftCornerX; // The x-position of the upper-left corner of the whole piece
 	private int upperLeftCornerY; // The y-position of the upper-left corner of the whole piece
 	private Color color; // The color of the piece
+	protected static enum rotationLevel {ZERO, NINETY, ONEHUNDREDANDEIGHTY, TWOHUNDREDANDSEVENTY};
+	private rotationLevel currentRotationLevel;
 	
 	/**
 	 * The constructor of the class Piece. Sets the color, x and y coordinates of the piece
@@ -23,6 +25,7 @@ public abstract class Piece {
 		setUpperLeftCornerX(x);
 		setUpperLeftCornerY(y);
 		setColor(color);
+		setRotationLevel(rotationLevel.ZERO);
 	}
 	
 	/**
@@ -57,6 +60,14 @@ public abstract class Piece {
 	}
 	
 	/**
+	 * This method takes a rotation level and sets it as the current rotation level
+	 * @param level The new rotation level as enum format (ZERO, NINETY, ONEHUNDREDANDEIGHTY, or TWOHUNDREDANDSEVENTY)
+	 */
+	public void setRotationLevel(rotationLevel level){
+		currentRotationLevel = level;
+	}
+	
+	/**
 	 * This method returns the x coordinate of the upper-left corner of the piece
 	 * @return The x coordinate of the upper-left corner of the piece
 	 */
@@ -78,6 +89,14 @@ public abstract class Piece {
 	 */
 	public Color getColor(){
 		return color;
+	}
+	
+	/**
+	 * This method returns the rotation level of the piece in enum format
+	 * @return The rotation level as enum format (ZERO, NINETY, ONEHUNDREDANDEIGHTY, or TWOHUNDREDANDSEVENTY)
+	 */
+	public rotationLevel getRotationLevel(){
+		return currentRotationLevel;
 	}
 	
 	public boolean isTetriminos(){

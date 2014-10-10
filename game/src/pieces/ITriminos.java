@@ -3,6 +3,8 @@ package pieces;
 import java.awt.Color;
 import java.awt.Rectangle;
 
+import pieces.Piece.rotationLevel;
+
 /**
  * This class corresponds to the I-Triminos shape.
  * @author bedirhancaldir
@@ -30,7 +32,7 @@ public class ITriminos extends Triminos{
 			currentBlock.move(0, currentBlock.getBlockSize() * i);
 		}
 	}
-	
+
 	@Override
 	/**
 	 * This method gives the rectangle covering the piece.
@@ -45,7 +47,15 @@ public class ITriminos extends Triminos{
 	 * This method rotates the ITriminos 90 degrees clockwise
 	 */
 	public void rotate() {
-		
+		if (getRotationLevel() == rotationLevel.ZERO){
+
+		} else if (getRotationLevel() == rotationLevel.NINETY){
+
+		} else if (getRotationLevel() == rotationLevel.ONEHUNDREDANDEIGHTY){
+
+		} else {
+
+		}
 	}
 
 }

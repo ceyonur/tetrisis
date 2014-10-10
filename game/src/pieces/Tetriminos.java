@@ -43,6 +43,27 @@ public abstract class Tetriminos extends Piece{
 		setUpperLeftCornerX(getX() + x);
 		setUpperLeftCornerY(getY() + y);
 	}
+	
+	/**
+	 * This method moves the whole piece a block size down
+	 */
+	public void moveABlockDown(){
+		move(0, blocks.get(0).getBlockSize());
+	}
+	
+	/**
+	 * This method moves the whole piece a block size right
+	 */
+	public void moveABlockRight(){
+		move(blocks.get(0).getBlockSize(), 0);
+	}
+	
+	/**
+	 * This method moves the whole piece a block size left
+	 */
+	public void moveABlockLeft(){
+		move(-1 * blocks.get(0).getBlockSize(), 0);
+	}
 
 	/**
 	 * This method returns the block whose order in the list is given. The classes extend this abstract class,

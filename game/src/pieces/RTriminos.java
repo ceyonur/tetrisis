@@ -3,12 +3,14 @@ package pieces;
 import java.awt.Color;
 import java.awt.Rectangle;
 
+import pieces.Piece.rotationLevel;
+
 /**
  * This class corresponds to the R-Triminos shape.
  * @author bedirhancaldir
  */
 public class RTriminos extends Triminos{
-	
+
 	/**
 	 * The constructor of the class RTriminos. Sets the color, x and y coordinates of the RTriminos
 	 * @param x The x-position of the upper-left corner of the RTriminos
@@ -33,7 +35,7 @@ public class RTriminos extends Triminos{
 				currentBlock.move(currentBlock.getBlockSize(), currentBlock.getBlockSize() * (i-1));
 		}
 	}
-	
+
 	@Override
 	/**
 	 * This method gives the rectangle covering the piece.
@@ -48,6 +50,14 @@ public class RTriminos extends Triminos{
 	 * This method rotates the RTriminos 90 degrees clockwise
 	 */
 	public void rotate() {
-		
+		if (getRotationLevel() == rotationLevel.ZERO){
+
+		} else if (getRotationLevel() == rotationLevel.NINETY){
+
+		} else if (getRotationLevel() == rotationLevel.ONEHUNDREDANDEIGHTY){
+
+		} else {
+
+		}
 	}
 }

@@ -3,6 +3,8 @@ package pieces;
 import java.awt.Color;
 import java.awt.Rectangle;
 
+import pieces.Piece.rotationLevel;
+
 /**
  * This class corresponds to the Z-Tetriminos shape.
  * @author bedirhancaldir
@@ -33,7 +35,7 @@ public class ZTetriminos extends Tetriminos{
 				currentBlock.move(currentBlock.getBlockSize() * (i-1), currentBlock.getBlockSize());
 		}
 	}
-	
+
 	@Override
 	/**
 	 * This method gives the rectangle covering the piece.
@@ -48,6 +50,14 @@ public class ZTetriminos extends Tetriminos{
 	 * This method rotates the ZTetriminos 90 degrees clockwise
 	 */
 	public void rotate() {
-		
+		if (getRotationLevel() == rotationLevel.ZERO){
+
+		} else if (getRotationLevel() == rotationLevel.NINETY){
+
+		} else if (getRotationLevel() == rotationLevel.ONEHUNDREDANDEIGHTY){
+
+		} else {
+
+		}
 	}
 }

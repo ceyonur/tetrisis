@@ -8,7 +8,6 @@ import java.awt.Rectangle;
  * @author bedirhancaldir
  */
 public class TTetriminos extends Tetriminos{
-
 	/**
 	 * The constructor of the class TTetriminos. Sets the color, x and y coordinates of the TTetriminos
 	 * @param x The x-position of the upper-left corner of the TTetriminos
@@ -48,7 +47,14 @@ public class TTetriminos extends Tetriminos{
 	 * This method rotates the TTetriminos 90 degrees clockwise
 	 */
 	public void rotate() {
-		
+		if (getRotationLevel() == rotationLevel.ZERO){
+			
+		} else if (getRotationLevel() == rotationLevel.NINETY){
+			
+		} else if (getRotationLevel() == rotationLevel.ONEHUNDREDANDEIGHTY){
+			
+		} else {
+			
+		}
 	}
-
 }

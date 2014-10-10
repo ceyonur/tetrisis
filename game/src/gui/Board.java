@@ -2,28 +2,28 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import pieces.*;
-
 import javax.swing.*;
+import pieces.*;
 
 public class Board extends JPanel {
 	private AnimationEventListener eventListener;
 	private Timer timer;
 	private boolean mode;
-	private ZTetriminos tet;
+	private JTetriminos tet;
 
 	public Board() {
 		// effects: initializes this to be in the off mode.
 
 		super();                    // do the standard JPanel setup stuff
-		tet = new ZTetriminos(10,10,Color.GREEN);
-
+		tet = new JTetriminos(100,10,Color.GREEN);
+		setBackground(Color.GRAY);
+		//putDotIndicators();
 		// this only initializes the timer, we actually start and stop the
 		// timer in the setMode() method
 		eventListener = new AnimationEventListener();
 		// The first parameter is how often (in milliseconds) the timer
 		// should call us back.  50 milliseconds = 20 frames/second
-		timer = new Timer(50, eventListener);
+		timer = new Timer(300, eventListener);
 		mode = false;
 	}
 	// This is just here so that we can accept the keyboard focus
@@ -63,9 +63,13 @@ public class Board extends JPanel {
 		}
 		else {
 			timer.stop();
-		}
+		}		
 	}
-
+	
+	/*private void putDotIndicators(){
+		this
+	}*/
+	
 	class AnimationEventListener extends MouseAdapter
 	implements MouseMotionListener, KeyListener, ActionListener
 	{
@@ -96,11 +100,16 @@ public class Board extends JPanel {
 			// effects: causes the ball to be bumped in a random direction but
 			//          only if one of the keys A-J is pressed.
 			int keynum = e.getKeyCode();
-
-			if ((keynum >= 65) && (keynum <= 74)) {
-				System.out.println("keypress " + e.getKeyCode());
-				tet.move(-100, -100);
+			
+			Rectangle oldPos = tet.boundingBox();
+			
+			if (keynum == 65) {
+				tet.moveABlockLeft();;
+			} else if (keynum == 68){
+				tet.moveABlockRight();;
 			}
+			repaintPanel(oldPos);
+			
 		}
 		public void keyReleased(KeyEvent e) { }
 		public void keyTyped(KeyEvent e) { }
@@ -114,18 +123,20 @@ public class Board extends JPanel {
 
 			Rectangle oldPos = tet.boundingBox();
 
-			tet.move(10, 10);              // make changes to the logical animation state
+			tet.moveABlockDown();             // make changes to the logical animation state
 
-			Rectangle repaintArea = oldPos.union(tet.boundingBox());
-
+			repaintPanel(oldPos);
 			// Have Swing tell the AnimationWindow to run its paint()
 			// method.  One could also call repaint(), but this would
 			// repaint the entire window as opposed to only the portion that
 			// has changed.
-
-
-
-
+			
+			
+		}
+		
+		private void repaintPanel(Rectangle oldPos){
+			Rectangle repaintArea = oldPos.union(tet.boundingBox());
+			
 			repaint(repaintArea.x,
 					repaintArea.y,
 					repaintArea.width,
