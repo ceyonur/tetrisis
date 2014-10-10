@@ -38,6 +38,13 @@ public abstract class Piece {
 		return color;
 	}
 	
+	public boolean isTetriminos(){
+		return this.getClass().getName() == Tetriminos.class.getName();
+	}
+	public boolean isTriminos(){
+		return this.getClass().getName() == Triminos.class.getName();
+	}
+	
 	protected abstract void assembleBlocks();
 	public abstract void move(int x, int y);
 	public abstract void rotate();
