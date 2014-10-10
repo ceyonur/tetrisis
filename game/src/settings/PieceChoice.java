@@ -19,7 +19,7 @@ public class PieceChoice {
 	 * Default constructor for the PieceChoice class. Sets the choice to Tetriminos
 	 */
 	public PieceChoice() {
-		triminos = true;
+		tetriminos = true;
 		triminos = false;		
 	}
 

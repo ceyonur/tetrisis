@@ -1,6 +1,5 @@
 package settings;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BoardSize. This class holds the selected board type. Also it returns the corresponding Row and Column size.
  * @author ceyonur
@@ -15,14 +14,15 @@ public class BoardSize {
 	
 	/** The large. */
 	private boolean large;
+	
+	private static int rowSize = 10;
+	private static int columnSize = 15;
 
 	/**
 	 * Default constructor for the BoardSize class. Sets the choice to medium.
 	 */
 	public BoardSize() {
-		medium = true;
-		small = false;
-		large = false;
+		setMedium();
 	}
 
 	/**
@@ -41,6 +41,9 @@ public class BoardSize {
 		small = true;
 		medium = false;
 		large = false;
+		
+		rowSize = 5;
+		columnSize = 10;
 	}
 
 	/**
@@ -59,6 +62,9 @@ public class BoardSize {
 		medium = true;
 		small = false;
 		large = false;
+		
+		rowSize = 10;
+		columnSize = 15;
 	}
 
 	/**
@@ -77,36 +83,27 @@ public class BoardSize {
 		large = true;
 		small = false;
 		medium = false;
+		
+		rowSize = 15;
+		columnSize = 20;
 	}
 
 	/**
 	 * Gets the row according to the selected size.
 	 *
-	 * @return the row
+	 * @return The row size
 	 */
-	public int getRow() {
-		if (isSmall()) {
-			return 5;
-		} else if (isMedium()) {
-			return 10;
-		} else {
-			return 15;
-		}
+	public static int getRow() {
+		return rowSize;
 	}
 
 	/**
 	 * Gets the column according to the selected size.
 	 *
-	 * @return the column
+	 * @return The column size
 	 */
-	public int getColumn() {
-		if (isSmall()) {
-			return 10;
-		} else if (isMedium()) {
-			return 15;
-		} else {
-			return 20;
-		}
+	public static int getColumn() {
+		return columnSize;
 	}
 
 }
