@@ -15,8 +15,8 @@ public class BoardSize {
 	/** The large. */
 	private boolean large;
 	
-	private static int rowSize = 15;
-	private static int columnSize = 10;
+	private int rowSize = 15;
+	private int columnSize = 10;
 
 	/**
 	 * Default constructor for the BoardSize class. Sets the choice to medium.
@@ -93,7 +93,7 @@ public class BoardSize {
 	 *
 	 * @return The row size
 	 */
-	public static int getRow() {
+	public int getRow() {
 		return rowSize;
 	}
 
@@ -102,7 +102,7 @@ public class BoardSize {
 	 *
 	 * @return The column size
 	 */
-	public static int getColumn() {
+	public int getColumn() {
 		return columnSize;
 	}
 

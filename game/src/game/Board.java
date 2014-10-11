@@ -6,8 +6,6 @@ package game;
  */
 public class Board {
 	private int[][] board; // The board represented as 2D integer matrix
-	private final static int DEFAULT_ROW_SIZE = settings.BoardSize.getRow(); // The default row size
-	private final static int DEFAULT_COLUMN_SIZE = settings.BoardSize.getColumn(); // The default column size
 
 	private int rowSize; // The field holding the row size of the board
 	private int columnSize; // The field holding the column size of the board
@@ -22,14 +20,7 @@ public class Board {
 		rowSize = row;
 		columnSize = column;
 	}
-
-	/**
-	 * The default constructor of the class. Sets the matrix to the default sizes (defined in settings.BoardSize class)
-	 */
-	public Board(){
-		this(DEFAULT_ROW_SIZE, DEFAULT_COLUMN_SIZE);
-	}
-
+	
 	/**
 	 * This method returns the row size of the board in terms of the block number fit inside
 	 * @return The row number of the game board.
