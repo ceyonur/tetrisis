@@ -87,4 +87,42 @@ public abstract class Tetriminos extends Piece{
 			blocks.get(i).paint(g);
 		}
 	}
+	
+	/**
+	 * This method rotates the whole tetriminos by changing the positions of the blocks according to its anchor block
+	 */
+	protected void rotateWholePiece(){
+		int minXForBoundingBox = 10000;
+		int minYForBoundingBox = 10000;
+		
+		for (int i=0; i<NUMBER_OF_PIECES; i++){
+			int anchorX = getAnchorBlock().getX();
+			int anchorY = getAnchorBlock().getY();
+
+			int blockSize = getAnchorBlock().getBlockSize();
+
+			if (blocks.get(i) != getAnchorBlock()){
+				int currentBlockX = blocks.get(i).getX();
+				int currentBlockY = blocks.get(i).getY();
+
+				int differenceBetweenXCoordinates = currentBlockX - anchorX;
+				int differenceLevelX = differenceBetweenXCoordinates / blockSize;
+
+				int differenceBetweenYCoordinates = currentBlockY - anchorY;
+				int differenceLevelY = differenceBetweenYCoordinates / blockSize;
+
+
+				blocks.get(i).move( -1 * (differenceLevelX + differenceLevelY) * blockSize , (differenceLevelX - differenceLevelY) * blockSize);
+			}
+			
+			if (blocks.get(i).getX() < minXForBoundingBox)
+				minXForBoundingBox = blocks.get(i).getX();
+			
+			if (blocks.get(i).getY() < minYForBoundingBox)
+				minYForBoundingBox = blocks.get(i).getY();
+		}
+		
+		setUpperLeftCornerX(minXForBoundingBox);
+		setUpperLeftCornerY(minYForBoundingBox);
+	}
 }

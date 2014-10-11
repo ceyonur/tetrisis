@@ -42,7 +42,10 @@ public class RTriminos extends Triminos{
 	 * @return The box covering to the piece's area
 	 */
 	public Rectangle boundingBox() {
-		return new Rectangle(getX(), getY(), 2* getBlockAt(1).getBlockSize()+1, 2 * getBlockAt(1).getBlockSize()+1);
+		boundingBoxWidth = 2;
+		boundingBoxHeight = 2;
+
+		return new Rectangle(getX(), getY(), boundingBoxWidth * getBlockAt(1).getBlockSize()+1, boundingBoxHeight * getBlockAt(1).getBlockSize()+1);
 	}
 
 	@Override
@@ -51,13 +54,18 @@ public class RTriminos extends Triminos{
 	 */
 	public void rotate() {
 		if (getRotationLevel() == rotationLevel.ZERO){
-
+			setAnchorBlock(getBlockAt(3));
+			setRotationLevel(rotationLevel.NINETY);
 		} else if (getRotationLevel() == rotationLevel.NINETY){
-
+			setAnchorBlock(getBlockAt(2));
+			setRotationLevel(rotationLevel.ONEHUNDREDANDEIGHTY);
 		} else if (getRotationLevel() == rotationLevel.ONEHUNDREDANDEIGHTY){
-
+			setAnchorBlock(getBlockAt(1));
+			setRotationLevel(rotationLevel.TWOHUNDREDANDSEVENTY);
 		} else {
-
+			setAnchorBlock(getBlockAt(2));
+			setRotationLevel(rotationLevel.ZERO);
 		}
+		rotateWholePiece();
 	}
 }

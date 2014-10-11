@@ -40,7 +40,10 @@ public class OTetriminos extends Tetriminos{
 	 * @return The box covering to the piece's area
 	 */
 	public Rectangle boundingBox() {
-		return new Rectangle(getX(), getY(), 2 * getBlockAt(1).getBlockSize()+1, 2 * getBlockAt(1).getBlockSize()+1);
+		boundingBoxWidth = 2;
+		boundingBoxHeight = 2;
+		
+		return new Rectangle(getX(), getY(), boundingBoxWidth * getBlockAt(1).getBlockSize()+1, boundingBoxHeight * getBlockAt(1).getBlockSize()+1);
 	}
 
 	@Override
