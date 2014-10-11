@@ -25,7 +25,7 @@ public abstract class Tetriminos extends Piece{
 			blocks.add(new Block(x, y, color));
 		}
 	}
-	
+
 	/**
 	 * The default constructor of the class. The location is set to 0  and the color is set to the default color as default.
 	 */
@@ -44,7 +44,7 @@ public abstract class Tetriminos extends Piece{
 		setUpperLeftCornerX(getX() + x);
 		setUpperLeftCornerY(getY() + y);
 	}
-	
+
 	/**
 	 * This method moves the whole piece a block size down
 	 */
@@ -52,7 +52,7 @@ public abstract class Tetriminos extends Piece{
 	public void moveABlockDown(){
 		move(0, blocks.get(0).getBlockSize());
 	}
-	
+
 	/**
 	 * This method moves the whole piece a block size right
 	 */
@@ -60,7 +60,7 @@ public abstract class Tetriminos extends Piece{
 	public void moveABlockRight(){
 		move(blocks.get(0).getBlockSize(), 0);
 	}
-	
+
 	/**
 	 * This method sets the blocks of the piece to the given special blocks
 	 * @param blocks The special block list as ArrayList
@@ -71,7 +71,7 @@ public abstract class Tetriminos extends Piece{
 			this.blocks.get(i).setLocation(blocks.get(i).getX(), blocks.get(i).getY());
 		}
 	}
-	
+
 	/**
 	 * This method moves the whole piece a block size left
 	 */
@@ -92,7 +92,7 @@ public abstract class Tetriminos extends Piece{
 		else
 			return null; // If not, then returns null
 	}
-	
+
 	/**
 	 * This method paints each block to the screen.
 	 * @param g This is the Graphics object to which the tetriminos will be drawn.
@@ -103,7 +103,7 @@ public abstract class Tetriminos extends Piece{
 			blocks.get(i).paint(g);
 		}
 	}
-	
+
 	/**
 	 * This method rotates the whole tetriminos by changing the positions of the blocks according to its anchor block
 	 */
@@ -111,7 +111,7 @@ public abstract class Tetriminos extends Piece{
 	protected void rotateWholePiece(){
 		int minXForBoundingBox = 10000;
 		int minYForBoundingBox = 10000;
-		
+
 		for (int i=0; i<NUMBER_OF_PIECES; i++){
 			int anchorX = getAnchorBlock().getX();
 			int anchorY = getAnchorBlock().getY();
@@ -127,21 +127,21 @@ public abstract class Tetriminos extends Piece{
 
 				int differenceBetweenYCoordinates = currentBlockY - anchorY;
 				int differenceLevelY = differenceBetweenYCoordinates / blockSize;
-				
+
 				blocks.get(i).move( -1 * (differenceLevelX + differenceLevelY) * blockSize , (differenceLevelX - differenceLevelY) * blockSize);
 			}
-			
+
 			if (blocks.get(i).getX() < minXForBoundingBox)
 				minXForBoundingBox = blocks.get(i).getX();
-			
+
 			if (blocks.get(i).getY() < minYForBoundingBox)
 				minYForBoundingBox = blocks.get(i).getY();
 		}
-		
+
 		setUpperLeftCornerX(minXForBoundingBox);
 		setUpperLeftCornerY(minYForBoundingBox);
 	}
-	
+
 	/**
 	 * This method returns the locations of the blocks of the piece
 	 * @return The locations of the blocks of the piece as 2D matrix
@@ -155,7 +155,7 @@ public abstract class Tetriminos extends Piece{
 		}
 		return locations;
 	}
-	
+
 	/**
 	 * This method returns the blocks as an ArrayList
 	 */
@@ -163,21 +163,15 @@ public abstract class Tetriminos extends Piece{
 	public ArrayList<Block> getBlocks(){
 		return blocks;
 	}
-	
+
 	/**
 	 * This method moves the piece to the appropriate position to rotate when it cannot be rotated directly to prevent the conflictions
 	 */
 	@Override
 	public void moveToAppropriatePositionToRotate(int maximumColumn){
-		System.out.println("appr");
-		if (blocks.get(0).getX() / blocks.get(0).getBlockSize() < 4){
+		if (blocks.get(0).getX() / blocks.get(0).getBlockSize() < 4)
 			moveABlockRight();
-			System.out.println("right");
-		}
 		else if (blocks.get(0).getX() / blocks.get(0).getBlockSize() > maximumColumn - 3)
-		{
 			moveABlockLeft();
-			System.out.println("left");
-		}
 	}
 }

@@ -102,6 +102,7 @@ public class BoardPanel extends JPanel {
 				blocks.get(i).move(0, blocks.get(i).getBlockSize());
 			}
 		}
+		repaint();
 	}
 
 	/*private void putDotIndicators(){
@@ -143,14 +144,13 @@ public class BoardPanel extends JPanel {
 			int keynum = e.getKeyCode();
 
 			Rectangle oldPos = piece.boundingBox();
-			
+
 			if (keynum == keys.getLeft()){
 				if (boardMatrix.checkCollisionsToGoLeft(piece.getLocationOnMatrix()))
 					piece.moveABlockLeft();
 			} else if (keynum == keys.getRight()){
 				if (boardMatrix.checkCollisionsToGoRight(piece.getLocationOnMatrix()))
-					
-				piece.moveABlockRight();
+					piece.moveABlockRight();
 			} else if (keynum == keys.getRotate()){
 				while (!boardMatrix.checkCollisionsWhenRotating(piece.cloneRotateAndGetLocationOnMatrix()))
 					piece.moveToAppropriatePositionToRotate(boardMatrix.getColumnSize());
