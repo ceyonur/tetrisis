@@ -34,7 +34,7 @@ public class Settings {
 	 *
 	 * @return the size
 	 */
-	public BoardSize getSize() {
+	public BoardSize getSizeChoice() {
 		return size;
 	}
 
@@ -43,7 +43,7 @@ public class Settings {
 	 *
 	 * @param size the new size
 	 */
-	public void setSize(BoardSize size) {
+	public void setSizeChoice(BoardSize size) {
 		this.size = size;
 	}
 
@@ -52,7 +52,7 @@ public class Settings {
 	 *
 	 * @return the key
 	 */
-	public KeyConfigure getKey() {
+	public KeyConfigure getKeyConfigure() {
 		return key;
 	}
 
@@ -61,7 +61,7 @@ public class Settings {
 	 *
 	 * @param key the new key
 	 */
-	public void setKey(KeyConfigure key) {
+	public void setKeyConfigure(KeyConfigure key) {
 		this.key = key;
 	}
 
@@ -70,7 +70,7 @@ public class Settings {
 	 *
 	 * @return the level
 	 */
-	public LevelChoice getLevel() {
+	public LevelChoice getLevelChoice() {
 		return level;
 	}
 
@@ -79,7 +79,7 @@ public class Settings {
 	 *
 	 * @param level the new level
 	 */
-	public void setLevel(LevelChoice level) {
+	public void setLevelChoice(LevelChoice level) {
 		this.level = level;
 	}
 
@@ -88,7 +88,7 @@ public class Settings {
 	 *
 	 * @return the piece
 	 */
-	public PieceChoice getPiece() {
+	public PieceChoice getPieceChoice() {
 		return piece;
 	}
 
@@ -97,7 +97,7 @@ public class Settings {
 	 *
 	 * @param piece the new piece
 	 */
-	public void setPiece(PieceChoice piece) {
+	public void setPieceChoice(PieceChoice piece) {
 		this.piece = piece;
 	}
 }
