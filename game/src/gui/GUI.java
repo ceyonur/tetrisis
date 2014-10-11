@@ -18,6 +18,7 @@ public class GUI extends JFrame {
 
 		// respond to the window system asking us to quit
 		addWindowListener(new WindowAdapter() {
+			@Override
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
 			}
@@ -56,6 +57,7 @@ public class GUI extends JFrame {
 		button.setToolTipText("Start the animation");
 		// when this button is pushed it calls animationWindow.setMode(true)
 		button.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				board.setMode(true);
 			}
@@ -66,6 +68,7 @@ public class GUI extends JFrame {
 		button.setToolTipText("Stop the animation");
 		// when this button is pushed it calls animationWindow.setMode(false)
 		button.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				board.setMode(false);
 			}
@@ -75,6 +78,7 @@ public class GUI extends JFrame {
 		button = new JButton("Quit");
 		button.setToolTipText("Quit the program");
 		button.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}

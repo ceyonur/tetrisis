@@ -5,7 +5,9 @@ import game.Engine;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+
 import javax.swing.*;
+
 import pieces.*;
 import settings.KeyConfigure;
 
@@ -41,8 +43,10 @@ public class BoardPanel extends JPanel {
 	}
 
 	// This is just here so that we can accept the keyboard focus
+	@Override
 	public boolean isFocusTraversable() { return true; }
 
+	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		//piece.paint(g);
@@ -123,11 +127,15 @@ public class BoardPanel extends JPanel {
 		// interface: mouseClicked, mouseEntered, mouseExited, mousePressed,
 		// and mouseReleased.
 
+		@Override
 		public void mouseClicked(MouseEvent e) { }
+		@Override
 		public void mouseDragged(MouseEvent e) { }
+		@Override
 		public void mouseMoved(MouseEvent e) { }
 
 		// Here's the KeyListener interface
+		@Override
 		public void keyPressed(KeyEvent e) {
 			// modifes: the ball that this listener owns
 			// effects: causes the ball to be bumped in a random direction but
@@ -135,14 +143,17 @@ public class BoardPanel extends JPanel {
 			int keynum = e.getKeyCode();
 
 			Rectangle oldPos = piece.boundingBox();
-
+			
 			if (keynum == keys.getLeft()){
 				if (boardMatrix.checkCollisionsToGoLeft(piece.getLocationOnMatrix()))
 					piece.moveABlockLeft();
 			} else if (keynum == keys.getRight()){
 				if (boardMatrix.checkCollisionsToGoRight(piece.getLocationOnMatrix()))
-					piece.moveABlockRight();
+					
+				piece.moveABlockRight();
 			} else if (keynum == keys.getRotate()){
+				while (!boardMatrix.checkCollisionsWhenRotating(piece.cloneRotateAndGetLocationOnMatrix()))
+					piece.moveToAppropriatePositionToRotate(boardMatrix.getColumnSize());
 				piece.rotate();
 			} else if (keynum == keys.getDown()){
 				if (boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix()))
@@ -157,10 +168,13 @@ public class BoardPanel extends JPanel {
 			repaintPanel(oldPos);
 
 		}
+		@Override
 		public void keyReleased(KeyEvent e) { }
+		@Override
 		public void keyTyped(KeyEvent e) { }
 
 		// this is the callback for the timer
+		@Override
 		public void actionPerformed(ActionEvent e) {
 
 			Rectangle oldPos = piece.boundingBox();
@@ -188,6 +202,7 @@ public class BoardPanel extends JPanel {
 			callerBoard = caller;
 		}
 
+		@Override
 		public void keyPressed(KeyEvent e) {
 			int keynum = e.getKeyCode();
 			if (keynum == keys.getPause()){
@@ -195,7 +210,9 @@ public class BoardPanel extends JPanel {
 			}
 		}
 
+		@Override
 		public void keyReleased(KeyEvent e) { }
+		@Override
 		public void keyTyped(KeyEvent e) { }
 	}
 }

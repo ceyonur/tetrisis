@@ -58,4 +58,12 @@ public class OTetriminos extends Tetriminos{
 	 */
 	public void adjustTheLocation() {}
 
+	/**
+	 * This method directly returns the positions of the blocks of the piece itself since OTetriminos' rotation makes no sense
+	 * @return The locations of the blocks of the piece itself, which is rotated, as a 2D matrix
+	 */
+	@Override
+	public int[][] cloneRotateAndGetLocationOnMatrix(){
+		return getLocationOnMatrix();
+	}
 }

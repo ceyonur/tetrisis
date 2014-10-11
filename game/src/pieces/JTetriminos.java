@@ -3,8 +3,6 @@ package pieces;
 import java.awt.Color;
 import java.awt.Rectangle;
 
-import pieces.Piece.rotationLevel;
-
 /**
  * This class corresponds to the J-Tetriminos shape.
  * @author bedirhancaldir
@@ -82,5 +80,19 @@ public class JTetriminos extends Tetriminos{
 	protected void adjustTheLocation(){
 		if (getRotationLevel() != rotationLevel.TWOHUNDREDANDSEVENTY)
 			moveABlockLeft();
+	}
+	
+	/**
+	 * This method, firstly, clones the piece, and then rotates it and return its locations to determine 
+	 * whether it can rotate or not.
+	 * @return The locations of the blocks of the piece's clone, which is rotated, as a 2D matrix
+	 */
+	@Override
+	public int[][] cloneRotateAndGetLocationOnMatrix(){
+		JTetriminos clone = new JTetriminos(getX(), getY(), getColor());
+		clone.setBlockList(blocks);
+		clone.setRotationLevel(getRotationLevel());
+		clone.rotate();
+		return clone.getLocationOnMatrix();
 	}
 }

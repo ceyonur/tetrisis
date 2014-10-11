@@ -9,7 +9,7 @@ public class Board {
 
 	private int rowSize; // The field holding the row size of the board
 	private int columnSize; // The field holding the column size of the board
-	
+
 	private Engine callerEngine;
 
 	/**
@@ -21,10 +21,10 @@ public class Board {
 		board = new int[row][column];
 		rowSize = row;
 		columnSize = column;
-		
+
 		callerEngine = engine;
 	}
-	
+
 	/**
 	 * This method returns the row size of the board in terms of the block number fit inside
 	 * @return The row number of the game board.
@@ -70,8 +70,8 @@ public class Board {
 
 	/**
 	 * This method checks whether the below of the piece is empty or not.
-	 * @param locations Returns true if the block can go further or false if vice versa
-	 * @return
+	 * @param locations The locations of the block as (x,y) in a 2D array
+	 * @return Returns true if the block can go further or false if vice versa
 	 */
 	public boolean checkCollisionsToGoBelow(int[][] locations){
 		for (int i=0; i<locations.length; i++){
@@ -84,39 +84,62 @@ public class Board {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * This method checks whether the right of the piece is empty or not.
-	 * @param locations Returns true if the block can go further or false if vice versa
-	 * @return
+	 * @param locations The locations of the block as (x,y) in a 2D array
+	 * @return Returns true if the block can go further or false if vice versa
 	 */
 	public boolean checkCollisionsToGoRight(int[][] locations){
 		for (int i=0; i<locations.length; i++){
-			if (locations[i][0] < board[0].length - 1){
-				if (board[locations[i][1]][locations[i][0] + 1] != 0)
+			if (locations[i][0] > 0){
+				if (locations[i][0] < board[0].length - 1){
+					if (board[locations[i][1]][locations[i][0] + 1] != 0)
+						return false;
+				} else {
 					return false;
-			} else {
-				return false;
+				}
 			}
 		}
 		return true;
 	}
-	
+
 	/**
 	 * This method checks whether the left of the piece is empty or not.
-	 * @param locations Returns true if the block can go further or false if vice versa
-	 * @return
+	 * @param locations The locations of the block as (x,y) in a 2D array
+	 * @return Returns true if the block can go further or false if vice versa
 	 */
 	public boolean checkCollisionsToGoLeft(int[][] locations){
 		for (int i=0; i<locations.length; i++){
-			if (locations[i][0] > 0){
-				if (board[locations[i][1]][locations[i][0] - 1] != 0)
+			if (locations[i][0] < board[0].length - 1){
+				if (locations[i][0] > 0){
+					if (board[locations[i][1]][locations[i][0] - 1] != 0)
+						return false;
+				} else {
 					return false;
-			} else {
-				return false;
+				}
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * This method checks whether the rotation of the piece causes any confliction or not.
+	 * @param locations The locations of the block when it is rotated as (x,y) in a 2D array 
+	 * @returnReturns true if the block can rotate or false if vice versa
+	 */
+	public boolean checkCollisionsWhenRotating(int[][] locations){
+		for (int i=0; i<locations.length; i++)
+			locations[i][0]++;
+
+		boolean leftConfliction = checkCollisionsToGoLeft(locations);
+
+		for (int i=0; i<locations.length; i++)
+			locations[i][0] -= 2;
+
+		boolean rightConfliction = checkCollisionsToGoRight(locations);
+
+		return (leftConfliction && rightConfliction);
 	}
 
 	/**

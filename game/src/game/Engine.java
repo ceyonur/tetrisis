@@ -1,7 +1,6 @@
 package game;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.util.Random;
 import settings.*;
 import pieces.*;
