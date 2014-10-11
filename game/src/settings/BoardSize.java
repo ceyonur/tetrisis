@@ -15,8 +15,8 @@ public class BoardSize {
 	/** The large. */
 	private boolean large;
 	
-	private static int rowSize = 10;
-	private static int columnSize = 15;
+	private static int rowSize = 15;
+	private static int columnSize = 10;
 
 	/**
 	 * Default constructor for the BoardSize class. Sets the choice to medium.
@@ -42,8 +42,8 @@ public class BoardSize {
 		medium = false;
 		large = false;
 		
-		rowSize = 5;
-		columnSize = 10;
+		rowSize = 10;
+		columnSize = 5;
 	}
 
 	/**
@@ -63,8 +63,8 @@ public class BoardSize {
 		small = false;
 		large = false;
 		
-		rowSize = 10;
-		columnSize = 15;
+		rowSize = 15;
+		columnSize = 10;
 	}
 
 	/**
@@ -84,8 +84,8 @@ public class BoardSize {
 		small = false;
 		medium = false;
 		
-		rowSize = 15;
-		columnSize = 20;
+		rowSize = 20;
+		columnSize = 15;
 	}
 
 	/**

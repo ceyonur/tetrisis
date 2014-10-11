@@ -1,10 +1,8 @@
 package gui;
 
 import game.Engine;
-
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
 
 public class GUI extends JFrame {
@@ -14,7 +12,7 @@ public class GUI extends JFrame {
 	protected Engine engine;
 	private Board board;
 
-	public GUI(Engine engine) {
+	public GUI() {
 		// effects: Initializes the application window so that it contains
 		//          a toolbar and an animation window.
 
@@ -27,21 +25,25 @@ public class GUI extends JFrame {
 				System.exit(0);
 			}
 		});
+	}
 
+	public void setEngine(Engine engine){
+		this.engine = engine;
+		
 		//Create the toolbar.
 		JToolBar toolBar = new JToolBar();
 		addButtons(toolBar);
 
 		//Create the animation area used for output.
-		this.engine = engine;
 		this.board = engine.getBoardPanel();
+		
 		// Put it in a scrollPane, (this makes a border)
 		JScrollPane scrollPane = new JScrollPane(board);
 
 		//Lay out the content pane.
 		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout());
-		contentPane.setPreferredSize(new Dimension(510, 530));
+		contentPane.setPreferredSize(new Dimension(engine.getBoardColumnLength(), engine.getBoardRowLength()));
 		contentPane.add(toolBar, BorderLayout.NORTH);
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		setContentPane(contentPane);

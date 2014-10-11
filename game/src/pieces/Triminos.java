@@ -125,4 +125,16 @@ public abstract class Triminos extends Piece{
 		setUpperLeftCornerX(minXForBoundingBox);
 		setUpperLeftCornerY(minYForBoundingBox);
 	}
+	
+	/**
+	 * This method returns the locations of the blocks of the piece
+	 */
+	public int[][] getLocationOnMatrix(){
+		int[][] locations = new int[NUMBER_OF_PIECES][2];
+		for (int i=0; i<NUMBER_OF_PIECES; i++){
+			locations[i][0] = blocks.get(i).getX() / blocks.get(i).getBlockSize();
+			locations[i][1] = blocks.get(i).getY() / blocks.get(i).getBlockSize() + 1;
+		}
+		return locations;
+	}
 }

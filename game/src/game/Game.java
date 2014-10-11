@@ -5,10 +5,10 @@ import settings.Settings;
 
 public class Game {
 	public static void main(String[] args) {
-		
+		GUI frame = new GUI();
 		Settings settings = new Settings();
 		Engine engine = new Engine(settings);
-		GUI frame = new GUI(engine);
+		frame.setEngine(engine);
 
 		// the following code realizes the top level application window
 		frame.pack();

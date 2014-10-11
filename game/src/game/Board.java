@@ -45,7 +45,7 @@ public class Board {
 	public int getColumnSize(){
 		return columnSize;
 	}
-	
+
 	/**
 	 * This method returns the row size of the board in terms of pixel
 	 * @return The row length of the game board.
@@ -65,8 +65,61 @@ public class Board {
 	/**
 	 * This method updates the board matrix
 	 */
-	public void updateBoard(){
+	public void updateBoard(int[][] locations){
+		for (int i=0; i<locations.length; i++){
+			board[locations[i][1]][locations[i][0]] = 1;
+		}
+	}
 
+	/**
+	 * This method checks whether the below of the piece is empty or not.
+	 * @param locations Returns true if the block can go further or false if vice versa
+	 * @return
+	 */
+	public boolean checkCollisionsToGoBelow(int[][] locations){
+		for (int i=0; i<locations.length; i++){
+			if (locations[i][1] < board.length - 1){
+				if (board[locations[i][1] + 1][locations[i][0]] == 1)
+					return false;
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * This method checks whether the right of the piece is empty or not.
+	 * @param locations Returns true if the block can go further or false if vice versa
+	 * @return
+	 */
+	public boolean checkCollisionsToGoRight(int[][] locations){
+		for (int i=0; i<locations.length; i++){
+			if (locations[i][0] < board[0].length - 1){
+				if (board[locations[i][1]][locations[i][0] + 1] == 1)
+					return false;
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * This method checks whether the left of the piece is empty or not.
+	 * @param locations Returns true if the block can go further or false if vice versa
+	 * @return
+	 */
+	public boolean checkCollisionsToGoLeft(int[][] locations){
+		for (int i=0; i<locations.length; i++){
+			if (locations[i][0] > 0){
+				if (board[locations[i][1]][locations[i][0] - 1] == 1)
+					return false;
+			} else {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -86,7 +139,7 @@ public class Board {
 				removeCompletedLine(i);
 		}
 	}
-	
+
 	/**
 	 * This method takes a row number and deletes that line completely and shifts the upper lines
 	 * to their one row below one by one.

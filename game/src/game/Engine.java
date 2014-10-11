@@ -7,7 +7,7 @@ import settings.*;
 import pieces.*;
 
 public class Engine {
-	private Board board; // The field for board object of the game
+	private Board boardMatrix; // The field for board object of the game
 	private KeyConfigure keys; // The field for keys of the actions in the game
 	private PieceChoice pieceChoice; // The field for the tetriminos/triminos choice
 	private int levelNo; // The field for the number of the level to display
@@ -20,7 +20,7 @@ public class Engine {
 	 * @param settings The settings of the game (can be default)
 	 */
 	public Engine(Settings settings){
-		board = new Board(settings.getSize().getRow(), settings.getSize().getColumn());
+		boardMatrix = new Board(settings.getSize().getRow(), settings.getSize().getColumn());
 		levelNo = settings.getLevel().getLevelChoice().getLevel();
 		speed = (int) (1000 * settings.getLevel().getLevelChoice().getSpeed());
 		keys = settings.getKey();
@@ -28,7 +28,7 @@ public class Engine {
 		
 		currentPiece = null;
 		
-		boardPanel = new gui.Board(keys, speed);
+		boardPanel = new gui.Board(keys, speed, this, boardMatrix);
 		
 		play();
 	}
@@ -40,7 +40,11 @@ public class Engine {
 		this(new Settings());
 	}
 
-	private void play(){
+	public void play(){
+		if (currentPiece !=null){
+			boardMatrix.updateBoard(currentPiece.getLocationOnMatrix());
+		}
+			
 		Piece randomPiece = chooseRandomPiece();
 		currentPiece = randomPiece;
 		// Find the initial location for the pieces
@@ -92,5 +96,17 @@ public class Engine {
 	
 	public gui.Board getBoardPanel(){
 		return boardPanel;
+	}
+	
+	public int getLevelNo(){
+		return levelNo;
+	}
+	
+	public int getBoardColumnLength(){
+		return boardMatrix.getColumnLength();
+	}
+	
+	public int getBoardRowLength(){
+		return boardMatrix.getRowLength();
 	}
 }

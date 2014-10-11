@@ -1,10 +1,11 @@
 package gui;
 
+import game.Engine;
+
 import java.awt.*;
 import java.awt.event.*;
-
+import java.util.ArrayList;
 import javax.swing.*;
-
 import pieces.*;
 import settings.KeyConfigure;
 
@@ -15,13 +16,19 @@ public class Board extends JPanel {
 	private boolean mode;
 	private Piece piece;
 	private KeyConfigure keys;
+	private Engine callerEngine;
+	private ArrayList<Piece> pieces;
+	private game.Board boardMatrix;
 
-	public Board(KeyConfigure keys, int speed) {
+	public Board(KeyConfigure keys, int speed, Engine engine, game.Board boardMatrix) {
 		// effects: initializes this to be in the off mode.
 
 		super();                    // do the standard JPanel setup stuff
 		setBackground(Color.GRAY);
 		this.keys = keys;
+		this.boardMatrix = boardMatrix;
+		callerEngine = engine;
+		pieces = new ArrayList<Piece>();
 		//putDotIndicators();
 		// this only initializes the timer, we actually start and stop the
 		// timer in the setMode() method
@@ -32,21 +39,19 @@ public class Board extends JPanel {
 		timer = new Timer(speed, eventListener);
 		mode = false;
 	}
+	
 	// This is just here so that we can accept the keyboard focus
 	public boolean isFocusTraversable() { return true; }
 
 	public void paint(Graphics g) {
-		// modifies: <g>
-		// effects: Repaints the Graphics area <g>.  Swing will then send the
-		//          newly painted g to the screen.
-
-		// first repaint the proper background color (controlled by
-		// the windowing system)
 		super.paint(g);
-		piece.paint(g);
+		for (int i=0; i<pieces.size(); i++){
+			pieces.get(i).paint(g);
+		}
 	}
 
 	public void addPiece(Piece piece){
+		pieces.add(piece);
 		this.piece = piece;
 	}
 
@@ -118,15 +123,18 @@ public class Board extends JPanel {
 
 			Rectangle oldPos = piece.boundingBox();
 
-			if (keynum == keys.getLeft())
-				piece.moveABlockLeft();
-			else if (keynum == keys.getRight())
-				piece.moveABlockRight();
-			else if (keynum == keys.getRotate())
+			if (keynum == keys.getLeft()){
+				if (boardMatrix.checkCollisionsToGoLeft(piece.getLocationOnMatrix()))
+					piece.moveABlockLeft();
+			} else if (keynum == keys.getRight()){
+				if (boardMatrix.checkCollisionsToGoRight(piece.getLocationOnMatrix()))
+					piece.moveABlockRight();
+			} else if (keynum == keys.getRotate()){
 				piece.rotate();
-			else if (keynum == keys.getDown())
-				piece.moveABlockDown();
-			else if (keynum == keys.getPause()){
+			} else if (keynum == keys.getDown()){
+				if (boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix()))
+					piece.moveABlockDown();
+			} else if (keynum == keys.getPause()){
 				if (callerBoard.getMode())
 					callerBoard.setMode(false);
 				else
@@ -141,27 +149,18 @@ public class Board extends JPanel {
 
 		// this is the callback for the timer
 		public void actionPerformed(ActionEvent e) {
-			// modifes: both the ball and the window that this listener owns
-			// effects: causes the ball to move and the window to be updated
-			//          to show the new position of the ball.
-
 
 			Rectangle oldPos = piece.boundingBox();
-
-			piece.moveABlockDown();             // make changes to the logical animation state
+			if (boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix()))
+				piece.moveABlockDown();
+			else
+				callerEngine.play();
 
 			repaintPanel(oldPos);
-			// Have Swing tell the AnimationWindow to run its paint()
-			// method.  One could also call repaint(), but this would
-			// repaint the entire window as opposed to only the portion that
-			// has changed.
-
-
 		}
 
 		private void repaintPanel(Rectangle oldPos){
 			Rectangle repaintArea = oldPos.union(piece.boundingBox());
-
 			repaint(repaintArea.x,
 					repaintArea.y,
 					repaintArea.width,
@@ -178,7 +177,6 @@ public class Board extends JPanel {
 
 		public void keyPressed(KeyEvent e) {
 			int keynum = e.getKeyCode();
-
 			if (keynum == keys.getPause()){
 				callerBoard.setMode(true);
 			}

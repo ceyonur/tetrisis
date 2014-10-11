@@ -136,4 +136,5 @@ public abstract class Piece {
 	public abstract void paint(Graphics g); // To paint the whole piece. Since the blocks aren't implemented in here, this must be abstract
 	public abstract Rectangle boundingBox(); // To obtain the rectangle circling the piece.
 	protected abstract void adjustTheLocation(); // To adjust the location after the rotation
+	public abstract int[][] getLocationOnMatrix(); // Returns the values getX/size and getY/size
 }
