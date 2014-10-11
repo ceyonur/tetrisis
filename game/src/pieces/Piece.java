@@ -128,6 +128,9 @@ public abstract class Piece {
 	
 	protected abstract void assembleBlocks(); // The abstract method to assemble the blocks in a specific way by each Piece type
 	public abstract void move(int x, int y); // To move the whole piece. Since the blocks aren't implemented in here, this must be abstract
+	public abstract void moveABlockDown(); // To move the whole piece down for a block size
+	public abstract void moveABlockRight(); // To move the whole piece right for a block size
+	public abstract void moveABlockLeft(); // To move the whole piece left for a block size
 	protected abstract void rotateWholePiece(); // To rotate the whole piece. Since the blocks aren't implemented in here, this must be abstract
 	public abstract void rotate(); // The method used in each tetriminos/triminos to rotate the piece
 	public abstract void paint(Graphics g); // To paint the whole piece. Since the blocks aren't implemented in here, this must be abstract

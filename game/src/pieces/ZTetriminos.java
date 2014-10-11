@@ -21,7 +21,7 @@ public class ZTetriminos extends Tetriminos{
 		super(x, y, color);
 		assembleBlocks(); // To assemble the blocks in a specific way for ZTetriminos
 	}
-
+	
 	@Override
 	/**
 	 * This method orders the blocks of the ZTetriminos to obtain its specific shape

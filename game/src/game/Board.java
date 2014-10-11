@@ -31,7 +31,7 @@ public class Board {
 	}
 
 	/**
-	 * This method returns the row size of the board.
+	 * This method returns the row size of the board in terms of the block number fit inside
 	 * @return The row number of the game board.
 	 */
 	public int getRowSize(){
@@ -39,11 +39,27 @@ public class Board {
 	}
 
 	/**
-	 * This method returns the column size of the board.
+	 * This method returns the column size of the board in terms of the block number fit inside
 	 * @return The column number of the game board.
 	 */
 	public int getColumnSize(){
 		return columnSize;
+	}
+	
+	/**
+	 * This method returns the row size of the board in terms of pixel
+	 * @return The row length of the game board.
+	 */
+	public int getRowLength(){
+		return rowSize * pieces.Block.SIZE;
+	}
+
+	/**
+	 * This method returns the column size of the board in terms of pixel
+	 * @return The column length of the game board.
+	 */
+	public int getColumnLength(){
+		return columnSize * pieces.Block.SIZE;
 	}
 
 	/**

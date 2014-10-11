@@ -1,22 +1,25 @@
 package gui;
 
+import game.Engine;
+
 import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
 
-class Example extends JFrame {
+public class GUI extends JFrame {
 	// overview: An ApplicationWindow is a top level program window that
 	// contains a toolbar and an animation window.
 
-	protected Board board;
+	protected Engine engine;
+	private Board board;
 
-	public Example() {
+	public GUI(Engine engine) {
 		// effects: Initializes the application window so that it contains
 		//          a toolbar and an animation window.
 
 		// Title bar
-		super("Swing Demonstration Program");
+		super("Tetris/Trisis Game");
 
 		// respond to the window system asking us to quit
 		addWindowListener(new WindowAdapter() {
@@ -30,7 +33,8 @@ class Example extends JFrame {
 		addButtons(toolBar);
 
 		//Create the animation area used for output.
-		board = new Board();
+		this.engine = engine;
+		this.board = engine.getBoardPanel();
 		// Put it in a scrollPane, (this makes a border)
 		JScrollPane scrollPane = new JScrollPane(board);
 
@@ -77,15 +81,5 @@ class Example extends JFrame {
 			}
 		});
 		toolBar.add(button);
-	}
-}
-
-public class GUI {
-	public static void main(String[] args) {
-		Example frame = new Example();
-
-		// the following code realizes the top level application window
-		frame.pack();
-		frame.setVisible(true);
 	}
 }

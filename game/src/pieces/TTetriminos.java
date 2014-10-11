@@ -80,8 +80,9 @@ public class TTetriminos extends Tetriminos{
 	 * This method adjusts the position of the piece after the rotation
 	 */
 	protected void adjustTheLocation(){
-		if (getRotationLevel() == rotationLevel.ONEHUNDREDANDEIGHTY){
+		if (getRotationLevel() == rotationLevel.ONEHUNDREDANDEIGHTY || getRotationLevel() == rotationLevel.ZERO)
 			moveABlockLeft();
-		}
+		else if (getRotationLevel() == rotationLevel.TWOHUNDREDANDSEVENTY)
+			moveABlockRight();
 	}
 }
