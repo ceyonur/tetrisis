@@ -137,4 +137,11 @@ public abstract class Tetriminos extends Piece{
 		}
 		return locations;
 	}
+	
+	/**
+	 * This method returns the blocks as an ArrayList
+	 */
+	public ArrayList<Block> getBlocks(){
+		return blocks;
+	}
 }

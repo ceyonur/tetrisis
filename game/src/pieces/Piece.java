@@ -1,6 +1,7 @@
 package pieces;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * This abstract class is a template for all of the pieces (both Tetriminoses and Triminoses).
@@ -104,6 +105,32 @@ public abstract class Piece {
 	}
 	
 	/**
+	 * This method returns the color of the piece as integer
+	 * (1: BLUE, 2: CYAN. 3: DARK_GRAY, 4: GREEN, 5: MAGENTA, 6: ORANGE, 7: PINK, 8:ERD, 9: YELLOW)
+	 * @return The color of the piece as integer
+	 */
+	public int getColorAsInteger(){
+		if (getColor() == Color.BLUE)
+			return 1;
+		else if (getColor() == Color.CYAN)
+			return 2;
+		else if (getColor() == Color.DARK_GRAY)
+			return 3;
+		else if (getColor() == Color.GREEN)
+			return 4;
+		else if (getColor() == Color.MAGENTA)
+			return 5;
+		else if (getColor() == Color.ORANGE)
+			return 6;
+		else if (getColor() == Color.PINK)
+			return 7;
+		else if (getColor() == Color.RED)
+			return 8;
+		else
+			return 9;
+	}
+	
+	/**
 	 * This method returns the current anchor block of the piece
 	 * @return The current anchor block of the piece according to the its current rotation level
 	 */
@@ -137,4 +164,5 @@ public abstract class Piece {
 	public abstract Rectangle boundingBox(); // To obtain the rectangle circling the piece.
 	protected abstract void adjustTheLocation(); // To adjust the location after the rotation
 	public abstract int[][] getLocationOnMatrix(); // Returns the values getX/size and getY/size
+	public abstract ArrayList<Block> getBlocks(); // Returns the blocks as an ArrayList
 }

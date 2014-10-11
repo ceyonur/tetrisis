@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.util.Random;
 import settings.*;
 import pieces.*;
+import gui.BoardPanel;
 
 public class Engine {
 	private Board boardMatrix; // The field for board object of the game
@@ -13,14 +14,14 @@ public class Engine {
 	private int levelNo; // The field for the number of the level to display
 	private int speed; // The field for the speed of the game (in milliseconds)
 	private Piece currentPiece; // The current piece
-	private gui.Board boardPanel; // The panel for the board
+	private BoardPanel boardPanel; // The panel for the board
 
 	/**
 	 * The constructor of the Engine class. Creates the board and takes the settings (if nothing changed, default ones will be used)
 	 * @param settings The settings of the game (can be default)
 	 */
 	public Engine(Settings settings){
-		boardMatrix = new Board(settings.getSize().getRow(), settings.getSize().getColumn());
+		boardMatrix = new Board(settings.getSize().getRow(), settings.getSize().getColumn(), this);
 		levelNo = settings.getLevel().getLevelChoice().getLevel();
 		speed = (int) (1000 * settings.getLevel().getLevelChoice().getSpeed());
 		keys = settings.getKey();
@@ -28,7 +29,7 @@ public class Engine {
 		
 		currentPiece = null;
 		
-		boardPanel = new gui.Board(keys, speed, this, boardMatrix);
+		boardPanel = new BoardPanel(keys, speed, this, boardMatrix);
 		
 		play();
 	}
@@ -42,7 +43,7 @@ public class Engine {
 
 	public void play(){
 		if (currentPiece !=null){
-			boardMatrix.updateBoard(currentPiece.getLocationOnMatrix());
+			boardMatrix.updateBoard(currentPiece.getLocationOnMatrix(), currentPiece.getColorAsInteger());
 		}
 			
 		Piece randomPiece = chooseRandomPiece();
@@ -60,7 +61,7 @@ public class Engine {
 		switch (randomNumberForColor){
 		case 1: randomColor = Color.BLUE; break;
 		case 2: randomColor = Color.CYAN; break;
-		case 3: randomColor = Color.GRAY; break;
+		case 3: randomColor = Color.DARK_GRAY; break;
 		case 4: randomColor = Color.GREEN; break;
 		case 5: randomColor = Color.MAGENTA; break;
 		case 6: randomColor = Color.ORANGE; break;
@@ -94,7 +95,7 @@ public class Engine {
 		return randomPiece;
 	}
 	
-	public gui.Board getBoardPanel(){
+	public BoardPanel getBoardPanel(){
 		return boardPanel;
 	}
 	
@@ -108,5 +109,9 @@ public class Engine {
 	
 	public int getBoardRowLength(){
 		return boardMatrix.getRowLength();
+	}
+	
+	public void eliminatedLine(int lineNo){
+		boardPanel.clearEliminatedLine(lineNo);
 	}
 }

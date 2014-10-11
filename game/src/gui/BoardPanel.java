@@ -9,7 +9,7 @@ import javax.swing.*;
 import pieces.*;
 import settings.KeyConfigure;
 
-public class Board extends JPanel {
+public class BoardPanel extends JPanel {
 	private AnimationEventListener eventListener;
 	private PauseKeyListener pauseListener;
 	private Timer timer;
@@ -17,10 +17,10 @@ public class Board extends JPanel {
 	private Piece piece;
 	private KeyConfigure keys;
 	private Engine callerEngine;
-	private ArrayList<Piece> pieces;
+	private ArrayList<Block> blocks;
 	private game.Board boardMatrix;
 
-	public Board(KeyConfigure keys, int speed, Engine engine, game.Board boardMatrix) {
+	public BoardPanel(KeyConfigure keys, int speed, Engine engine, game.Board boardMatrix) {
 		// effects: initializes this to be in the off mode.
 
 		super();                    // do the standard JPanel setup stuff
@@ -28,7 +28,7 @@ public class Board extends JPanel {
 		this.keys = keys;
 		this.boardMatrix = boardMatrix;
 		callerEngine = engine;
-		pieces = new ArrayList<Piece>();
+		blocks = new ArrayList<Block>();
 		//putDotIndicators();
 		// this only initializes the timer, we actually start and stop the
 		// timer in the setMode() method
@@ -39,20 +39,21 @@ public class Board extends JPanel {
 		timer = new Timer(speed, eventListener);
 		mode = false;
 	}
-	
+
 	// This is just here so that we can accept the keyboard focus
 	public boolean isFocusTraversable() { return true; }
 
 	public void paint(Graphics g) {
 		super.paint(g);
-		for (int i=0; i<pieces.size(); i++){
-			pieces.get(i).paint(g);
+		//piece.paint(g);
+		for (int i=0; i<blocks.size(); i++){
+			blocks.get(i).paint(g);
 		}
 	}
 
 	public void addPiece(Piece piece){
-		pieces.add(piece);
 		this.piece = piece;
+		blocks.addAll(piece.getBlocks());
 	}
 
 	public void setMode(boolean m) {
@@ -87,6 +88,16 @@ public class Board extends JPanel {
 		return mode;
 	}
 
+	public void clearEliminatedLine(int lineNo){
+		for (int i=0; i<blocks.size(); i++){
+			int lineOfCurrentBlock = blocks.get(i).getY() / blocks.get(i).getBlockSize() + 1;
+			if (lineOfCurrentBlock == lineNo){
+				blocks.remove(i);
+				System.out.println("entered");
+			}
+		}
+	}
+
 	/*private void putDotIndicators(){
 		this
 	}*/
@@ -100,9 +111,9 @@ public class Board extends JPanel {
 		// owns, and sends semantic actions to the ball and window of the
 		// outer class
 
-		private Board callerBoard;
+		private BoardPanel callerBoard;
 
-		public AnimationEventListener(Board caller){
+		public AnimationEventListener(BoardPanel caller){
 			super();		
 			callerBoard = caller;
 		}
@@ -169,9 +180,9 @@ public class Board extends JPanel {
 	}
 
 	class PauseKeyListener implements KeyListener{
-		private Board callerBoard;
+		private BoardPanel callerBoard;
 
-		public PauseKeyListener(Board caller){
+		public PauseKeyListener(BoardPanel caller){
 			callerBoard = caller;
 		}
 

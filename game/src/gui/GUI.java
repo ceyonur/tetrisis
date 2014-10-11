@@ -6,11 +6,8 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class GUI extends JFrame {
-	// overview: An ApplicationWindow is a top level program window that
-	// contains a toolbar and an animation window.
-
 	protected Engine engine;
-	private Board board;
+	private BoardPanel board;
 
 	public GUI() {
 		// effects: Initializes the application window so that it contains
