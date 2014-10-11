@@ -93,7 +93,9 @@ public class BoardPanel extends JPanel {
 			int lineOfCurrentBlock = blocks.get(i).getY() / blocks.get(i).getBlockSize() + 1;
 			if (lineOfCurrentBlock == lineNo){
 				blocks.remove(i);
-				System.out.println("entered");
+				i--;
+			} else if (lineOfCurrentBlock < lineNo){
+				blocks.get(i).move(0, blocks.get(i).getBlockSize());
 			}
 		}
 	}
