@@ -9,13 +9,13 @@ public class Board extends JPanel {
 	private AnimationEventListener eventListener;
 	private Timer timer;
 	private boolean mode;
-	private JTriminos tet;
+	private TTetriminos tet;
 
 	public Board() {
 		// effects: initializes this to be in the off mode.
 
 		super();                    // do the standard JPanel setup stuff
-		tet = new JTriminos(100,10,Color.GREEN);
+		tet = new TTetriminos(100,10,Color.GREEN);
 		setBackground(Color.GRAY);
 		//putDotIndicators();
 		// this only initializes the timer, we actually start and stop the

@@ -51,5 +51,11 @@ public class OTetriminos extends Tetriminos{
 	 * This method does nothing for OTetriminos since the rotation of this piece gives itself all the time
 	 */
 	public void rotate() {}
+	
+	@Override
+	/**
+	 * This method does nothing for OTetriminos since no need for adjustment
+	 */
+	public void adjustTheLocation() {}
 
 }

@@ -46,7 +46,7 @@ public class ITriminos extends Triminos{
 			boundingBoxWidth = 3;
 			boundingBoxHeight = 1;
 		}
-		
+
 		return new Rectangle(getX(), getY(), boundingBoxWidth * getBlockAt(1).getBlockSize()+1, boundingBoxHeight * getBlockAt(1).getBlockSize()+1);
 	}
 
@@ -69,5 +69,14 @@ public class ITriminos extends Triminos{
 			setRotationLevel(rotationLevel.ZERO);
 		}
 		rotateWholePiece();
+		adjustTheLocation();
+	}
+
+	@Override
+	/**
+	 * This method adjusts the position of the piece after the rotation
+	 */
+	protected void adjustTheLocation(){
+		moveABlockLeft();
 	}
 }

@@ -72,5 +72,22 @@ public class LTetriminos extends Tetriminos{
 			setRotationLevel(rotationLevel.ZERO);
 		}
 		rotateWholePiece();
+		adjustTheLocation();
+	}
+	
+	@Override
+	/**
+	 * This method adjusts the position of the piece after the rotation
+	 */
+	protected void adjustTheLocation(){
+		if (getRotationLevel() == rotationLevel.NINETY)
+			moveABlockRight();
+		else if (getRotationLevel() == rotationLevel.TWOHUNDREDANDSEVENTY)
+			moveABlockLeft();
+		else if (getRotationLevel() == rotationLevel.ZERO){
+			moveABlockLeft();
+			moveABlockLeft();
+		}
+			
 	}
 }

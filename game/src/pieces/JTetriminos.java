@@ -49,7 +49,7 @@ public class JTetriminos extends Tetriminos{
 			boundingBoxWidth = 3;
 			boundingBoxHeight = 2;
 		}
-		
+
 		return new Rectangle(getX(), getY(), boundingBoxWidth * getBlockAt(1).getBlockSize()+1, boundingBoxHeight * getBlockAt(1).getBlockSize()+1);
 	}
 
@@ -72,5 +72,15 @@ public class JTetriminos extends Tetriminos{
 			setRotationLevel(rotationLevel.ZERO);
 		}
 		rotateWholePiece();
+		adjustTheLocation();
+	}
+
+	@Override
+	/**
+	 * This method adjusts the position of the piece after the rotation
+	 */
+	protected void adjustTheLocation(){
+		if (getRotationLevel() != rotationLevel.TWOHUNDREDANDSEVENTY)
+			moveABlockLeft();
 	}
 }

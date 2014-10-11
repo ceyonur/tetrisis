@@ -3,6 +3,8 @@ package pieces;
 import java.awt.Color;
 import java.awt.Rectangle;
 
+import pieces.Piece.rotationLevel;
+
 /**
  * This class corresponds to the T-Tetriminos shape.
  * @author bedirhancaldir
@@ -33,7 +35,7 @@ public class TTetriminos extends Tetriminos{
 				currentBlock.move(currentBlock.getBlockSize(), currentBlock.getBlockSize());
 		}
 	}
-	
+
 	@Override
 	/**
 	 * This method gives the rectangle covering the piece.
@@ -47,7 +49,7 @@ public class TTetriminos extends Tetriminos{
 			boundingBoxWidth = 2;
 			boundingBoxHeight = 3;
 		}
-		
+
 		return new Rectangle(getX(), getY(), boundingBoxWidth * getBlockAt(1).getBlockSize()+1, boundingBoxHeight * getBlockAt(1).getBlockSize()+1);
 	}
 
@@ -70,5 +72,16 @@ public class TTetriminos extends Tetriminos{
 			setRotationLevel(rotationLevel.ZERO);
 		}
 		rotateWholePiece();
+		adjustTheLocation();
+	}
+
+	@Override
+	/**
+	 * This method adjusts the position of the piece after the rotation
+	 */
+	protected void adjustTheLocation(){
+		if (getRotationLevel() == rotationLevel.ONEHUNDREDANDEIGHTY){
+			moveABlockLeft();
+		}
 	}
 }
