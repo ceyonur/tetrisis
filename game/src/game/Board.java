@@ -149,15 +149,21 @@ public class Board {
 	 */
 	public void checkLinesForCompletion(){
 		int filledSpaceCounter;
+		int deletedLineCounter = 0;
 		for (int i=0; i<rowSize; i++){
 			filledSpaceCounter = 0;
 			for (int j=0; j<columnSize; j++){
 				if (board[i][j] != 0)
 					++filledSpaceCounter;
 			}
-			if (filledSpaceCounter == columnSize)
+			
+			if (filledSpaceCounter == columnSize){
 				removeCompletedLine(i);
+				deletedLineCounter++;
+			}
 		}
+		if (deletedLineCounter != 0)
+			callerEngine.increaseScore(deletedLineCounter);
 	}
 
 	/**
@@ -172,5 +178,17 @@ public class Board {
 			}
 		}
 		callerEngine.eliminatedLine(deletedRow);
+	}
+	
+	/**
+	 * This method determines whether the game is over or not.
+	 * @return True if the game is over, false if the game can continue
+	 */
+	public boolean isGameOver(){
+		for (int i=0; i<board[0].length ; i++){
+			if (board[1][i] != 0)
+				return true;
+		}
+		return false;
 	}
 }
