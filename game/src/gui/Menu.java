@@ -49,7 +49,7 @@ public class Menu extends JFrame {
 		});
 
 
-//buton panel tüm butonlarý tutuyor
+//buton panel tum butonlari tutuyor
 		final JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(null);
 		buttonPanel.setLocation(950, 500);
@@ -87,7 +87,7 @@ public class Menu extends JFrame {
 		sound.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-//action listeneri yapýlýyor
+//action listeneri yapiliyor
 				try {
 					AS = new AudioStream(new FileInputStream("backGroundd.wav"));
 					AD = AS.getData();
