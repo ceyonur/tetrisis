@@ -1,17 +1,7 @@
 package gui;
 
-import java.awt.BorderLayout;
-
 import sun.audio.*;
-
-import java.awt.Button;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -30,17 +20,8 @@ public class Menu extends JFrame {
 		setTitle("Main Menu");
 		setSize(680, 690);
 		setLocation(780, 150);
-		settingsGui = new Settings();
-		
-		settingsGui.hide();
-		try{
-		AS = new AudioStream(new FileInputStream("backGround.wav"));
-		AD = AS.getData();
-		loop = new ContinuousAudioDataStream(AD);
-		}
-		catch(IOException e){}
-		AP.start(loop);
-		
+		playAudio(true);
+
 
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -49,7 +30,7 @@ public class Menu extends JFrame {
 		});
 
 
-//buton panel tum butonlari tutuyor
+		//buton panel tum butonlari tutuyor
 		final JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(null);
 		buttonPanel.setLocation(950, 500);
@@ -62,46 +43,34 @@ public class Menu extends JFrame {
 				buttonPanel.setVisible(false);
 				setTitle("Tetris-v1.0");
 				setResizable(true);
-				
-
 			}
 
 		});
-//sound button olusturuldu
+		//sound button olusturuldu
 		final JButton sound = new JButton();
 		final JButton durdur = new JButton();
 		sound.setVisible(false);
 		durdur.setVisible(true);
-		
-		
+
+
 		durdur.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AP.stop(loop);
+				playAudio(false);
 				durdur.setVisible(false);
 				sound.setVisible(true);
-				
-				
 			}	
-			});
+		});
 
 
 		sound.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-//action listeneri yapiliyor
-				try {
-					AS = new AudioStream(new FileInputStream("backGround.wav"));
-					AD = AS.getData();
-					loop = new ContinuousAudioDataStream(AD);
-					
-				} catch (IOException error) {
-				}	
-					AP.start(loop);
-					sound.setVisible(false);
-					durdur.setVisible(true);
+				playAudio(true);				
+				sound.setVisible(false);
+				durdur.setVisible(true);
 			}
 		});
-//new game button eklendi
+		
+		//new game button eklendi
 		ImageIcon img = new ImageIcon("temp1.png");
 		newGame.setIcon(img);
 
@@ -112,22 +81,19 @@ public class Menu extends JFrame {
 		JButton settings = new JButton();
 		ImageIcon img2 = new ImageIcon("temp2.png");
 		settings.setIcon(img2);
-		
+
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				settingsGui.show();
-				
+				settingsGui = new Settings();
 			}	
-			});
-		
-		
+		});
 
 		settings.setLocation(120, 180);
 		settings.setSize(370, 93);
 		buttonPanel.add(settings);
-		
-		
-//highscore button eklendi
+
+
+		//highscore button eklendi
 		JButton highScores = new JButton();
 		ImageIcon img3 = new ImageIcon("temp3.png");
 		highScores.setIcon(img3);
@@ -143,14 +109,14 @@ public class Menu extends JFrame {
 			}
 
 		});
-//quit button eklendi
+		//quit button eklendi
 		ImageIcon img4 = new ImageIcon("temp4.png");
 		quit.setIcon(img4);
 
 		quit.setLocation(120, 360);
 		quit.setSize(370, 93);
 		buttonPanel.add(quit);
-// Sound button eklendi
+		// Sound button eklendi
 		ImageIcon img5 = new ImageIcon("sound.png");
 		ImageIcon img6 = new ImageIcon("mute.png");
 		sound.setIcon(img6);
@@ -158,21 +124,35 @@ public class Menu extends JFrame {
 		sound.setSize(80, 40);
 		buttonPanel.add(sound);
 
-		
-	// mute button eklendi	
-		
+
+		// mute button eklendi	
+
 		durdur.setIcon(img5);
 		durdur.setLocation(260, 590);
 		durdur.setSize(80, 40);
 		buttonPanel.add(durdur);
-		
+
 		this.add(buttonPanel);
 	}
 
 	public static void main(String[] args) {
 		JFrame f = new Menu();
 		f.setResizable(false);
-		
+
 		f.show();
+	}
+	
+	private void playAudio(boolean status){
+		if (status){
+			try{
+				AS = new AudioStream(new FileInputStream("backGround.wav"));
+				AD = AS.getData();
+				loop = new ContinuousAudioDataStream(AD);
+			}
+			catch(IOException e){}
+			AP.start(loop);
+		} else {
+			AP.stop(loop);
+		}
 	}
 }
