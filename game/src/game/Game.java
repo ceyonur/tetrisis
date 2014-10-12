@@ -5,6 +5,7 @@ import settings.Settings;
 
 public class Game {
 	public static void main(String[] args) {
+		gui.Menu set = new gui.Menu();
 		GUI frame = new GUI();
 		Settings settings = new Settings();
 		Engine engine = new Engine(settings);

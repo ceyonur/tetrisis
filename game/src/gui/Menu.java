@@ -34,7 +34,7 @@ public class Menu extends JFrame {
 		
 		settingsGui.hide();
 		try{
-		AS = new AudioStream(new FileInputStream("backGroundd.wav"));
+		AS = new AudioStream(new FileInputStream("backGround.wav"));
 		AD = AS.getData();
 		loop = new ContinuousAudioDataStream(AD);
 		}
@@ -62,7 +62,7 @@ public class Menu extends JFrame {
 				buttonPanel.setVisible(false);
 				setTitle("Tetris-v1.0");
 				setResizable(true);
-				//am.show();
+				
 
 			}
 
@@ -72,6 +72,7 @@ public class Menu extends JFrame {
 		final JButton durdur = new JButton();
 		sound.setVisible(false);
 		durdur.setVisible(true);
+		
 		
 		durdur.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -89,7 +90,7 @@ public class Menu extends JFrame {
 				
 //action listeneri yapiliyor
 				try {
-					AS = new AudioStream(new FileInputStream("backGroundd.wav"));
+					AS = new AudioStream(new FileInputStream("backGround.wav"));
 					AD = AS.getData();
 					loop = new ContinuousAudioDataStream(AD);
 					
@@ -101,7 +102,7 @@ public class Menu extends JFrame {
 			}
 		});
 //new game button eklendi
-		ImageIcon img = new ImageIcon("C:\\Users\\Asus\\workspace\\temp1.png");
+		ImageIcon img = new ImageIcon("temp1.png");
 		newGame.setIcon(img);
 
 		newGame.setLocation(120, 90);
@@ -109,7 +110,7 @@ public class Menu extends JFrame {
 		buttonPanel.add(newGame);
 
 		JButton settings = new JButton();
-		ImageIcon img2 = new ImageIcon("C:\\Users\\Asus\\workspace\\temp2.png");
+		ImageIcon img2 = new ImageIcon("temp2.png");
 		settings.setIcon(img2);
 		
 		settings.addActionListener(new ActionListener() {
@@ -128,7 +129,7 @@ public class Menu extends JFrame {
 		
 //highscore button eklendi
 		JButton highScores = new JButton();
-		ImageIcon img3 = new ImageIcon("C:\\Users\\Asus\\workspace\\temp3.png");
+		ImageIcon img3 = new ImageIcon("temp3.png");
 		highScores.setIcon(img3);
 
 		highScores.setLocation(120, 270);
@@ -143,15 +144,15 @@ public class Menu extends JFrame {
 
 		});
 //quit button eklendi
-		ImageIcon img4 = new ImageIcon("C:\\Users\\Asus\\workspace\\temp4.png");
+		ImageIcon img4 = new ImageIcon("temp4.png");
 		quit.setIcon(img4);
 
 		quit.setLocation(120, 360);
 		quit.setSize(370, 93);
 		buttonPanel.add(quit);
 // Sound button eklendi
-		ImageIcon img5 = new ImageIcon("C:\\Users\\Asus\\workspace\\sound.png");
-		ImageIcon img6 = new ImageIcon("C:\\Users\\Asus\\workspace\\mute.png");
+		ImageIcon img5 = new ImageIcon("sound.png");
+		ImageIcon img6 = new ImageIcon("mute.png");
 		sound.setIcon(img6);
 		sound.setLocation(260, 590);
 		sound.setSize(80, 40);

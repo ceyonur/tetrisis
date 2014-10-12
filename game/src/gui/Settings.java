@@ -20,7 +20,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 public class Settings extends JFrame {
-	private int leftKey = 37; // ascii kodlarý
+	private int leftKey = 37; // ascii kodlari
 	private int rightKey = 39;
 	private int rotateKey = 38;
 	private int speedKey = 40;
@@ -35,7 +35,7 @@ public class Settings extends JFrame {
 	private int boyut = 2; // 1 ise kucuk 2 ise orta 3 ise buyuk
 	private int level = 1; // default level
 	private int mode = 1; // default blocktype
-	HashMap<Integer, String> hm = new HashMap();
+	HashMap<Integer, String> hm = new HashMap<Integer, String>();
 
 	public Settings() {
 		super();
