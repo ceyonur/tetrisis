@@ -68,4 +68,9 @@ public class PieceChoice {
 	public boolean hasBoth(){
 		return hasTetriminos() && hasTriminos();
 	}
+	
+	public void setBoth(boolean bool){
+		setTetriminos(bool);
+		setTriminos(bool);
+	}
 }

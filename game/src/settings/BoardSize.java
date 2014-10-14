@@ -105,5 +105,19 @@ public class BoardSize {
 	public int getColumn() {
 		return columnSize;
 	}
+	
+	public String getChoice(){
+		if(isSmall()){
+			return "small";
+		}
+		
+		else if(isLarge()){
+			return "large";
+		}		
+		else {
+			return "medium";
+		}
+		
+	}
 
 }

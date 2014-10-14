@@ -1,6 +1,10 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+
+import settings.*;
+
 import java.awt.Color;
 
 import sun.audio.*;
@@ -20,41 +24,40 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 public class SettingsGUI extends JFrame {
-	private int leftKey = 37; // ascii kodlari
-	private int rightKey = 39;
-	private int rotateKey = 38;
-	private int speedKey = 40;
-	private int pauseKey = 32;
+	private BoardSize boardSizeObject;
+	private KeyConfigure keyConfigureObject;
+	private LevelChoice levelChoiceObject;
+	private PieceChoice pieceChoiceObject;
+	private Settings settingsObject;
+	private HashMap<String, Integer> keyMap;	
+//	private int leftKey; // ascii kodlari
+//	private int rightKey;
+//	private int rotateKey;
+//	private int speedKey;
+//	private int pauseKey;	
+//	private int key1;
+//	private int key2;
+//	private int key3;
+//	private int key4;
+//	private int key5;
+//	private int boyut; // 1 ise kucuk 2 ise orta 3 ise buyuk
+//	private int level; // default level
+//	private int mode; // default blocktype
 	
-	private int key1 = 37;
-	private int key2 = 39;
-	private int key3 = 38;
-	private int key4 = 40;
-	private int key5 = 32;
-
-	private int boyut = 2; // 1 ise kucuk 2 ise orta 3 ise buyuk
-	private int level = 1; // default level
-	private int mode = 1; // default blocktype
-	HashMap<Integer, String> hm = new HashMap<Integer, String>();
-
-	public SettingsGUI() {
+	public SettingsGUI(Settings settings) {
 		super();
 		setTitle("Settings");
 		setSize(480, 690);
 		setLocation(250, 150);
 		setResizable(false);
+		settingsObject= settings;
+		boardSizeObject = settingsObject.getSizeChoice();
+		keyConfigureObject = settingsObject.getKeyConfigure();
+		levelChoiceObject = settingsObject.getLevelChoice();
+		pieceChoiceObject = settingsObject.getPieceChoice();
+		keyMap = keyConfigureObject.getMap();
 		
-
-		hm.put(32, "space");
-		hm.put(37, "left");
-		hm.put(39, "right");
-		hm.put(38, "up");
-		hm.put(40, "down");
-		hm.put(17, "ctrl");
-		hm.put(16, "shift");
-		hm.put(18, "alt");
-		hm.put(10, "enter");
-		hm.put(27, "esc");
+	
 
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -106,11 +109,20 @@ public class SettingsGUI extends JFrame {
 		l.setSize(220, 60);
 		sizePanel.add(l);
 
-		medium.setSelected(true);
+		if(boardSizeObject.isSmall()){
+			small.setSelected(true);
+		}
+		else if(boardSizeObject.isLarge()) {
+			large.setSelected(true);
+		}
+		else{
+			medium.setSelected(true);
+		}
+		
 		this.setVisible(true);
 		mainPanel.add(sizePanel);
 
-		// //////////////////////////////////////////////////LEVEL PANL
+		// //////////////////////////////////////////////////LEVEL PANEL
 		JPanel levelPanel = new JPanel();
 		levelPanel.setLayout(null);
 		levelPanel.setSize(455, 80);
@@ -157,7 +169,18 @@ public class SettingsGUI extends JFrame {
 		lvl5.setSize(80, 20);
 		levelPanel.add(lvl5);
 
-		lvl1.setSelected(true);
+		switch(levelChoiceObject.getLevel()){
+		case 1: lvl1.setSelected(true);
+		break;
+		case 2: lvl2.setSelected(true);
+		break;
+		case 3: lvl3.setSelected(true);
+		break;
+		case 4: lvl4.setSelected(true);
+		break;
+		case 5: lvl5.setSelected(true);
+		break;		
+		}
 		levelPanel.add(levelLabel);
 		mainPanel.add(levelPanel);
 
@@ -170,8 +193,17 @@ public class SettingsGUI extends JFrame {
 		
 		final JCheckBox tetra = new JCheckBox("Tetriminos");
 		final JCheckBox tri = new JCheckBox("Triminos");
-
-		tetra.setSelected(true);
+		
+		if(pieceChoiceObject.hasBoth()){
+			tetra.setSelected(true);
+			tri.setSelected(true);
+		}
+		else if(pieceChoiceObject.hasTetriminos()){
+			tetra.setSelected(true);
+		}
+		else if(pieceChoiceObject.hasTriminos()){
+			tri.setSelected(true);
+		}
 		JLabel blockLabel = new JLabel("Please select block type",
 				SwingConstants.CENTER);
 		blockLabel.setLocation(130, -10);
@@ -217,7 +249,12 @@ public class SettingsGUI extends JFrame {
 
 		keyPanel.add(keyLabel);
 
-		final JTextField leftField = new JTextField();
+		final JTextField leftField = new JTextField(getKeyText(keyConfigureObject.getLeft()));
+		final JTextField rightField = new JTextField(getKeyText(keyConfigureObject.getRight()));
+		final JTextField downField = new JTextField(getKeyText(keyConfigureObject.getDown()));
+		final JTextField rotateField = new JTextField(getKeyText(keyConfigureObject.getRotate()));
+		final JTextField pauseField = new JTextField(getKeyText(keyConfigureObject.getPause()));
+		
 		leftField.setSize(60, 20);
 		leftField.setLocation(260, 60);
 		keyPanel.add(leftField);
@@ -234,24 +271,34 @@ public class SettingsGUI extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
-				leftField.setText(null);
-				key1 = e.getKeyCode();
-
-				if (hm.containsKey(key1))
-					leftField.setText(hm.get(key1));
+				leftField.setText(null);				
+				if (keyMap.containsValue(e.getKeyCode())) {
+					for (String key : keyMap.keySet()) {
+						if (keyMap.get(key) == e.getKeyCode() && key != "Left" ) {
+							keyMap.put(key,0);
+						}
+					}
+				}
+					keyMap.put("Left", e.getKeyCode());					
+					leftField.setText(getKeyText(keyMap.get("Left")));
+					rightField.setText(getKeyText(keyMap.get("Right")));
+					downField.setText(getKeyText(keyMap.get("Down")));
+					rotateField.setText(getKeyText(keyMap.get("Rotate")));
+					pauseField.setText(getKeyText(keyMap.get("Pause")));					
 			}
-
+			
 			@Override
 			public void keyReleased(KeyEvent e) {
 			}
 
 			@Override
 			public void keyTyped(KeyEvent e) {
+				e.consume();
 			}
 		});
 
 		// /////////////////////////////////rightKEy
-		final JTextField rightField = new JTextField();
+		
 		rightField.setSize(60, 20);
 		rightField.setLocation(260, 90);
 		keyPanel.add(rightField);
@@ -265,13 +312,23 @@ public class SettingsGUI extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
-				rightField.setText(null);
-				key2 = e.getKeyCode();
-
-
-				if (hm.containsKey(key2))
-					rightField.setText(hm.get(key2));
+				rightField.setText(null);				
+				if (keyMap.containsValue(e.getKeyCode())) {
+					for (String key : keyMap.keySet()) {
+						if (keyMap.get(key) == e.getKeyCode() && key != "Right" ) {
+							keyMap.put(key,0);
+						}
+					}
+				}
+				keyMap.put("Right", e.getKeyCode());
+					leftField.setText(getKeyText(keyMap.get("Left")));
+					rightField.setText(getKeyText(keyMap.get("Right")));
+					downField.setText(getKeyText(keyMap.get("Down")));
+					rotateField.setText(getKeyText(keyMap.get("Rotate")));
+					pauseField.setText(getKeyText(keyMap.get("Pause")));
 			}
+
+			
 
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -279,10 +336,11 @@ public class SettingsGUI extends JFrame {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
+				e.consume();
 			}
 		});
 		// ////////////////////////////////////rotateKey
-		final JTextField rotateField = new JTextField();
+		
 		rotateField.setSize(60, 20);
 		rotateField.setLocation(260, 120);
 		keyPanel.add(rotateField);
@@ -296,12 +354,22 @@ public class SettingsGUI extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
-				rotateField.setText(null);
-				key3 = e.getKeyCode();
+				rotateField.setText(null);				
+				if (keyMap.containsValue(e.getKeyCode())) {
+					for (String key : keyMap.keySet()) {
+						if (keyMap.get(key) == e.getKeyCode() && key != "Rotate" ) {
+							keyMap.put(key,0);
+						}
+					}
+				}
+				keyMap.put("Rotate", e.getKeyCode());
+					leftField.setText(getKeyText(keyMap.get("Left")));
+					rightField.setText(getKeyText(keyMap.get("Right")));
+					downField.setText(getKeyText(keyMap.get("Down")));
+					rotateField.setText(getKeyText(keyMap.get("Rotate")));
+					pauseField.setText(getKeyText(keyMap.get("Pause")));
+			
 
-
-				if (hm.containsKey(key3))
-					rotateField.setText(hm.get(key3));
 			}
 
 			@Override
@@ -310,30 +378,40 @@ public class SettingsGUI extends JFrame {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
+				e.consume();
 			}
 		});
 		// //////////////////////////////////////////////////////////////////moveDown
-		final JTextField speedField = new JTextField();
-		speedField.setSize(60, 20);
-		speedField.setLocation(260, 150);
-		keyPanel.add(speedField);
+	
+		downField.setSize(60, 20);
+		downField.setLocation(260, 150);
+		keyPanel.add(downField);
 
 		JLabel enterSpeed = new JLabel("Move Down");
 		enterSpeed.setLocation(170, 150);
 		enterSpeed.setSize(140, 20);
 		keyPanel.add(enterSpeed);
 
-		speedField.addKeyListener(new KeyListener() {
+		downField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
-				speedField.setText(null);
-				key4 = e.getKeyCode();
+				downField.setText(null);				
+				if (keyMap.containsValue(e.getKeyCode())) {
+					for (String key : keyMap.keySet()) {
+						if (keyMap.get(key) == e.getKeyCode() && key != "Down" ) {
+							keyMap.put(key,0);
+						}
+					}
+				}
+				keyMap.put("Down", e.getKeyCode());
+					leftField.setText(getKeyText(keyMap.get("Left")));
+					rightField.setText(getKeyText(keyMap.get("Right")));
+					downField.setText(getKeyText(keyMap.get("Down")));
+					rotateField.setText(getKeyText(keyMap.get("Rotate")));
+					pauseField.setText(getKeyText(keyMap.get("Pause")));
+			
 
-				
-
-				if (hm.containsKey(key4))
-					speedField.setText(hm.get(key4));
 			}
 
 			@Override
@@ -342,10 +420,11 @@ public class SettingsGUI extends JFrame {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
+				e.consume();
 			}
 		});
 		// ////////////////////////////////////////////////////////////////////pause
-		final JTextField pauseField = new JTextField();
+	
 		pauseField.setSize(60, 20);
 		pauseField.setLocation(260, 180);
 		keyPanel.add(pauseField);
@@ -355,22 +434,27 @@ public class SettingsGUI extends JFrame {
 		enterPause.setSize(140, 20);
 		keyPanel.add(enterPause);
 
-		leftField.setText("left");
-		rightField.setText("right");
-		rotateField.setText("up");
-		speedField.setText("down");
-		pauseField.setText("space");
+		
 		pauseField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
-				pauseField.setText(null);
-				key5 = e.getKeyCode();
-
-
-				if (hm.containsKey(key5))
-					pauseField.setText(hm.get(key5));
+				pauseField.setText(null);				
+				if (keyMap.containsValue(e.getKeyCode())) {
+					for (String key : keyMap.keySet()) {
+						if (keyMap.get(key) == e.getKeyCode() && key != "Pause") {
+							keyMap.put(key,0);
+						}
+					}
+				}
+				keyMap.put("Pause", e.getKeyCode());
+					leftField.setText(getKeyText(keyMap.get("Left")));
+					rightField.setText(getKeyText(keyMap.get("Right")));
+					downField.setText(getKeyText(keyMap.get("Down")));
+					rotateField.setText(getKeyText(keyMap.get("Rotate")));
+					pauseField.setText(getKeyText(keyMap.get("Pause")));
 			}
+
 
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -378,6 +462,7 @@ public class SettingsGUI extends JFrame {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
+				e.consume();
 			}
 		});
 
@@ -412,29 +497,31 @@ public class SettingsGUI extends JFrame {
 		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				hide();
-				if(boyut == 1)
+				if(boardSizeObject.isSmall())
 					small.setSelected(true);
-				else if(boyut == 3)
+				else if(boardSizeObject.isLarge())
 					large.setSelected(true);
 				else
 					medium.setSelected(true);
 				
-				if (level == 2)
-					lvl2.setSelected(true);
-				else if (level == 3)
-					lvl3.setSelected(true);
-				else if (level == 4)
-					lvl4.setSelected(true);
-				else if (level == 5)
-					lvl5.setSelected(true);
-				else
-					lvl1.setSelected(true);
+				switch(levelChoiceObject.getLevel()){
+				case 1: lvl1.setSelected(true);
+				break;
+				case 2: lvl2.setSelected(true);
+				break;
+				case 3: lvl3.setSelected(true);
+				break;
+				case 4: lvl4.setSelected(true);
+				break;
+				case 5: lvl5.setSelected(true);
+				break;		
+				}
 				
-				if (mode == 2){
+				if (pieceChoiceObject.hasTriminos()){
 					tri.setSelected(true);
 					tetra.setSelected(false);
 				}
-				else if(mode == 3){
+				else if(pieceChoiceObject.hasBoth()){
 					tri.setSelected(true);
 					tetra.setSelected(true);
 				}
@@ -443,101 +530,75 @@ public class SettingsGUI extends JFrame {
 					tri.setSelected(false);
 				}
 				
-				if (leftKey >= 65 && leftKey <= 90)
-					leftField.setText(Character.toString((char) leftKey));
-				if (rightKey >= 65 && rightKey <= 90)
-					rightField.setText(Character.toString((char) rightKey));
-				if (speedKey >= 65 && speedKey <= 90)
-					speedField.setText(Character.toString((char) speedKey));
-				if (rotateKey >= 65 && rotateKey <= 90)
-					rotateField.setText(Character
-							.toString((char) rotateKey));
-				if (pauseKey >= 65 && pauseKey <= 90)
-					pauseField.setText(Character.toString((char) pauseKey));
+				
+					leftField.setText(getKeyText(keyConfigureObject.getLeft()));
+					rightField.setText(getKeyText(keyConfigureObject.getRight()));
+					downField.setText(getKeyText(keyConfigureObject.getDown()));
+					rotateField.setText(getKeyText(keyConfigureObject.getRotate()));
+					pauseField.setText(getKeyText(keyConfigureObject.getPause()));
 				
 					
 			}
 		});
 
 		defaultt.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				key1 = 37;
-				key2 = 39;
-				key3 = 38;
-				key4 = 40;
-				key5 = 32;
-				leftField.setText("left");
-				rightField.setText("right");
-				speedField.setText("down");
-				rotateField.setText("up");
-				pauseField.setText("space");
+			public void actionPerformed(ActionEvent e) {	
+				uyari.hide();
+				KeyConfigure defaultKeyConfig = new KeyConfigure();
+				keyMap = defaultKeyConfig.getMap();
+				leftField.setText(getKeyText(KeyEvent.VK_LEFT));
+				rightField.setText(getKeyText(KeyEvent.VK_RIGHT));
+				downField.setText(getKeyText(KeyEvent.VK_DOWN));
+				rotateField.setText(getKeyText(KeyEvent.VK_UP));
+				pauseField.setText(getKeyText(KeyEvent.VK_SPACE));
 				medium.setSelected(true);
 				lvl1.setSelected(true);
 				tetra.setSelected(true);
-				tri.setSelected(false);
-				
-				uyari.hide();
+				tri.setSelected(false);				
 			}
 		});
 
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (key1 != key2 && key1 != key3
-						&& key1 != key4 && key1 != key5
-						&& key2 != key3 && key2 != key4
-						&& key2 != key5 && key3 != key4
-						&& key3 != key5 && key4 != key5) {
-					hide();
-					if (key1 >= 65 && key1 <= 90)
-						leftField.setText(Character.toString((char) key1));
-					if (key2 >= 65 && key2 <= 90)
-						rightField.setText(Character.toString((char) key2));
-					if (key4 >= 65 && key4 <= 90)
-						speedField.setText(Character.toString((char) key4));
-					if (key3 >= 65 && key3 <= 90)
-						rotateField.setText(Character
-								.toString((char) key3));
-					if (key5 >= 65 && key5 <= 90)
-						pauseField.setText(Character.toString((char) key5));
-				} else {
-					leftField.setText(null);
-					rightField.setText(null);
-					speedField.setText(null);
-					rotateField.setText(null);
-					pauseField.setText(null);
+				if (keyMap.containsValue(0)) {
 					uyari.show();
 				}
+					else{
+					uyari.hide();
+					keyConfigureObject.setMap(keyMap);
+					hide();					
+					}
+					
+				
 
 				if (tetra.isSelected() && tri.isSelected())
-					mode = 3;
-				else if (tri.isSelected())
-					mode = 2;
-				else
-					mode = 1;
+					pieceChoiceObject.setBoth(true);
+				else if (tri.isSelected()){
+					pieceChoiceObject.setTriminos(true);
+					pieceChoiceObject.setTetriminos(false);
+				}
+				else{
+					pieceChoiceObject.setTetriminos(true);
+					pieceChoiceObject.setTriminos(false);
+				}
 
 				if (lvl1.isSelected())
-					level = 1;
+					levelChoiceObject.setLevel(1);
 				else if (lvl2.isSelected())
-					level = 2;
+					levelChoiceObject.setLevel(2);
 				else if (lvl3.isSelected())
-					level = 3;
+					levelChoiceObject.setLevel(3);
 				else if (lvl4.isSelected())
-					level = 4;
+					levelChoiceObject.setLevel(4);
 				else if (lvl5.isSelected())
-					level = 5;
+					levelChoiceObject.setLevel(5);
 				
 				if(small.isSelected())
-					boyut = 1;
+					boardSizeObject.setSmall();
 				else if(large.isSelected())
-					boyut = 3;
+					boardSizeObject.setLarge();
 				else
-					boyut = 2;
-				
-				leftKey = key1;
-				rightKey = key2;
-				rotateKey = key3;
-				speedKey = key4;
-				pauseKey = key5;
+					boardSizeObject.setMedium();	
 			}
 		});
 
@@ -547,44 +608,21 @@ public class SettingsGUI extends JFrame {
 		this.add(mainPanel);
 		this.setVisible(true);
 
-	}
-
-	public int getLeftKey() {
-		return leftKey;
-	}
-
-	public int getRightKey() {
-		return rightKey;
-	}
-
-	public int getSpeedKey() {
-		return speedKey;
-	}
-
-	public int getRotateKey() {
-		return rotateKey;
-	}
-
-	public int getPauseKey() {
-		return pauseKey;
-	}
-
-	public int getBoardSize() {
-		return boyut;
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public int getMode() {
-		return mode;
-	}
+	}	
 
 	public static void main(String[] args) {
-		JFrame f = new SettingsGUI();
+		JFrame f = new SettingsGUI(new Settings());
 
 		f.show();
+	}
+	
+	private static String getKeyText(int a){
+		if(a != 0){
+			return KeyEvent.getKeyText(a);
+		}
+		else {
+			return null;
+		}
 	}
 
 }

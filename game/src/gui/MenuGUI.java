@@ -1,6 +1,8 @@
 package gui;
 
+import settings.Settings;
 import sun.audio.*;
+
 import java.awt.event.*;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,6 +16,7 @@ public class MenuGUI extends JFrame {
 	AudioStream AS;
 	AudioData AD;
 	ContinuousAudioDataStream loop = null;
+	Settings settingObject = new Settings();
 
 	public MenuGUI() {
 		super();
@@ -21,6 +24,7 @@ public class MenuGUI extends JFrame {
 		setSize(680, 690);
 		setLocation(780, 150);
 		playAudio(true);
+		
 
 
 		addWindowListener(new WindowAdapter() {
@@ -84,7 +88,7 @@ public class MenuGUI extends JFrame {
 
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				settingsGui = new SettingsGUI();
+				settingsGui = new SettingsGUI(settingObject);
 			}	
 		});
 
