@@ -1,18 +1,21 @@
 package game;
 
-import gui.GUI;
+import gui.*;
 import settings.Settings;
 
 public class Game {
 	public static void main(String[] args) {
-		gui.Menu set = new gui.Menu();
-		GUI frame = new GUI();
+		PlayGUI frame = new PlayGUI();
 		Settings settings = new Settings();
-		Engine engine = new Engine(settings);
-		frame.setEngine(engine);
+		
+		frame.setEngine(getEngine());
 
 		// the following code realizes the top level application window
 		frame.pack();
 		frame.setVisible(true);
+	}
+	
+	public static Engine getEngine(){
+		return new Engine();
 	}
 }

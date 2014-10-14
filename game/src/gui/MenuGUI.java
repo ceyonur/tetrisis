@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-public class Menu extends JFrame {
+public class MenuGUI extends JFrame {
 
 	JFrame settingsGui;
 	AudioPlayer AP = AudioPlayer.player;
@@ -15,7 +15,7 @@ public class Menu extends JFrame {
 	AudioData AD;
 	ContinuousAudioDataStream loop = null;
 
-	public Menu() {
+	public MenuGUI() {
 		super();
 		setTitle("Main Menu");
 		setSize(680, 690);
@@ -84,7 +84,7 @@ public class Menu extends JFrame {
 
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				settingsGui = new Settings();
+				settingsGui = new SettingsGUI();
 			}	
 		});
 
@@ -136,7 +136,7 @@ public class Menu extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		JFrame f = new Menu();
+		JFrame f = new MenuGUI();
 		f.setResizable(false);
 
 		f.show();

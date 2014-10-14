@@ -19,7 +19,7 @@ import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-public class Settings extends JFrame {
+public class SettingsGUI extends JFrame {
 	private int leftKey = 37; // ascii kodlari
 	private int rightKey = 39;
 	private int rotateKey = 38;
@@ -37,7 +37,7 @@ public class Settings extends JFrame {
 	private int mode = 1; // default blocktype
 	HashMap<Integer, String> hm = new HashMap<Integer, String>();
 
-	public Settings() {
+	public SettingsGUI() {
 		super();
 		setTitle("Settings");
 		setSize(480, 690);
@@ -582,7 +582,7 @@ public class Settings extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		JFrame f = new Settings();
+		JFrame f = new SettingsGUI();
 
 		f.show();
 	}
