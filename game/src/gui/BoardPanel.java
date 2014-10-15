@@ -13,8 +13,10 @@ import settings.KeyConfigure;
 
 public class BoardPanel extends JPanel {
 	private AnimationEventListener eventListener;
+	private QuickReactionListener quickReactionListener;
 	private PauseKeyListener pauseListener;
 	private Timer timer;
+	private Timer timerForQuickReaction;
 	private boolean mode;
 	private Piece piece;
 	private KeyConfigure keys;
@@ -36,9 +38,11 @@ public class BoardPanel extends JPanel {
 		// timer in the setMode() method
 		eventListener = new AnimationEventListener(this);
 		pauseListener = new PauseKeyListener(this);
+		quickReactionListener = new QuickReactionListener(this);
 		// The first parameter is how often (in milliseconds) the timer
 		// should call us back.  50 milliseconds = 20 frames/second
 		timer = new Timer(speed, eventListener);
+		timerForQuickReaction = new Timer(50,quickReactionListener);
 		mode = false;
 	}
 
@@ -49,7 +53,7 @@ public class BoardPanel extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		//piece.paint(g);
+		piece.paint(g);
 		for (int i=0; i<blocks.size(); i++){
 			blocks.get(i).paint(g);
 		}
@@ -82,14 +86,20 @@ public class BoardPanel extends JPanel {
 			removeKeyListener(pauseListener);
 			requestFocus();           // make sure keyboard is directed to us
 			timer.start();
+			timerForQuickReaction.start();
 		}
 		else {
 			timer.stop();
+			timerForQuickReaction.stop();
 		}		
 	}
 
 	public boolean getMode(){
 		return mode;
+	}
+	
+	public void restartTimer(){
+		timer.restart();
 	}
 
 	public void clearEliminatedLine(int lineNo){
@@ -152,9 +162,14 @@ public class BoardPanel extends JPanel {
 				if (boardMatrix.checkCollisionsToGoRight(piece.getLocationOnMatrix()))
 					piece.moveABlockRight();
 			} else if (keynum == keys.getRotate()){
-				while (!boardMatrix.checkCollisionsWhenRotating(piece.cloneRotateAndGetLocationOnMatrix()))
-					piece.moveToAppropriatePositionToRotate(boardMatrix.getColumnSize());
-				piece.rotate();
+				String currentCase = boardMatrix.checkCollisionsWhenRotating(piece.cloneRotateAndGetLocationOnMatrix());
+				if (!currentCase.equals("NOROTATE")){
+					while (currentCase.equals("FIX")){
+						piece.moveToAppropriatePositionToRotate(boardMatrix.getColumnSize());
+						currentCase = boardMatrix.checkCollisionsWhenRotating(piece.cloneRotateAndGetLocationOnMatrix());
+					}
+					piece.rotate();
+				}
 			} else if (keynum == keys.getDown()){
 				if (boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix()))
 					piece.moveABlockDown();
@@ -214,5 +229,31 @@ public class BoardPanel extends JPanel {
 		public void keyReleased(KeyEvent e) { }
 		@Override
 		public void keyTyped(KeyEvent e) { }
+	}
+	
+	class QuickReactionListener implements ActionListener{
+		private BoardPanel callerBoard;
+
+		public QuickReactionListener(BoardPanel caller){
+			callerBoard = caller;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (!boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix())){
+				callerBoard.restartTimer();
+				callerEngine.play();
+			}
+			Rectangle oldPos = piece.boundingBox();
+			repaintPanel(oldPos);
+		}
+		
+		private void repaintPanel(Rectangle oldPos){
+			Rectangle repaintArea = oldPos.union(piece.boundingBox());
+			repaint(repaintArea.x,
+					repaintArea.y,
+					repaintArea.width,
+					repaintArea.height);
+		}
 	}
 }

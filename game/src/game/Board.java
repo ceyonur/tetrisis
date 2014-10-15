@@ -126,9 +126,9 @@ public class Board {
 	/**
 	 * This method checks whether the rotation of the piece causes any confliction or not.
 	 * @param locations The locations of the block when it is rotated as (x,y) in a 2D array 
-	 * @returnReturns true if the block can rotate or false if vice versa
+	 * @return "CONTINUE" -> No confliction, continue; "NOROTATE" -> Rotate is impossible; "FIX" -> move to an appropriate location, then rotate
 	 */
-	public boolean checkCollisionsWhenRotating(int[][] locations){
+	public String checkCollisionsWhenRotating(int[][] locations){
 		for (int i=0; i<locations.length; i++)
 			locations[i][0]++;
 
@@ -139,7 +139,12 @@ public class Board {
 
 		boolean rightConfliction = checkCollisionsToGoRight(locations);
 
-		return (leftConfliction && rightConfliction);
+		if (leftConfliction == true && rightConfliction == true)
+			return "CONTINUE";
+		else if (leftConfliction == false && rightConfliction == false)
+			return "NOROTATE";
+		else
+			return "FIX";
 	}
 
 	/**

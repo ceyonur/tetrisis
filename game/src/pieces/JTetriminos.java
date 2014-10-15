@@ -66,7 +66,7 @@ public class JTetriminos extends Tetriminos{
 			setAnchorBlock(getBlockAt(2));
 			setRotationLevel(rotationLevel.TWOHUNDREDANDSEVENTY);
 		} else {
-			setAnchorBlock(getBlockAt(3));
+			setAnchorBlock(getBlockAt(4));
 			setRotationLevel(rotationLevel.ZERO);
 		}
 		rotateWholePiece();
@@ -78,10 +78,13 @@ public class JTetriminos extends Tetriminos{
 	 * This method adjusts the position of the piece after the rotation
 	 */
 	protected void adjustTheLocation(){
-		if (getRotationLevel() != rotationLevel.TWOHUNDREDANDSEVENTY)
+		if (getRotationLevel() == rotationLevel.ONEHUNDREDANDEIGHTY){
+			moveABlockLeft();
+			moveABlockLeft();
+		}else if (getRotationLevel() != rotationLevel.TWOHUNDREDANDSEVENTY)
 			moveABlockLeft();
 	}
-	
+
 	/**
 	 * This method, firstly, clones the piece, and then rotates it and return its locations to determine 
 	 * whether it can rotate or not.
