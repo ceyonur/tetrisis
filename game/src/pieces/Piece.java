@@ -164,5 +164,8 @@ public abstract class Piece {
 	public abstract Rectangle boundingBox(); // To obtain the rectangle circling the piece.
 	protected abstract void adjustTheLocation(); // To adjust the location after the rotation
 	public abstract int[][] getLocationOnMatrix(); // Returns the values getX/size and getY/size
+	public abstract int[][] cloneRotateAndGetLocationOnMatrix(); // To handle the conflictions while rotating
 	public abstract ArrayList<Block> getBlocks(); // Returns the blocks as an ArrayList
+	public abstract void moveToAppropriatePositionToRotate(int maximumColumn); // To rotate, sometimes the piece must be located a block right or left
+	protected abstract void setBlockList(ArrayList<Block> blocks); // To set the block list to the given special list
 }

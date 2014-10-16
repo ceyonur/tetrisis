@@ -5,14 +5,18 @@ import game.Engine;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+
 import javax.swing.*;
+
 import pieces.*;
 import settings.KeyConfigure;
 
 public class BoardPanel extends JPanel {
 	private AnimationEventListener eventListener;
+	private QuickReactionListener quickReactionListener;
 	private PauseKeyListener pauseListener;
 	private Timer timer;
+	private Timer timerForQuickReaction;
 	private boolean mode;
 	private Piece piece;
 	private KeyConfigure keys;
@@ -34,18 +38,22 @@ public class BoardPanel extends JPanel {
 		// timer in the setMode() method
 		eventListener = new AnimationEventListener(this);
 		pauseListener = new PauseKeyListener(this);
+		quickReactionListener = new QuickReactionListener(this);
 		// The first parameter is how often (in milliseconds) the timer
 		// should call us back.  50 milliseconds = 20 frames/second
 		timer = new Timer(speed, eventListener);
+		timerForQuickReaction = new Timer(50,quickReactionListener);
 		mode = false;
 	}
 
 	// This is just here so that we can accept the keyboard focus
+	@Override
 	public boolean isFocusTraversable() { return true; }
 
+	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		//piece.paint(g);
+		piece.paint(g);
 		for (int i=0; i<blocks.size(); i++){
 			blocks.get(i).paint(g);
 		}
@@ -78,14 +86,20 @@ public class BoardPanel extends JPanel {
 			removeKeyListener(pauseListener);
 			requestFocus();           // make sure keyboard is directed to us
 			timer.start();
+			timerForQuickReaction.start();
 		}
 		else {
 			timer.stop();
+			timerForQuickReaction.stop();
 		}		
 	}
 
 	public boolean getMode(){
 		return mode;
+	}
+	
+	public void restartTimer(){
+		timer.restart();
 	}
 
 	public void clearEliminatedLine(int lineNo){
@@ -93,9 +107,12 @@ public class BoardPanel extends JPanel {
 			int lineOfCurrentBlock = blocks.get(i).getY() / blocks.get(i).getBlockSize() + 1;
 			if (lineOfCurrentBlock == lineNo){
 				blocks.remove(i);
-				System.out.println("entered");
+				i--;
+			} else if (lineOfCurrentBlock < lineNo){
+				blocks.get(i).move(0, blocks.get(i).getBlockSize());
 			}
 		}
+		repaint();
 	}
 
 	/*private void putDotIndicators(){
@@ -121,11 +138,15 @@ public class BoardPanel extends JPanel {
 		// interface: mouseClicked, mouseEntered, mouseExited, mousePressed,
 		// and mouseReleased.
 
+		@Override
 		public void mouseClicked(MouseEvent e) { }
+		@Override
 		public void mouseDragged(MouseEvent e) { }
+		@Override
 		public void mouseMoved(MouseEvent e) { }
 
 		// Here's the KeyListener interface
+		@Override
 		public void keyPressed(KeyEvent e) {
 			// modifes: the ball that this listener owns
 			// effects: causes the ball to be bumped in a random direction but
@@ -141,7 +162,14 @@ public class BoardPanel extends JPanel {
 				if (boardMatrix.checkCollisionsToGoRight(piece.getLocationOnMatrix()))
 					piece.moveABlockRight();
 			} else if (keynum == keys.getRotate()){
-				piece.rotate();
+				String currentCase = boardMatrix.checkCollisionsWhenRotating(piece.cloneRotateAndGetLocationOnMatrix());
+				if (!currentCase.equals("NOROTATE")){
+					while (currentCase.equals("FIX")){
+						piece.moveToAppropriatePositionToRotate(boardMatrix.getColumnSize());
+						currentCase = boardMatrix.checkCollisionsWhenRotating(piece.cloneRotateAndGetLocationOnMatrix());
+					}
+					piece.rotate();
+				}
 			} else if (keynum == keys.getDown()){
 				if (boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix()))
 					piece.moveABlockDown();
@@ -155,10 +183,13 @@ public class BoardPanel extends JPanel {
 			repaintPanel(oldPos);
 
 		}
+		@Override
 		public void keyReleased(KeyEvent e) { }
+		@Override
 		public void keyTyped(KeyEvent e) { }
 
 		// this is the callback for the timer
+		@Override
 		public void actionPerformed(ActionEvent e) {
 
 			Rectangle oldPos = piece.boundingBox();
@@ -186,6 +217,7 @@ public class BoardPanel extends JPanel {
 			callerBoard = caller;
 		}
 
+		@Override
 		public void keyPressed(KeyEvent e) {
 			int keynum = e.getKeyCode();
 			if (keynum == keys.getPause()){
@@ -193,7 +225,35 @@ public class BoardPanel extends JPanel {
 			}
 		}
 
+		@Override
 		public void keyReleased(KeyEvent e) { }
+		@Override
 		public void keyTyped(KeyEvent e) { }
+	}
+	
+	class QuickReactionListener implements ActionListener{
+		private BoardPanel callerBoard;
+
+		public QuickReactionListener(BoardPanel caller){
+			callerBoard = caller;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (!boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix())){
+				callerBoard.restartTimer();
+				callerEngine.play();
+			}
+			Rectangle oldPos = piece.boundingBox();
+			repaintPanel(oldPos);
+		}
+		
+		private void repaintPanel(Rectangle oldPos){
+			Rectangle repaintArea = oldPos.union(piece.boundingBox());
+			repaint(repaintArea.x,
+					repaintArea.y,
+					repaintArea.width,
+					repaintArea.height);
+		}
 	}
 }

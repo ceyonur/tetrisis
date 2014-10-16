@@ -1,20 +1,23 @@
 package game;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.util.Random;
+
 import settings.*;
 import pieces.*;
 import gui.BoardPanel;
+import gui.NextPieceAndScorePanel;
 
 public class Engine {
 	private Board boardMatrix; // The field for board object of the game
 	private KeyConfigure keys; // The field for keys of the actions in the game
 	private PieceChoice pieceChoice; // The field for the tetriminos/triminos choice
 	private int levelNo; // The field for the number of the level to display
-	private int speed; // The field for the speed of the game (in milliseconds)
+	private int speedInMilliseconds; // The field for the speed of the game (in milliseconds)
 	private Piece currentPiece; // The current piece
 	private BoardPanel boardPanel; // The panel for the board
+	private NextPieceAndScorePanel nextPiecePanel;
+	private double score;
 
 	/**
 	 * The constructor of the Engine class. Creates the board and takes the settings (if nothing changed, default ones will be used)
@@ -23,14 +26,16 @@ public class Engine {
 	public Engine(Settings settings){
 		boardMatrix = new Board(settings.getSizeChoice().getRow(), settings.getSizeChoice().getColumn(), this);
 		levelNo = settings.getLevelChoice().getLevel();
-		speed = (int) (1000 * settings.getLevelChoice().getSpeed());
+		speedInMilliseconds = (int) (1000 * settings.getLevelChoice().getSpeed());
 		keys = settings.getKeyConfigure();
 		pieceChoice = settings.getPieceChoice();
-		
+
 		currentPiece = null;
-		
-		boardPanel = new BoardPanel(keys, speed, this, boardMatrix);
-		
+		score = 0;
+
+		boardPanel = new BoardPanel(keys, speedInMilliseconds, this, boardMatrix);
+		nextPiecePanel = new NextPieceAndScorePanel(getBoardRowLength(), getBoardColumnLength());
+
 		play();
 	}
 
@@ -45,12 +50,20 @@ public class Engine {
 		if (currentPiece !=null){
 			boardMatrix.updateBoard(currentPiece.getLocationOnMatrix(), currentPiece.getColorAsInteger());
 		}
-			
-		Piece randomPiece = chooseRandomPiece();
-		currentPiece = randomPiece;
-		// Find the initial location for the pieces
-		
-		boardPanel.addPiece(currentPiece);
+
+		if (!boardMatrix.isGameOver()){
+			if (boardMatrix.isEmpty()){
+				currentPiece = chooseRandomPiece();
+			} else {
+				currentPiece = nextPiecePanel.getPiece();
+			}
+			Piece randomPiece = chooseRandomPiece();
+			nextPiecePanel.setPiece(randomPiece);
+			boardPanel.addPiece(currentPiece);
+		} else {
+			boardPanel.setMode(false);
+			System.out.println(score);
+		}
 	}
 
 	private Piece chooseRandomPiece(){
@@ -78,7 +91,7 @@ public class Engine {
 			randomNumberForPiece = randomGenerator.nextInt(7) + 1;
 		else if (pieceChoice.hasTriminos())
 			randomNumberForPiece = randomGenerator.nextInt(3) + 8;
-
+		
 		switch (randomNumberForPiece){
 		case 1: randomPiece = new ZTetriminos(0,0,randomColor); break;
 		case 2: randomPiece = new STetriminos(0,0,randomColor); break;
@@ -91,27 +104,51 @@ public class Engine {
 		case 9: randomPiece = new JTriminos(0,0,randomColor); break;
 		default: randomPiece = new RTriminos(0,0,randomColor); break;
 		}
-
+		
+		int appearX = ((int) (getBoardColumnLength() - randomPiece.boundingBox().width)/2);
+		int appearY = 0;
+		//randomPiece.move(appearX, appearY);
+		
 		return randomPiece;
 	}
-	
+
 	public BoardPanel getBoardPanel(){
 		return boardPanel;
 	}
 	
+	public NextPieceAndScorePanel getNextPieceAndScorePanel(){
+		return nextPiecePanel;
+	}
+
 	public int getLevelNo(){
 		return levelNo;
 	}
-	
+
 	public int getBoardColumnLength(){
 		return boardMatrix.getColumnLength();
 	}
-	
+
 	public int getBoardRowLength(){
 		return boardMatrix.getRowLength();
 	}
-	
+
 	public void eliminatedLine(int lineNo){
 		boardPanel.clearEliminatedLine(lineNo);
+	}
+
+	public void increaseScore(int howManyLinesAreDeleted){
+		double speedInSeconds = speedInMilliseconds / 1000;
+		if (howManyLinesAreDeleted == 1)
+			score += 1.00/speedInSeconds;
+		else if (howManyLinesAreDeleted == 2)
+			score += (3 * 1.00/speedInSeconds);
+		else if (howManyLinesAreDeleted == 3)
+			score += (6 * 1.00/speedInSeconds);
+		else
+			score += (10 * 1.00/speedInSeconds);
+	}
+
+	public double getScore(){
+		return score;
 	}
 }

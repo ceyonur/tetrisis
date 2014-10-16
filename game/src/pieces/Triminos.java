@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public abstract class Triminos extends Piece{
 	protected final int NUMBER_OF_PIECES = 3; // The number of pieces for triminoses is 3.
-	private ArrayList<Block> blocks; // To hold the blocks together
+	protected ArrayList<Block> blocks; // To hold the blocks together
 
 	/**
 	 * This is the constructor of the class Triminos. Creates the blocks (there are 3 of them)
@@ -32,10 +32,22 @@ public abstract class Triminos extends Piece{
 	public Triminos(){
 		this(0,0,defaultColor);
 	}
+	
+	/**
+	 * This method sets the blocks of the piece to the given special blocks
+	 * @param blocks The special block list as ArrayList
+	 */
+	@Override
+	protected void setBlockList(ArrayList<Block> blocks){
+		for (int i=0; i< NUMBER_OF_PIECES; i++){
+			this.blocks.get(i).setLocation(blocks.get(i).getX(), blocks.get(i).getY());
+		}
+	}
 
 	/**
 	 * This method moves the whole piece according to the given x and y.
 	 */
+	@Override
 	public void move(int x, int y){
 		for (int i=0; i<NUMBER_OF_PIECES; i++){
 			blocks.get(i).move(x, y);
@@ -47,6 +59,7 @@ public abstract class Triminos extends Piece{
 	/**
 	 * This method moves the whole piece a block size down
 	 */
+	@Override
 	public void moveABlockDown(){
 		move(0, blocks.get(0).getBlockSize());
 	}
@@ -54,6 +67,7 @@ public abstract class Triminos extends Piece{
 	/**
 	 * This method moves the whole piece a block size right
 	 */
+	@Override
 	public void moveABlockRight(){
 		move(blocks.get(0).getBlockSize(), 0);
 	}
@@ -61,6 +75,7 @@ public abstract class Triminos extends Piece{
 	/**
 	 * This method moves the whole piece a block size left
 	 */
+	@Override
 	public void moveABlockLeft(){
 		move(-1 * blocks.get(0).getBlockSize(), 0);
 	}
@@ -82,6 +97,7 @@ public abstract class Triminos extends Piece{
 	 * This method paints each block to the screen.
 	 * @param g This is the Graphics object to which the triminos will be drawn.
 	 */
+	@Override
 	public void paint(Graphics g){
 		for (int i=0; i<NUMBER_OF_PIECES; i++){
 			blocks.get(i).paint(g);
@@ -91,6 +107,7 @@ public abstract class Triminos extends Piece{
 	/**
 	 * This method rotates the whole triminos by changing the positions of the blocks according to its anchor block
 	 */
+	@Override
 	protected void rotateWholePiece(){
 		int minXForBoundingBox = 10000;
 		int minYForBoundingBox = 10000;
@@ -129,6 +146,7 @@ public abstract class Triminos extends Piece{
 	/**
 	 * This method returns the locations of the blocks of the piece
 	 */
+	@Override
 	public int[][] getLocationOnMatrix(){
 		int[][] locations = new int[NUMBER_OF_PIECES][2];
 		for (int i=0; i<NUMBER_OF_PIECES; i++){
@@ -141,7 +159,19 @@ public abstract class Triminos extends Piece{
 	/**
 	 * This method returns the blocks as an ArrayList
 	 */
+	@Override
 	public ArrayList<Block> getBlocks(){
 		return blocks;
+	}
+	
+	/**
+	 * This method moves the piece to the appropriate position to rotate when it cannot be rotated directly to prevent the conflictions
+	 */
+	@Override
+	public void moveToAppropriatePositionToRotate(int maximumColumn){
+		if (blocks.get(0).getX() / blocks.get(0).getBlockSize() < 3)
+			moveABlockRight();
+		else if (blocks.get(0).getX() / blocks.get(0).getBlockSize() > maximumColumn - 3)
+			moveABlockLeft();
 	}
 }

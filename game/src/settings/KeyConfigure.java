@@ -39,14 +39,7 @@ public class KeyConfigure {
 	 * @param left The new key for function Left. It checks whether this key is already used;
 	 * if it is used, then the key is removed from last location.   
 	 */
-	public void setLeft(int left) {
-		if (map.containsValue(left)) {
-			for (String key : map.keySet()) {
-				if (map.get(key) == left) {
-					map.remove(key);
-				}
-			}
-		}
+	public void setLeft(int left) {	
 		map.put("Left", left);
 
 	}
@@ -66,14 +59,7 @@ public class KeyConfigure {
 	 * @param right The new key for function Right. It checks whether this key is already used;
 	 * if it is used, then the key is removed from last location. 
 	 */
-	public void setRight(int right) {
-		if (map.containsValue(right)) {
-			for (String key : map.keySet()) {
-				if (map.get(key) == right) {
-					map.remove(key);
-				}
-			}
-		}
+	public void setRight(int right) {	
 		map.put("Right", right);
 
 	}
@@ -93,14 +79,7 @@ public class KeyConfigure {
 	 * @param down The new key for function Down. It checks whether this key is already used;
 	 * if it is used, then the key is removed from last location. 
 	 */
-	public void setDown(int down) {
-		if (map.containsValue(down)) {
-			for (String key : map.keySet()) {
-				if (map.get(key) == down) {
-					map.remove(key);
-				}
-			}
-		}
+	public void setDown(int down) {		
 		map.put("Down", down);
 
 	}
@@ -120,14 +99,7 @@ public class KeyConfigure {
 	 * @param rotate The new key for function Rotate. It checks whether this key is already used;
 	 * if it is used, then the key is removed from last location. 
 	 */
-	public void setRotate(int rotate) {
-		if (map.containsValue(rotate)) {
-			for (String key : map.keySet()) {
-				if (map.get(key) == rotate) {
-					map.remove(key);
-				}
-			}
-		}
+	public void setRotate(int rotate) {	
 		map.put("Rotate", rotate);
 
 	}
@@ -147,16 +119,16 @@ public class KeyConfigure {
 	 * @param pause The new key for function Pause. It checks whether this key is already used;
 	 * if it is used, then the key is removed from last location. 
 	 */
-	public void setPause(int pause) {
-		if (map.containsValue(pause)) {
-			for (String key : map.keySet()) {
-				if (map.get(key) == pause) {
-					map.remove(key);
-				}
-			}
-		}
+	public void setPause(int pause){ 	
 		map.put("Pause", pause);
 
 	}
-
+	
+	public HashMap<String, Integer> getMap(){
+		return map;
+	}
+	
+	public void setMap(HashMap<String, Integer> map){
+		this.map = map;
+	}
 }

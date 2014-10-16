@@ -58,6 +58,7 @@ public class HighScores {
 	 * 
 	 * @return 
 	 */
+	@Override
 	public String toString(){
 		return null;
 

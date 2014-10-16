@@ -9,7 +9,8 @@ public class Board {
 
 	private int rowSize; // The field holding the row size of the board
 	private int columnSize; // The field holding the column size of the board
-	
+	private boolean emptyness;
+
 	private Engine callerEngine;
 
 	/**
@@ -21,10 +22,11 @@ public class Board {
 		board = new int[row][column];
 		rowSize = row;
 		columnSize = column;
+		emptyness = true;
 		
 		callerEngine = engine;
 	}
-	
+
 	/**
 	 * This method returns the row size of the board in terms of the block number fit inside
 	 * @return The row number of the game board.
@@ -56,12 +58,18 @@ public class Board {
 	public int getColumnLength(){
 		return columnSize * pieces.Block.SIZE;
 	}
+	
+	public boolean isEmpty(){
+		return emptyness;
+	}
 
 	/**
 	 * This method updates the board matrix with the given piece's location and color
 	 * Colors -> 1: BLUE, 2: CYAN. 3: DARK_GRAY, 4: GREEN, 5: MAGENTA, 6: ORANGE, 7: PINK, 8:ERD, 9: YELLOW
 	 */
 	public void updateBoard(int[][] locations, int color){
+		if (emptyness)
+			emptyness=false;
 		for (int i=0; i<locations.length; i++){
 			board[locations[i][1]][locations[i][0]] = color;
 		}
@@ -70,8 +78,8 @@ public class Board {
 
 	/**
 	 * This method checks whether the below of the piece is empty or not.
-	 * @param locations Returns true if the block can go further or false if vice versa
-	 * @return
+	 * @param locations The locations of the block as (x,y) in a 2D array
+	 * @return Returns true if the block can go further or false if vice versa
 	 */
 	public boolean checkCollisionsToGoBelow(int[][] locations){
 		for (int i=0; i<locations.length; i++){
@@ -84,39 +92,67 @@ public class Board {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * This method checks whether the right of the piece is empty or not.
-	 * @param locations Returns true if the block can go further or false if vice versa
-	 * @return
+	 * @param locations The locations of the block as (x,y) in a 2D array
+	 * @return Returns true if the block can go further or false if vice versa
 	 */
 	public boolean checkCollisionsToGoRight(int[][] locations){
 		for (int i=0; i<locations.length; i++){
-			if (locations[i][0] < board[0].length - 1){
-				if (board[locations[i][1]][locations[i][0] + 1] != 0)
+			if (locations[i][0] > 0){
+				if (locations[i][0] < board[0].length - 1){
+					if (board[locations[i][1]][locations[i][0] + 1] != 0)
+						return false;
+				} else {
 					return false;
-			} else {
-				return false;
+				}
 			}
 		}
 		return true;
 	}
-	
+
 	/**
 	 * This method checks whether the left of the piece is empty or not.
-	 * @param locations Returns true if the block can go further or false if vice versa
-	 * @return
+	 * @param locations The locations of the block as (x,y) in a 2D array
+	 * @return Returns true if the block can go further or false if vice versa
 	 */
 	public boolean checkCollisionsToGoLeft(int[][] locations){
 		for (int i=0; i<locations.length; i++){
-			if (locations[i][0] > 0){
-				if (board[locations[i][1]][locations[i][0] - 1] != 0)
+			if (locations[i][0] < board[0].length - 1){
+				if (locations[i][0] > 0){
+					if (board[locations[i][1]][locations[i][0] - 1] != 0)
+						return false;
+				} else {
 					return false;
-			} else {
-				return false;
+				}
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * This method checks whether the rotation of the piece causes any confliction or not.
+	 * @param locations The locations of the block when it is rotated as (x,y) in a 2D array 
+	 * @return "CONTINUE" -> No confliction, continue; "NOROTATE" -> Rotate is impossible; "FIX" -> move to an appropriate location, then rotate
+	 */
+	public String checkCollisionsWhenRotating(int[][] locations){
+		for (int i=0; i<locations.length; i++)
+			locations[i][0]++;
+
+		boolean leftConfliction = checkCollisionsToGoLeft(locations);
+
+		for (int i=0; i<locations.length; i++)
+			locations[i][0] -= 2;
+
+		boolean rightConfliction = checkCollisionsToGoRight(locations);
+
+		if (leftConfliction == true && rightConfliction == true)
+			return "CONTINUE";
+		else if (leftConfliction == false && rightConfliction == false)
+			return "NOROTATE";
+		else
+			return "FIX";
 	}
 
 	/**
@@ -126,15 +162,21 @@ public class Board {
 	 */
 	public void checkLinesForCompletion(){
 		int filledSpaceCounter;
+		int deletedLineCounter = 0;
 		for (int i=0; i<rowSize; i++){
 			filledSpaceCounter = 0;
 			for (int j=0; j<columnSize; j++){
 				if (board[i][j] != 0)
 					++filledSpaceCounter;
 			}
-			if (filledSpaceCounter == columnSize)
+			
+			if (filledSpaceCounter == columnSize){
 				removeCompletedLine(i);
+				deletedLineCounter++;
+			}
 		}
+		if (deletedLineCounter != 0)
+			callerEngine.increaseScore(deletedLineCounter);
 	}
 
 	/**
@@ -149,5 +191,17 @@ public class Board {
 			}
 		}
 		callerEngine.eliminatedLine(deletedRow);
+	}
+	
+	/**
+	 * This method determines whether the game is over or not.
+	 * @return True if the game is over, false if the game can continue
+	 */
+	public boolean isGameOver(){
+		for (int i=0; i<board[0].length ; i++){
+			if (board[1][i] != 0)
+				return true;
+		}
+		return false;
 	}
 }
