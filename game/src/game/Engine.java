@@ -35,6 +35,7 @@ public class Engine {
 
 		boardPanel = new BoardPanel(keys, speedInMilliseconds, this, boardMatrix);
 		nextPiecePanel = new NextPieceAndScorePanel(getBoardRowLength(), getBoardColumnLength());
+		nextPiecePanel.setLevel(levelNo);
 
 		play();
 	}
@@ -62,8 +63,8 @@ public class Engine {
 			boardPanel.addPiece(currentPiece);
 		} else {
 			boardPanel.setMode(false);
-			System.out.println(score);
 		}
+		nextPiecePanel.setCurrentScore(score);
 	}
 
 	private Piece chooseRandomPiece(){

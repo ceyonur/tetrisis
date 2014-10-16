@@ -11,6 +11,7 @@ public class PlayGUI extends JFrame {
 	protected Engine engine;
 	private BoardPanel board;
 	private NextPieceAndScorePanel nextPiecePanel;
+	private JLabel gameOver;
 	
 	public PlayGUI(){
 		// Title bar
@@ -90,5 +91,12 @@ public class PlayGUI extends JFrame {
 		});
 		toolBar.add(button);
 	}
-
+	
+	public void showGameOver(){
+		gameOver = new JLabel("Game Over!!");
+		gameOver.setFont(new Font(gameOver.getFont().getFamily(), gameOver.getFont().getStyle(), 10));
+		gameOver.setLocation((this.getWidth() - gameOver.getWidth())/2 , (this.getHeight() - gameOver.getHeight())/2);
+		add(gameOver);
+		repaint();
+	}
 }
