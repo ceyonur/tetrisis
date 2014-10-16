@@ -30,19 +30,6 @@ public class SettingsGUI extends JFrame {
 	private PieceChoice pieceChoiceObject;
 	private Settings settingsObject;
 	private HashMap<String, Integer> keyMap;	
-//	private int leftKey; // ascii kodlari
-//	private int rightKey;
-//	private int rotateKey;
-//	private int speedKey;
-//	private int pauseKey;	
-//	private int key1;
-//	private int key2;
-//	private int key3;
-//	private int key4;
-//	private int key5;
-//	private int boyut; // 1 ise kucuk 2 ise orta 3 ise buyuk
-//	private int level; // default level
-//	private int mode; // default blocktype
 	
 	public SettingsGUI(Settings settings) {
 		super();
@@ -495,8 +482,7 @@ public class SettingsGUI extends JFrame {
 		uyari.hide();
 
 		cancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				hide();
+			public void actionPerformed(ActionEvent e) {				
 				if(boardSizeObject.isSmall())
 					small.setSelected(true);
 				else if(boardSizeObject.isLarge())
@@ -537,7 +523,7 @@ public class SettingsGUI extends JFrame {
 					rotateField.setText(getKeyText(keyConfigureObject.getRotate()));
 					pauseField.setText(getKeyText(keyConfigureObject.getPause()));
 				
-					
+				dispose();	
 			}
 		});
 
@@ -567,7 +553,7 @@ public class SettingsGUI extends JFrame {
 					uyari.hide();
 					keyConfigureObject.setMap(keyMap);
 					hide();					
-					}
+					
 					
 				
 
@@ -598,7 +584,13 @@ public class SettingsGUI extends JFrame {
 				else if(large.isSelected())
 					boardSizeObject.setLarge();
 				else
-					boardSizeObject.setMedium();	
+					boardSizeObject.setMedium();
+				
+				dispose();
+				
+				
+			}
+				
 			}
 		});
 
