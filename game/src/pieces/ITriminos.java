@@ -30,7 +30,7 @@ public class ITriminos extends Triminos{
 			currentBlock.move(0, currentBlock.getBlockSize() * i);
 		}
 	}
-	
+
 	@Override
 	/**
 	 * This method gives the rectangle covering the piece.

@@ -9,7 +9,6 @@ public class Board {
 
 	private int rowSize; // The field holding the row size of the board
 	private int columnSize; // The field holding the column size of the board
-	private boolean emptyness;
 
 	private Engine callerEngine;
 
@@ -22,8 +21,7 @@ public class Board {
 		board = new int[row][column];
 		rowSize = row;
 		columnSize = column;
-		emptyness = true;
-		
+
 		callerEngine = engine;
 	}
 
@@ -58,18 +56,12 @@ public class Board {
 	public int getColumnLength(){
 		return columnSize * pieces.Block.SIZE;
 	}
-	
-	public boolean isEmpty(){
-		return emptyness;
-	}
 
 	/**
 	 * This method updates the board matrix with the given piece's location and color
 	 * Colors -> 1: BLUE, 2: CYAN. 3: DARK_GRAY, 4: GREEN, 5: MAGENTA, 6: ORANGE, 7: PINK, 8:ERD, 9: YELLOW
 	 */
 	public void updateBoard(int[][] locations, int color){
-		if (emptyness)
-			emptyness=false;
 		for (int i=0; i<locations.length; i++){
 			board[locations[i][1]][locations[i][0]] = color;
 		}

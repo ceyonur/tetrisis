@@ -2,11 +2,9 @@ package game;
 
 import java.awt.*;
 import java.util.Random;
-
 import settings.*;
 import pieces.*;
 import gui.BoardPanel;
-import gui.NextPieceAndScorePanel;
 
 public class Engine {
 	private Board boardMatrix; // The field for board object of the game
@@ -16,7 +14,6 @@ public class Engine {
 	private int speedInMilliseconds; // The field for the speed of the game (in milliseconds)
 	private Piece currentPiece; // The current piece
 	private BoardPanel boardPanel; // The panel for the board
-	private NextPieceAndScorePanel nextPiecePanel;
 	private double score;
 
 	/**
@@ -34,7 +31,6 @@ public class Engine {
 		score = 0;
 
 		boardPanel = new BoardPanel(keys, speedInMilliseconds, this, boardMatrix);
-		nextPiecePanel = new NextPieceAndScorePanel(getBoardRowLength(), getBoardColumnLength());
 
 		play();
 	}
@@ -52,13 +48,11 @@ public class Engine {
 		}
 
 		if (!boardMatrix.isGameOver()){
-			if (boardMatrix.isEmpty()){
-				currentPiece = chooseRandomPiece();
-			} else {
-				currentPiece = nextPiecePanel.getPiece();
-			}
+
 			Piece randomPiece = chooseRandomPiece();
-			nextPiecePanel.setPiece(randomPiece);
+			currentPiece = randomPiece;
+			// Find the initial location for the pieces
+
 			boardPanel.addPiece(currentPiece);
 		} else {
 			boardPanel.setMode(false);
@@ -91,7 +85,7 @@ public class Engine {
 			randomNumberForPiece = randomGenerator.nextInt(7) + 1;
 		else if (pieceChoice.hasTriminos())
 			randomNumberForPiece = randomGenerator.nextInt(3) + 8;
-		
+
 		switch (randomNumberForPiece){
 		case 1: randomPiece = new ZTetriminos(0,0,randomColor); break;
 		case 2: randomPiece = new STetriminos(0,0,randomColor); break;
@@ -104,20 +98,12 @@ public class Engine {
 		case 9: randomPiece = new JTriminos(0,0,randomColor); break;
 		default: randomPiece = new RTriminos(0,0,randomColor); break;
 		}
-		
-		int appearX = ((int) (getBoardColumnLength() - randomPiece.boundingBox().width)/2);
-		int appearY = 0;
-		//randomPiece.move(appearX, appearY);
-		
+
 		return randomPiece;
 	}
 
 	public BoardPanel getBoardPanel(){
 		return boardPanel;
-	}
-	
-	public NextPieceAndScorePanel getNextPieceAndScorePanel(){
-		return nextPiecePanel;
 	}
 
 	public int getLevelNo(){

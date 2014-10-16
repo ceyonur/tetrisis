@@ -10,11 +10,11 @@ import java.awt.event.*;
 public class PlayGUI extends JFrame {
 	protected Engine engine;
 	private BoardPanel board;
-	private NextPieceAndScorePanel nextPiecePanel;
 	
 	public PlayGUI(){
 		// Title bar
 		super("Tetris/Trisis Game");
+		
 		// respond to the window system asking us to quit
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -22,7 +22,6 @@ public class PlayGUI extends JFrame {
 				System.exit(0);
 			}
 		});
-		setResizable(false);
 	}
 	
 	public void setEngine(Engine engine){
@@ -33,22 +32,17 @@ public class PlayGUI extends JFrame {
 		addButtons(toolBar);
 
 		//Create the animation area used for output.
-		board = engine.getBoardPanel();
-		nextPiecePanel = engine.getNextPieceAndScorePanel();
+		this.board = engine.getBoardPanel();
 		
 		// Put it in a scrollPane, (this makes a border)
-		JScrollPane gameBoard = new JScrollPane(board);
-		JScrollPane nextPieceAndScorePanel = new JScrollPane(nextPiecePanel);
-		JPanel realPane = new JPanel();
-		realPane.setLayout(new GridLayout(1,2));
-		realPane.add(gameBoard);
-		realPane.add(nextPieceAndScorePanel);
+		JScrollPane scrollPane = new JScrollPane(board);
+
 		//Lay out the content pane.
 		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout());
-		contentPane.setPreferredSize(new Dimension(engine.getBoardColumnLength()*2, engine.getBoardRowLength()));
+		contentPane.setPreferredSize(new Dimension(engine.getBoardColumnLength(), engine.getBoardRowLength()));
 		contentPane.add(toolBar, BorderLayout.NORTH);
-		contentPane.add(realPane, BorderLayout.CENTER);
+		contentPane.add(scrollPane, BorderLayout.CENTER);
 		setContentPane(contentPane);
 	}
 	
