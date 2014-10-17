@@ -33,6 +33,8 @@ public class BoardPanel extends JPanel {
 	private JLabel newlyStarted1;
 	private JLabel newlyStarted2;
 	private JPanel newlyStartedPanel;
+	
+	private PlayGUI playGUI;
 
 	public BoardPanel(KeyConfigure keys, int speed, Engine engine, game.Board boardMatrix, NextPieceAndScorePanel nextPiecePanel) {
 		// effects: initializes this to be in the off mode.
@@ -78,7 +80,7 @@ public class BoardPanel extends JPanel {
 		timerForClearLine2 = new Timer(75,clearLineListener);
 		timerForClearLine3 = new Timer(75,clearLineListener);
 		timerForClearLine4 = new Timer(75,clearLineListener);
-		setMode(false);
+		setMode(true);
 	}
 
 	// This is just here so that we can accept the keyboard focus
@@ -117,8 +119,9 @@ public class BoardPanel extends JPanel {
 	public void setMode(boolean m) {
 		// modifies: this
 		// effects: changes the mode to <m>.
-
+		
 		if (mode == true) {
+			
 			// we're about to change mode: turn off all the old listeners
 			removeMouseListener(eventListener);
 			removeMouseMotionListener(eventListener);
@@ -126,7 +129,7 @@ public class BoardPanel extends JPanel {
 		}
 
 		mode = m;
-
+		
 		if (mode == true) {
 			// the mode is true: turn on the listeners
 			addMouseListener(eventListener);
@@ -150,6 +153,10 @@ public class BoardPanel extends JPanel {
 
 	public void restartTimer(){
 		timer.restart();
+	}
+	
+	public void setCurrentPlayGUI(PlayGUI playGUI){
+		this.playGUI = playGUI;
 	}
 
 	public void clearEliminatedLine(int lineNo){
@@ -227,12 +234,15 @@ public class BoardPanel extends JPanel {
 						currentCase = boardMatrix.checkCollisionsWhenRotating(piece.cloneRotateAndGetLocationOnMatrix());
 					}
 					piece.rotate();
+					playGUI.playRotate(true);
 				}
 			} else if (keynum == keys.getDown()){
 				if (boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix()))
 					piece.moveABlockDown();
-				else
+				else{
 					callerEngine.play();
+					playGUI.playSitSound(true);
+				}
 			} else if (keynum == keys.getPause()){
 				if (getMode())
 					setMode(false);
@@ -257,8 +267,10 @@ public class BoardPanel extends JPanel {
 			Rectangle oldPos = piece.boundingBox();
 			if (boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix()))
 				piece.moveABlockDown();
-			else
+			else{
 				callerEngine.play();
+				playGUI.playSitSound(true);
+			}
 			Rectangle all = new Rectangle(0,0,getWidth(),getHeight());
 			repaintPanel(oldPos);
 			repaintPanel(all);

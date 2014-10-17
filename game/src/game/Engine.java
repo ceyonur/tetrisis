@@ -159,6 +159,10 @@ public class Engine {
 	public int getBoardRowLength(){
 		return boardMatrix.getRowLength();
 	}
+	
+	public Board getBoardMatrix(){
+		return boardMatrix;
+	}
 
 	public void eliminatedLine(int lineNo){
 		boardPanel.clearEliminatedLine(lineNo);
@@ -171,7 +175,7 @@ public class Engine {
 	}
 
 	public void increaseScore(int howManyLinesAreDeleted){
-		double speedInSeconds = speedInMilliseconds / 1000;
+		double speedInSeconds = speedInMilliseconds / 1000.0;
 		if (howManyLinesAreDeleted == 1)
 			score += 1.00/speedInSeconds;
 		else if (howManyLinesAreDeleted == 2)

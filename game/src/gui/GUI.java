@@ -28,13 +28,14 @@ public class GUI extends JFrame {
 		
 		menuGUI = new MenuGUI(this);
 		setSize(menuGUI.size());
-		showMenu();
+		showPlay();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
 	public static void main(String[] args) {
 		GUI gui = new GUI();
 		gui.show();
+
 	}
 	
 	public void setGameEngine(Engine engine){
