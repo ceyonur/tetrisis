@@ -54,11 +54,11 @@ public class SButton extends JButton {
 	private void setType(int t) {
 		this.type = t;
 		float f = 24F;
-		Color bgcolor = SColor.backgroundColor;
+		Color color = new SColor(52, 152, 219);
 		switch (type) {
 			case 0:
 				f = 52F;
-				this.setBackground(Color.red);
+				this.setBackground(color);
 				this.setBorder(BorderFactory.createLineBorder(Color.white, 5));
 				this.setForeground(Color.white);
 				this.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
@@ -69,7 +69,7 @@ public class SButton extends JButton {
 				break;
 			case 2:
 				f = 36F;
-				this.setBackground(bgcolor);
+				this.setBackground(color);
 				this.setBorder(BorderFactory.createLineBorder(Color.white, 5));
 				this.setForeground(Color.white);
 				this.setMinimumSize(new Dimension(120,30));
