@@ -7,7 +7,7 @@ package settings;
 public class LevelChoice {
 	
 	/** The level field. */
-	Integer level;
+	private Integer level;
 	
 	/**
 	 * Constructor for the LevelChoice class. Takes an Integer.

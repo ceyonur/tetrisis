@@ -24,7 +24,7 @@ public class Engine {
 	 * @param settings The settings of the game (can be default)
 	 */
 	public Engine(Settings settings){
-		boardMatrix = new Board(settings.getSizeChoice().getRow(), settings.getSizeChoice().getColumn(), this);
+		boardMatrix = new Board(settings.getRow(), settings.getColumn(), this);
 		levelNo = settings.getLevelChoice().getLevel();
 		speedInMilliseconds = (int) (1000 * settings.getLevelChoice().getSpeed());
 		keys = settings.getKeyConfigure();

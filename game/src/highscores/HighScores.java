@@ -1,21 +1,42 @@
 package highscores;
 
+
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
+import javax.swing.text.DateFormatter;
 
 /**
  * This class keeps the first 5 highscores
  * @author bedirhancaldir
  */
-public class HighScores {
+public class HighScores implements Serializable {
 	private ArrayList<Player> playerList;
 	private final int UPPERBOUND = 5;
 
 	/**
 	 * The constructor of the HighScores class. HighScores holds the players having the highest scores up to 5 players.
+	 * @throws IOException 
+	 * @throws ParseException 
 	 */
-	public HighScores(){
-		
+	public HighScores() throws ParseException, IOException{
 		playerList = new ArrayList<Player>();
+		this.loadHighScores();		
 	}
 
 	/**
@@ -60,9 +81,60 @@ public class HighScores {
 	 */
 	@Override
 	public String toString(){
-		return null;
+		String result = "";
+		int i = 1;
+		for(Player player : playerList){
+			result += i + ":" + player.getName() + '\t' + player.getScore() + '\t' + player.getDate().toString();
+			result += '\n';
+			i++;
+		}
+		
+		return result;
 
 	}
+	
+	public void saveHighScores() throws IOException{
+	try{
+			
+			
+			FileOutputStream fout = new FileOutputStream("HighScores.ser");
+			ObjectOutputStream oos = new ObjectOutputStream(fout);   
+			oos.writeObject(this);
+			oos.close();			
+	 
+		   }catch(Exception ex){
+			   ex.printStackTrace();
+		   
+	}
+	}
+	
+	public void loadHighScores() throws ParseException, IOException{		
+		try{
+			 
+			   FileInputStream fin = new FileInputStream("HighScores.ser");
+			   ObjectInputStream ois = new ObjectInputStream(fin);
+			   HighScores highScores= (HighScores) ois.readObject();
+			   ois.close();
+			   for(Player player : highScores.playerList){
+				   this.add(player);
+			   }
+			   
+	 
+		   }catch(Exception ex){
+			   FileOutputStream fout = new FileOutputStream("HighScores.ser");		   
+		   } 
+		
+	}
+	
+	public static void main(String[] args) throws ParseException, IOException {
+		// TODO Auto-generated method stub		
+		HighScores hop = new HighScores();		
+		
+		hop.loadHighScores();		
+		System.out.println(hop.toString());
+		
+	}
+	
 }
 
 

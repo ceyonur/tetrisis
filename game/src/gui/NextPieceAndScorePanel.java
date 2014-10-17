@@ -3,8 +3,6 @@ package gui;
 import java.awt.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-
 import pieces.Piece;
 
 public class NextPieceAndScorePanel extends JPanel {

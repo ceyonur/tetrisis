@@ -1,12 +1,13 @@
 package highscores;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * This class generates a player with his/her name, score and game playing date
  * @author bedirhancaldir
  */
-public class Player {
+public class Player implements Serializable{
 	private String name;
 	private int score;
 	private Date date;
