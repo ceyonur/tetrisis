@@ -453,8 +453,7 @@ public class SettingsGUI extends JPanel {
 		
 
 
-		final JLabel uyari = new JLabel("Incorrect Key Configuration",
-				SwingConstants.CENTER);
+		final JLabel uyari = new JLabel("Incorrect Key Configuration", SwingConstants.CENTER);
 		uyari.setSize(200, 30);
 		uyari.setLocation(50, 45);
 		uyari.setForeground(Color.red);
@@ -502,6 +501,9 @@ public class SettingsGUI extends JPanel {
 					rotateField.setText(getKeyText(keyConfigureObject.getRotate()));
 					pauseField.setText(getKeyText(keyConfigureObject.getPause()));
 				
+					
+					
+				gui.setContentPane(gui.menuGUI);
 			}
 		});
 
