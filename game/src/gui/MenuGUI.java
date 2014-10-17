@@ -15,29 +15,28 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-public class MenuGUI extends JFrame {
-
-	private JFrame settingsGui;
+public class MenuGUI extends JPanel {
+	
+	private GUI gui;
+	
+	private JPanel settingsGui;
 	private AudioPlayer AP = AudioPlayer.player;
 	private AudioStream AS;
 	private AudioData AD;
 	private ContinuousAudioDataStream loop = null;
-	private final Settings settingObject = new Settings();
+	
 	private Color bgcolor;
 	private boolean mute = true;
 
-	public MenuGUI() {
+	public MenuGUI(GUI ui) {
 		super();
-		setTitle("Tetris/Triris Game - Main Menu");
+		gui = ui;
+		bgcolor = gui.bgcolor;
+		
 		setSize(570, 690);
-		setResizable(false);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setBackground(bgcolor);
 		
-		float[] hsb = Color.RGBtoHSB(41, 128, 185, null);
-		bgcolor = Color.getHSBColor(hsb[0],hsb[1],hsb[2]);
-		this.getContentPane().setBackground(bgcolor);
-		
-		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 				
 		JPanel headerPanelContainer = new JPanel();
 		headerPanelContainer.setBackground(bgcolor);
@@ -59,16 +58,11 @@ public class MenuGUI extends JFrame {
 		JPanel footerPanel = createFooter();
 		footerPanelContainer.add(footerPanel);
 
-		this.getContentPane().add(headerPanelContainer);
-		this.getContentPane().add(buttonPanelContainer);
-		this.getContentPane().add(footerPanelContainer);
+		this.add(headerPanelContainer);
+		this.add(buttonPanelContainer);
+		this.add(footerPanelContainer);
 		
 		playAudio(!mute);
-	}
-
-	public static void main(String[] args) {
-		JFrame f = new MenuGUI();
-		f.show();
 	}
 	
 	public JPanel createHeader() {
@@ -101,13 +95,13 @@ public class MenuGUI extends JFrame {
 
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// to be filled
+				//
 			}
 		});
 		
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				settingsGui = new SettingsGUI(settingObject);
+				gui.setContentPane(gui.settingsGUI);
 			}	
 		});
 

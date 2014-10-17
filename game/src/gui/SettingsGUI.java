@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import settings.*;
@@ -25,7 +26,10 @@ import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-public class SettingsGUI extends JFrame {
+public class SettingsGUI extends JPanel {
+	
+	GUI gui;
+	
 	private BoardSize boardSizeObject;
 	private KeyConfigure keyConfigureObject;
 	private LevelChoice levelChoiceObject;
@@ -33,14 +37,14 @@ public class SettingsGUI extends JFrame {
 	private Settings settingsObject;
 	private HashMap<String, Integer> keyMap;	
 	
-	public SettingsGUI(Settings settings) {
+	Color bgcolor;
+	
+	public SettingsGUI(GUI ui, Settings settings) {
 		super();
-		setTitle("Settings");
-		setSize(450, 690);
-	//	setResizable(false);
-
-		
-		setLocation(250, 150);
+		gui = ui;
+		bgcolor = gui.bgcolor;
+		setSize(570, 690);
+		setBackground(bgcolor);
 		
 		settingsObject= settings;
 		boardSizeObject = settingsObject.getSizeChoice();
@@ -49,52 +53,49 @@ public class SettingsGUI extends JFrame {
 		pieceChoiceObject = settingsObject.getPieceChoice();
 		keyMap = keyConfigureObject.getMap();
 		
-	
-
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				hide();
-			} // windowClosing
-		});
-
-		final JRadioButton small = new JRadioButton("Small");
-		final JRadioButton medium = new JRadioButton("Medium");
-		final JRadioButton large = new JRadioButton("Large");
-
+		JPanel headerPanelContainer = new JPanel();
+		headerPanelContainer.setBackground(bgcolor);
+		headerPanelContainer.setMaximumSize(new Dimension(500,100));
+		JPanel settingsPanelContainer = new JPanel();
+		settingsPanelContainer.setBackground(bgcolor);
+		JPanel buttonsPanelContainer = new JPanel();
+		buttonsPanelContainer.setBackground(bgcolor);
+		
+		/* HEADER */
+		JPanel header = createHeader();
+		headerPanelContainer.add(header);
+		
+		/* SETTINGS */
+		
+		///////////////////////////////////////////////////////////size
+		final JRadioButton small = new JRadioButton("small");
+		final JRadioButton medium = new JRadioButton("medium");
+		final JRadioButton large = new JRadioButton("large");
+		
+		small.setHorizontalAlignment(JRadioButton.CENTER);
+		medium.setHorizontalAlignment(JRadioButton.CENTER);
+		large.setHorizontalAlignment(JRadioButton.CENTER);
+		
 		ButtonGroup bG = new ButtonGroup();
 		bG.add(small);
 		bG.add(medium);
 		bG.add(large);
-
-		GridLayout grd = new GridLayout(2,3);
-		GridLayout mainGrd = new GridLayout(5,1);
-		JPanel sizePanel = new JPanel(grd);
 		
-		JPanel mainPanel = new JPanel(mainGrd);
-		mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+		JPanel sizePanel = new JPanel();
+		sizePanel.setPreferredSize(new Dimension(500,80));
+		sizePanel.setBorder(BorderFactory.createLineBorder(Color.white, 5));
 		
-		JLabel sizeLabel = new JLabel("Please select the board size",
-				SwingConstants.CENTER);
-		JLabel a = new JLabel();
-		JLabel b = new JLabel();
-		sizePanel.add(a);
-		sizePanel.add(sizeLabel);
-	
-		sizePanel.add(b);
+		SLabel sizeLabel = new SLabel("board size", SLabel.SETTINGS_LABEL, SwingConstants.CENTER);
 		
-		
-		sizePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		JPanel sizeOptions = new JPanel();
+		sizeOptions.setLayout(new GridLayout(1,3));
+		sizeOptions.add(small);
+		sizeOptions.add(medium);
+		sizeOptions.add(large);
 
-
-
-		sizePanel.add(small);
-
-
-		sizePanel.add(medium);
-
-
-		sizePanel.add(large);
-
+		sizePanel.setLayout(new BorderLayout());
+		sizePanel.add(sizeLabel, BorderLayout.NORTH);
+		sizePanel.add(sizeOptions, BorderLayout.CENTER);
 
 		if(boardSizeObject.isSmall()){
 			small.setSelected(true);
@@ -106,29 +107,26 @@ public class SettingsGUI extends JFrame {
 			medium.setSelected(true);
 		}
 		
-		this.setVisible(true);
-		
-		
-		mainPanel.add(sizePanel, BorderLayout.CENTER);
+		settingsPanelContainer.add(sizePanel);
 
 		// //////////////////////////////////////////////////LEVEL PANEL
-		GridLayout grd2 = new GridLayout(2,5);
-		JPanel levelPanel = new JPanel(grd2);
-
-		levelPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		JPanel levelPanel = new JPanel();
+		levelPanel.setPreferredSize(new Dimension(500,100));
+		levelPanel.setBorder(BorderFactory.createLineBorder(Color.white, 5));
 		
-		JLabel levelLabel = new JLabel("Please select dificulty level",
-				SwingConstants.CENTER);
-		JLabel c = new JLabel();
-		JLabel d = new JLabel();
-		JLabel e = new JLabel();
-		JLabel f = new JLabel();
+		SLabel levelLabel = new SLabel("difficulty", SLabel.SETTINGS_LABEL, SwingConstants.CENTER);
 
-		final JRadioButton lvl1 = new JRadioButton("Level 1");
-		final JRadioButton lvl2 = new JRadioButton("Level 2");
-		final JRadioButton lvl3 = new JRadioButton("Level 3");
-		final JRadioButton lvl4 = new JRadioButton("Level 4");
-		final JRadioButton lvl5 = new JRadioButton("Level 5");
+		final JRadioButton lvl1 = new JRadioButton("granma");
+		final JRadioButton lvl2 = new JRadioButton("rookie");
+		final JRadioButton lvl3 = new JRadioButton("normalna");
+		final JRadioButton lvl4 = new JRadioButton("rampage");
+		final JRadioButton lvl5 = new JRadioButton("god mod");
+		
+		lvl1.setHorizontalAlignment(JRadioButton.CENTER);
+		lvl2.setHorizontalAlignment(JRadioButton.CENTER);
+		lvl3.setHorizontalAlignment(JRadioButton.CENTER);
+		lvl4.setHorizontalAlignment(JRadioButton.CENTER);
+		lvl5.setHorizontalAlignment(JRadioButton.CENTER);
 
 		ButtonGroup lG = new ButtonGroup();
 		lG.add(lvl1);
@@ -137,23 +135,17 @@ public class SettingsGUI extends JFrame {
 		lG.add(lvl4);
 		lG.add(lvl5);
 
-
-		levelPanel.add(c);
-		levelPanel.add(d);
-		levelPanel.add(levelLabel);
-		levelPanel.add(e);
-		levelPanel.add(f);
-
-
-		levelPanel.add(lvl1);
-
-		levelPanel.add(lvl2);
-
-		levelPanel.add(lvl3);
-
-		levelPanel.add(lvl4);
-
-		levelPanel.add(lvl5);
+		JPanel levelOptions = new JPanel();
+		levelOptions.setLayout(new GridLayout(1,5));
+		levelOptions.add(lvl1);
+		levelOptions.add(lvl2);
+		levelOptions.add(lvl3);
+		levelOptions.add(lvl4);
+		levelOptions.add(lvl5);
+		
+		levelPanel.setLayout(new BorderLayout());
+		levelPanel.add(levelLabel, BorderLayout.NORTH);
+		levelPanel.add(levelOptions, BorderLayout.CENTER);
 
 		switch(levelChoiceObject.getLevel()){
 		case 1: lvl1.setSelected(true);
@@ -167,21 +159,19 @@ public class SettingsGUI extends JFrame {
 		case 5: lvl5.setSelected(true);
 		break;		
 		}
-		mainPanel.add(levelPanel);
+		settingsPanelContainer.add(levelPanel);
 
-		// /////////////////////////////////////////////////block paneli
-		GridLayout blockGrid = new GridLayout(2,2);
-		JPanel blockPanel = new JPanel(blockGrid);
-//		blockPanel.setLayout(null);
-//		blockPanel.setSize(455, 80);
-//		blockPanel.setLocation(10, 210);
-		blockPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		// /////////////////////////////////////////////////piece paneli
+		JPanel piecePanel = new JPanel();
+		piecePanel.setPreferredSize(new Dimension(500,100));
+		piecePanel.setBorder(BorderFactory.createLineBorder(Color.white, 5));
 		
-		JLabel blockLabel = new JLabel("                                                          Please select block type",
-				SwingConstants.CENTER);
-		JLabel h = new JLabel();
+		
+		SLabel pieceLabel = new SLabel("piece type", SLabel.SETTINGS_LABEL, SwingConstants.CENTER);
 		final JCheckBox tetra = new JCheckBox("Tetriminos");
 		final JCheckBox tri = new JCheckBox("Triminos");
+		tetra.setHorizontalAlignment(JCheckBox.CENTER);
+		tri.setHorizontalAlignment(JCheckBox.CENTER);
 		
 		if(pieceChoiceObject.hasBoth()){
 			tetra.setSelected(true);
@@ -193,19 +183,18 @@ public class SettingsGUI extends JFrame {
 		else if(pieceChoiceObject.hasTriminos()){
 			tri.setSelected(true);
 		}
-//		blockLabel.setLocation(130, -10);
-//		blockLabel.setSize(220, 60);
+		
 
-//		tetra.setLocation(120, 40);
-//		tetra.setSize(140, 20);
-		//blockPanel.add(h);
-		blockPanel.add(blockLabel);
-		blockPanel.add(h);
-		blockPanel.add(tetra);
+		JPanel pieceOptions = new JPanel();
+		pieceOptions.setLayout(new GridLayout(1,2));
+		pieceOptions.setAlignmentY(JComponent.CENTER_ALIGNMENT);
+		pieceOptions.add(tetra);
+		pieceOptions.add(tri);
 
-//		tri.setLocation(260, 40);
-//		tri.setSize(140, 20);
-
+		piecePanel.setLayout(new BorderLayout());
+		piecePanel.add(pieceLabel, BorderLayout.NORTH);
+		piecePanel.add(pieceOptions, BorderLayout.CENTER);
+		
 		tetra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!tetra.isSelected() && !tri.isSelected())
@@ -220,35 +209,50 @@ public class SettingsGUI extends JFrame {
 			}
 		});
 
-		blockPanel.add(tri);
-
-		mainPanel.add(blockPanel);
+		settingsPanelContainer.add(piecePanel);
 
 		// /////////////////////////////////////////keyConfig
-		GridLayout keyGrid = new GridLayout(5,2);
-		JPanel keyPanel = new JPanel(keyGrid);
+		JPanel keyPanel = new JPanel();
+		keyPanel.setPreferredSize(new Dimension(500,200));
+		keyPanel.setBorder(BorderFactory.createLineBorder(Color.white, 5));
 
 
-		JLabel keyLabel = new JLabel("Key Configuration", SwingConstants.CENTER);
+		SLabel keyLabel = new SLabel("key configuration", SLabel.SETTINGS_LABEL, SwingConstants.CENTER);
 		
-		JLabel enterLeft = new JLabel("Move Left");
-
+		JLabel enterLeft = new SLabel("move left", SLabel.SETTINGS_FIELD_LABEL);
+		JLabel enterRight = new SLabel("move right", SLabel.SETTINGS_FIELD_LABEL);
+		JLabel enterDown = new SLabel("go down", SLabel.SETTINGS_FIELD_LABEL);
+		JLabel enterRotate = new SLabel("rotate", SLabel.SETTINGS_FIELD_LABEL);
+		JLabel enterPause = new SLabel("pause/continue", SLabel.SETTINGS_FIELD_LABEL);
 
 		final JTextField leftField = new JTextField(getKeyText(keyConfigureObject.getLeft()));
 		final JTextField rightField = new JTextField(getKeyText(keyConfigureObject.getRight()));
 		final JTextField downField = new JTextField(getKeyText(keyConfigureObject.getDown()));
 		final JTextField rotateField = new JTextField(getKeyText(keyConfigureObject.getRotate()));
 		final JTextField pauseField = new JTextField(getKeyText(keyConfigureObject.getPause()));
+
+		JPanel keyOptions = new JPanel();
+		keyOptions.setLayout(new GridLayout(5,2,0,5));
+		keyOptions.add(enterLeft);
+		keyOptions.add(leftField);
+		keyOptions.add(enterRight);
+		keyOptions.add(rightField);
+		keyOptions.add(enterDown);
+		keyOptions.add(downField);
+		keyOptions.add(enterRotate);
+		keyOptions.add(rotateField);
+		keyOptions.add(enterPause);
+		keyOptions.add(pauseField);
 		
-
-		keyPanel.add(enterLeft);
-		keyPanel.add(leftField);
-
-
+		JPanel keyOptionsSuper = new JPanel();
+		keyOptionsSuper.setLayout(new BoxLayout(keyOptionsSuper, BoxLayout.Y_AXIS));
+		keyOptions.setMaximumSize(new Dimension(400,140));
+		keyOptionsSuper.add(keyOptions);
 		
-		keyPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		
-
+		keyPanel.setLayout(new BorderLayout());
+		keyPanel.add(keyLabel, BorderLayout.NORTH);
+		keyPanel.add(keyOptionsSuper, BorderLayout.CENTER);
+	
 		leftField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -280,12 +284,6 @@ public class SettingsGUI extends JFrame {
 		});
 
 		// /////////////////////////////////rightKEy
-		JLabel enterRight = new JLabel("Move Right");
-
-		keyPanel.add(enterRight);
-		keyPanel.add(rightField);
-
-
 
 		rightField.addKeyListener(new KeyListener() {
 			@Override
@@ -320,13 +318,6 @@ public class SettingsGUI extends JFrame {
 		});
 		// ////////////////////////////////////rotateKey
 		
-
-		JLabel enterRotate = new JLabel("Rotate Blocks");
-		keyPanel.add(enterRotate);
-		keyPanel.add(rotateField);
-
-
-
 		rotateField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -360,13 +351,6 @@ public class SettingsGUI extends JFrame {
 		});
 		// //////////////////////////////////////////////////////////////////moveDown
 	
-
-		JLabel enterSpeed = new JLabel("Move Down");
-		keyPanel.add(enterSpeed);
-		keyPanel.add(downField);
-
-
-		
 
 		downField.addKeyListener(new KeyListener() {
 			@Override
@@ -402,11 +386,6 @@ public class SettingsGUI extends JFrame {
 		// ////////////////////////////////////////////////////////////////////pause
 	
 
-		JLabel enterPause = new JLabel("Pause");
-		keyPanel.add(enterPause);
-		keyPanel.add(pauseField);
-
-
 		
 		pauseField.addKeyListener(new KeyListener() {
 			@Override
@@ -439,6 +418,8 @@ public class SettingsGUI extends JFrame {
 			}
 		});
 
+		settingsPanelContainer.add(keyPanel);
+		
 		// /////////////////////////////////////////////////////////////////finishPanel
 		
 		final JPanel finishPanel = new JPanel();
@@ -503,7 +484,7 @@ public class SettingsGUI extends JFrame {
 					rotateField.setText(getKeyText(keyConfigureObject.getRotate()));
 					pauseField.setText(getKeyText(keyConfigureObject.getPause()));
 				
-				dispose();	
+				//dispose();	
 			}
 		});
 
@@ -566,7 +547,7 @@ public class SettingsGUI extends JFrame {
 				else
 					boardSizeObject.setMedium();
 				
-				dispose();
+				//dispose();
 				
 				
 			}
@@ -574,18 +555,24 @@ public class SettingsGUI extends JFrame {
 			}
 		});
 
-		mainPanel.add(keyPanel);
-		mainPanel.add(finishPanel);
-
-		this.add(mainPanel, BorderLayout.CENTER);
-		this.setVisible(true);
-	}
+		//add(keyPanel);
+		//add(finishPanel);
 		
-
-	public static void main(String[] args) {
-		JFrame f = new SettingsGUI(new Settings());
-
-		f.show();
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		add(headerPanelContainer);
+		add(settingsPanelContainer);
+		//add(Box.createVerticalGlue());
+		//add(buttonsPanelContainer);
+	}
+	
+	public JPanel createHeader() {
+		JPanel header = new JPanel();
+		
+		SLabel title = new SLabel("settings", SLabel.MAIN_MENU_TITLE);
+		header.add(title);
+		
+		header.setBackground(bgcolor);
+		return header;
 	}
 	
 	private static String getKeyText(int a){
