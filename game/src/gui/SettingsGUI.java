@@ -462,8 +462,7 @@ public class SettingsGUI extends JFrame {
 		uyari.hide();
 
 		cancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				hide();
+			public void actionPerformed(ActionEvent e) {				
 				if(boardSizeObject.isSmall())
 					small.setSelected(true);
 				else if(boardSizeObject.isLarge())
@@ -504,7 +503,7 @@ public class SettingsGUI extends JFrame {
 					rotateField.setText(getKeyText(keyConfigureObject.getRotate()));
 					pauseField.setText(getKeyText(keyConfigureObject.getPause()));
 				
-					
+				dispose();	
 			}
 		});
 
@@ -534,7 +533,7 @@ public class SettingsGUI extends JFrame {
 					uyari.hide();
 					keyConfigureObject.setMap(keyMap);
 					hide();					
-					}
+					
 					
 				
 
@@ -565,7 +564,13 @@ public class SettingsGUI extends JFrame {
 				else if(large.isSelected())
 					boardSizeObject.setLarge();
 				else
-					boardSizeObject.setMedium();	
+					boardSizeObject.setMedium();
+				
+				dispose();
+				
+				
+			}
+				
 			}
 		});
 
