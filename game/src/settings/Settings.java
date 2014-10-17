@@ -37,12 +37,13 @@ public class Settings implements Serializable{
 	 *
 	 * @throws FileNotFoundException the file not found exception
 	 */
+	
 	public Settings() {
-		loadSettings();
 		boardSizeChoice = new BoardSize();
 		keyConfig = new KeyConfigure();
 		levelChoice = new LevelChoice();
 		pieceChoice = new PieceChoice();
+		this.loadSettings();
 	}
 
 	/**

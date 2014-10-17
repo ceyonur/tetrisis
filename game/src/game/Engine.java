@@ -49,9 +49,10 @@ public class Engine {
 		currentPiece = null;
 		score = 0;
 
-		boardPanel = new BoardPanel(keys, speedInMilliseconds, this, boardMatrix);
 		nextPiecePanel = new NextPieceAndScorePanel(getBoardColumnLength() , getBoardRowLength());
 		nextPiecePanel.setLevel(levelNo);
+		
+		boardPanel = new BoardPanel(keys, speedInMilliseconds, this, boardMatrix, nextPiecePanel);
 
 		play();
 	}
@@ -82,7 +83,6 @@ public class Engine {
 			boardPanel.addPiece(currentPiece);
 		} else {
 			boardPanel.setMode(false);
-			
 		}
 		nextPiecePanel.setCurrentScore(score);
 	}
@@ -162,6 +162,7 @@ public class Engine {
 
 	public void eliminatedLine(int lineNo){
 		boardPanel.clearEliminatedLine(lineNo);
+		nextPiecePanel.increaseDeletedLineNo();
 	}
 	
 	public boolean isScoreHighEnough(double score){

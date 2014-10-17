@@ -26,8 +26,15 @@ public class BoardPanel extends JPanel {
 	private Engine callerEngine;
 	private ArrayList<Block> blocks;
 	private game.Board boardMatrix;
+	private NextPieceAndScorePanel nextPiecePanel;
+	private boolean newlyInitiated;
 
-	public BoardPanel(KeyConfigure keys, int speed, Engine engine, game.Board boardMatrix) {
+	private JLabel paused;
+	private JLabel newlyStarted1;
+	private JLabel newlyStarted2;
+	private JPanel newlyStartedPanel;
+
+	public BoardPanel(KeyConfigure keys, int speed, Engine engine, game.Board boardMatrix, NextPieceAndScorePanel nextPiecePanel) {
 		// effects: initializes this to be in the off mode.
 
 		super();                    // do the standard JPanel setup stuff
@@ -36,12 +43,34 @@ public class BoardPanel extends JPanel {
 		this.boardMatrix = boardMatrix;
 		callerEngine = engine;
 		blocks = new ArrayList<Block>();
+
+		newlyInitiated = true;
+
 		//putDotIndicators();
 		// this only initializes the timer, we actually start and stop the
 		// timer in the setMode() method
+		this.nextPiecePanel = nextPiecePanel;
 		eventListener = new AnimationEventListener();
 		pauseListener = new PauseKeyListener();
 		clearLineListener = new ClearLineListener(boardMatrix.getColumnSize());
+
+		newlyStartedPanel = new JPanel();
+		newlyStartedPanel.setLayout(new GridLayout(2,1));
+		newlyStartedPanel.setBackground(getBackground());
+		add(newlyStartedPanel);
+		
+		newlyStarted1 = new JLabel("Press pause/continue key");
+		newlyStarted1.setFont(new Font(newlyStarted1.getFont().getFamily(), newlyStarted1.getFont().getStyle(), 18));
+		newlyStartedPanel.add(newlyStarted1);
+		
+		newlyStarted2 = new JLabel("             to start!");
+		newlyStarted2.setFont(new Font(newlyStarted2.getFont().getFamily(), newlyStarted2.getFont().getStyle(), 18));
+		newlyStartedPanel.add(newlyStarted2);
+		
+		paused = new JLabel("Game is paused!");
+		paused.setFont(new Font(paused.getFont().getFamily(), paused.getFont().getStyle(), 20));
+		add(paused);
+
 		// The first parameter is how often (in milliseconds) the timer
 		// should call us back.  50 milliseconds = 20 frames/second
 		timer = new Timer(speed, eventListener);
@@ -59,9 +88,24 @@ public class BoardPanel extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		piece.paint(g);
-		for (int i=0; i<blocks.size(); i++){
-			blocks.get(i).paint(g);
+		if (mode == true){
+			piece.paint(g);
+			for (int i=0; i<blocks.size(); i++){
+				blocks.get(i).paint(g);
+			}
+			paused.setVisible(false);
+			newlyStarted1.setVisible(false);
+			newlyStarted2.setVisible(false);
+		} else {
+			if (newlyInitiated){
+				paused.setVisible(false);
+				newlyStartedPanel.setVisible(true);
+				newlyStartedPanel.setLocation(newlyStartedPanel.getX(), (getHeight() - newlyStartedPanel.getHeight()) / 2);
+			} else {
+				newlyStartedPanel.setVisible(false);
+				paused.setLocation(paused.getX(), (getHeight() - paused.getHeight()) / 2);
+				paused.setVisible(true);
+			}
 		}
 	}
 
@@ -91,11 +135,13 @@ public class BoardPanel extends JPanel {
 			removeKeyListener(pauseListener);
 			requestFocus();           // make sure keyboard is directed to us
 			timer.start();
-		}
-		else {
+			newlyInitiated=false;
+		} else {
 			addKeyListener(pauseListener);
 			timer.stop();
-		}		
+		}
+		repaint();
+		nextPiecePanel.setVisibility(mode);
 	}
 
 	public boolean getMode(){
@@ -117,10 +163,10 @@ public class BoardPanel extends JPanel {
 				timerForClearLine2.start();
 		}else
 			timerForClearLine1.start();
-		
+
 		clearLineListener.addDeletedLineNo(lineNo);
 	}
-	
+
 	private void repaintPanel(Rectangle oldPos){
 		Rectangle repaintArea = oldPos.union(piece.boundingBox());
 		repaint(repaintArea.x,
@@ -226,9 +272,8 @@ public class BoardPanel extends JPanel {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			int keynum = e.getKeyCode();
-			if (keynum == keys.getPause()){
+			if (keynum == keys.getPause())
 				setMode(true);
-			}
 		}
 
 		@Override
@@ -247,7 +292,7 @@ public class BoardPanel extends JPanel {
 			this.totalBlockNumber = totalBlockNumber;
 			lineNumbers = new ArrayList<Integer>();
 		}
-		
+
 		public void addDeletedLineNo(int n){
 			lineNumbers.add(n);
 			cleanedCounters.add(0);
@@ -274,7 +319,7 @@ public class BoardPanel extends JPanel {
 				cleanedCounter = cleanedCounters.get(3);
 				index = 3;
 			}
-			
+
 			if (cleanedCounter != totalBlockNumber){
 				for (int i=0; i<blocks.size(); i++){
 					int lineOfCurrentBlock = blocks.get(i).getY() / blocks.get(i).getBlockSize() + 5;
@@ -296,7 +341,7 @@ public class BoardPanel extends JPanel {
 					timerForClearLine3.stop();
 				else
 					timerForClearLine4.stop();
-				
+
 				boolean clear = false;
 				if (cleanedCounters.size()==1){
 					if (e.getSource().toString().equals(timerForClearLine1.toString())){
@@ -315,11 +360,11 @@ public class BoardPanel extends JPanel {
 						clear = true;
 					}
 				}
-				
+
 				if (clear){
-					lineNo=0; // to find the maximum line no
+					lineNo=30; // to find the minimum line no
 					for (int i=0; i<lineNumbers.size() ; i++){
-						if (lineNumbers.get(i) > lineNo)
+						if (lineNumbers.get(i) < lineNo)
 							lineNo = lineNumbers.get(i);
 					}
 					for (int i=0; i<blocks.size(); i++){
@@ -327,13 +372,13 @@ public class BoardPanel extends JPanel {
 						if (lineOfCurrentBlock < lineNo)
 							blocks.get(i).move(0, lineNumbers.size() * blocks.get(i).getBlockSize());
 					}
-					
+
 					while (!cleanedCounters.isEmpty())
 						cleanedCounters.remove(0);
 					while (!lineNumbers.isEmpty())
 						lineNumbers.remove(0);
 				}
-				
+
 				repaintPanel(new Rectangle(0,0,getWidth(),getHeight()));
 			}
 		}
