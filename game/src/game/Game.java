@@ -6,7 +6,6 @@ import settings.Settings;
 public class Game {
 	public static void main(String[] args){
 		GUI frame = new GUI();
-
 		// the following code realizes the top level application window
 		frame.pack();
 		frame.setVisible(true);
