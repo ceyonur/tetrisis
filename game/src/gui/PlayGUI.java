@@ -76,8 +76,7 @@ public class PlayGUI extends JFrame {
 
 	public void showGameOver(){
 		JPanel gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo());
-		removeAll();
-		add(gameOverPanel);
+		setContentPane(gameOverPanel);
 		repaint();
 		pack();
 	}
