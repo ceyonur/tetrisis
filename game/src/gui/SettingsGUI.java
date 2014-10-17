@@ -39,7 +39,7 @@ import settings.LevelChoice;
 import settings.PieceChoice;
 import settings.Settings;
 
-public class SettingsGUI extends JPanel {
+public class SettingsGUI extends JFrame {
 	
 	GUI gui;
 	
@@ -50,14 +50,13 @@ public class SettingsGUI extends JPanel {
 	private Settings settingsObject;
 	private HashMap<String, Integer> keyMap;	
 	
-	Color bgcolor;
+	Color bgcolor = SColor.backgroundColor;;
 	
 	public SettingsGUI(GUI ui, Settings settings) {
 		super();
 		gui = ui;
-		bgcolor = gui.bgcolor;
 		setSize(570, 690);
-		setBackground(bgcolor);
+		getContentPane().setBackground(bgcolor);
 		
 		settingsObject= settings;
 		boardSizeObject = settingsObject.getBoardSizeChoice();
@@ -513,8 +512,8 @@ public class SettingsGUI extends JPanel {
 					pauseField.setText(getKeyText(keyConfigureObject.getPause()));
 				
 					
-					
-				gui.showMenu();
+				gui.setEnabled(true);
+				dispose();
 			}
 		});
 
@@ -561,27 +560,28 @@ public class SettingsGUI extends JPanel {
 					else if(large.isSelected())
 						boardSizeObject.setLarge();
 					else
-						boardSizeObject.setMedium();
-					System.out.println(9);
+						boardSizeObject.setMedium();					
 					settingsObject.saveSettings();
-					gui.showMenu();
+					
+					gui.setEnabled(true);
+					dispose();
 				}
 				
 			}
 		});
 
 		
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		add(headerPanelContainer);
 		add(settingsPanelContainer);
-		add(Box.createVerticalStrut(20));
 		add(buttonsPanelContainer);
-		
-		/*
-		headerPanelContainer.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-		settingsPanelContainer.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-		buttonsPanelContainer.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-		*/
+
+		this.setResizable(false);
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				gui.setEnabled(true);
+		    }
+		});
 	}
 	
 	public JPanel createHeader() {

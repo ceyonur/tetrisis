@@ -11,27 +11,31 @@ import javax.swing.*;
 import settings.Settings;
 
 public class GUI extends JFrame {
-	
+
 	Settings settings;
+	HighScores highscores;
 	PlayGUI playGUI;
 	MenuGUI menuGUI;
 	SettingsGUI settingsGUI;
 	HighScoresGUI highscoresGUI;
-	Color bgcolor;
+	Color bgcolor = SColor.backgroundColor;
+	Dimension size;
 
 	public GUI()  {
 		setSize(570, 690);
 		settings = new Settings();
-		settingsGUI = new SettingsGUI(this, settings);
-		float[] hsb = Color.RGBtoHSB(41, 128, 185, null);
-		bgcolor = Color.getHSBColor(hsb[0],hsb[1],hsb[2]);
-		
+		highscores = new HighScores();
+		size = new Dimension(570, 690);
 		menuGUI = new MenuGUI(this);
-		setSize(menuGUI.size());
-		showPlay();
+
+		setSize(size);
+		showMenu();
+		
+		this.setResizable(false);
+
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	
+
 	public static void main(String[] args) {
 		GUI gui = new GUI();
 		gui.show();
@@ -41,26 +45,29 @@ public class GUI extends JFrame {
 	public void setGameEngine(Engine engine){
 		playGUI.setEngine(engine);
 	}
-	
+
 	public void showMenu() {
+		menuGUI = new MenuGUI(this);
 		setContentPane(menuGUI);
 	}
-	
+
 	public void showPlay() {
-		playGUI = new PlayGUI(this);
-		setGameEngine(Game.getEngine());
-		setContentPane(playGUI);
-		repaint();
-		playGUI.repaint();
+		PlayGUI pgui = new PlayGUI(this);
+		pgui.setEngine(Game.getEngine(settings));
+		setEnabled(false);
+		pgui.show();
 	}
-	
+
 	public void showSettings() {
-		settings = new Settings();
 		settingsGUI = new SettingsGUI(this, settings);
-		setContentPane(settingsGUI);
+		setEnabled(false);
+		settingsGUI.show();
 	}
-	
+
 	public void showHighScores() {
-		setContentPane(highscoresGUI);
+		highscores = new HighScores();
+		highscoresGUI = new HighScoresGUI(this, highscores);
+		setEnabled(false);
+		highscoresGUI.show();
 	}
 }

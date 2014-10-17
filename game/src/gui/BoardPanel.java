@@ -27,14 +27,14 @@ public class BoardPanel extends JPanel {
 	private ArrayList<Block> blocks;
 	private game.Board boardMatrix;
 	private NextPieceAndScorePanel nextPiecePanel;
-	private boolean newlyInitiated;
 
 	private JLabel paused;
-	private JLabel newlyStarted1;
-	private JLabel newlyStarted2;
-	private JPanel newlyStartedPanel;
 	
 	private PlayGUI playGUI;
+
+	
+	public static int deletionSpeed = 75; //ms
+
 
 	public BoardPanel(KeyConfigure keys, int speed, Engine engine, game.Board boardMatrix, NextPieceAndScorePanel nextPiecePanel) {
 		// effects: initializes this to be in the off mode.
@@ -46,8 +46,6 @@ public class BoardPanel extends JPanel {
 		callerEngine = engine;
 		blocks = new ArrayList<Block>();
 
-		newlyInitiated = true;
-
 		//putDotIndicators();
 		// this only initializes the timer, we actually start and stop the
 		// timer in the setMode() method
@@ -56,19 +54,6 @@ public class BoardPanel extends JPanel {
 		pauseListener = new PauseKeyListener();
 		clearLineListener = new ClearLineListener(boardMatrix.getColumnSize());
 
-		newlyStartedPanel = new JPanel();
-		newlyStartedPanel.setLayout(new GridLayout(2,1));
-		newlyStartedPanel.setBackground(getBackground());
-		add(newlyStartedPanel);
-		
-		newlyStarted1 = new JLabel("Press pause/continue key");
-		newlyStarted1.setFont(new Font(newlyStarted1.getFont().getFamily(), newlyStarted1.getFont().getStyle(), 18));
-		newlyStartedPanel.add(newlyStarted1);
-		
-		newlyStarted2 = new JLabel("             to start!");
-		newlyStarted2.setFont(new Font(newlyStarted2.getFont().getFamily(), newlyStarted2.getFont().getStyle(), 18));
-		newlyStartedPanel.add(newlyStarted2);
-		
 		paused = new JLabel("Game is paused!");
 		paused.setFont(new Font(paused.getFont().getFamily(), paused.getFont().getStyle(), 20));
 		add(paused);
@@ -76,10 +61,11 @@ public class BoardPanel extends JPanel {
 		// The first parameter is how often (in milliseconds) the timer
 		// should call us back.  50 milliseconds = 20 frames/second
 		timer = new Timer(speed, eventListener);
-		timerForClearLine1 = new Timer(75,clearLineListener);
-		timerForClearLine2 = new Timer(75,clearLineListener);
-		timerForClearLine3 = new Timer(75,clearLineListener);
-		timerForClearLine4 = new Timer(75,clearLineListener);
+
+		timerForClearLine1 = new Timer(deletionSpeed,clearLineListener);
+		timerForClearLine2 = new Timer(deletionSpeed,clearLineListener);
+		timerForClearLine3 = new Timer(deletionSpeed,clearLineListener);
+		timerForClearLine4 = new Timer(deletionSpeed,clearLineListener);
 		setMode(true);
 	}
 
@@ -96,18 +82,9 @@ public class BoardPanel extends JPanel {
 				blocks.get(i).paint(g);
 			}
 			paused.setVisible(false);
-			newlyStarted1.setVisible(false);
-			newlyStarted2.setVisible(false);
 		} else {
-			if (newlyInitiated){
-				paused.setVisible(false);
-				newlyStartedPanel.setVisible(true);
-				newlyStartedPanel.setLocation(newlyStartedPanel.getX(), (getHeight() - newlyStartedPanel.getHeight()) / 2);
-			} else {
-				newlyStartedPanel.setVisible(false);
-				paused.setLocation(paused.getX(), (getHeight() - paused.getHeight()) / 2);
-				paused.setVisible(true);
-			}
+			paused.setLocation(paused.getX(), (getHeight() - paused.getHeight()) / 2);
+			paused.setVisible(true);
 		}
 	}
 
@@ -138,7 +115,6 @@ public class BoardPanel extends JPanel {
 			removeKeyListener(pauseListener);
 			requestFocus();           // make sure keyboard is directed to us
 			timer.start();
-			newlyInitiated=false;
 		} else {
 			addKeyListener(pauseListener);
 			timer.stop();
@@ -155,8 +131,17 @@ public class BoardPanel extends JPanel {
 		timer.restart();
 	}
 	
+
 	public void setCurrentPlayGUI(PlayGUI playGUI){
 		this.playGUI = playGUI;
+	}
+
+	public void delayPieceSelection(){
+		try {
+			timer.wait(deletionSpeed * boardMatrix.getColumnSize());
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void clearEliminatedLine(int lineNo){
@@ -217,7 +202,6 @@ public class BoardPanel extends JPanel {
 			// effects: causes the ball to be bumped in a random direction but
 			//          only if one of the keys A-J is pressed.
 			int keynum = e.getKeyCode();
-
 			Rectangle oldPos = piece.boundingBox();
 
 			if (keynum == keys.getLeft()){
@@ -279,7 +263,7 @@ public class BoardPanel extends JPanel {
 
 	class PauseKeyListener implements KeyListener{
 
-		public PauseKeyListener(){ }
+		public PauseKeyListener(){}
 
 		@Override
 		public void keyPressed(KeyEvent e) {

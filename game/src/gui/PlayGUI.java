@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class PlayGUI extends JPanel {
+public class PlayGUI extends JFrame {
 	protected Engine engine;
 	private BoardPanel board;
 	private NextPieceAndScorePanel nextPiecePanel;
@@ -28,7 +28,7 @@ public class PlayGUI extends JPanel {
 	private Timer timerForCheckingGameOver;
 	private int width;
 	private int height;
-	private GUI callerGUI;
+	private GUI gui;
 	private LevelChoice levelChoiceObject = new LevelChoice();
 	
 	private Timer timer; 
@@ -40,9 +40,11 @@ public class PlayGUI extends JPanel {
 	private AudioStream audioStream;
 	private ArrayList<String> sounds;
 
-	public PlayGUI(GUI callerGUI) {
+
+	public PlayGUI(GUI ui){
+
 		super();
-		this.callerGUI = callerGUI;
+		this.gui = ui;
 		gameOverListener = new GameOverListener();
 		timerForCheckingGameOver = new Timer(500, gameOverListener);
 		
@@ -84,6 +86,18 @@ public class PlayGUI extends JPanel {
 
 		width = engine.getBoardColumnLength();
 		height = engine.getBoardRowLength();
+		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				gui.setEnabled(true);
+		    }
+		});
+		
+		pack();
+	}
+	
+	public void paint(Graphics g){
+		super.paint(g);
 	}
 
 	public void showGameOver() {
@@ -92,6 +106,7 @@ public class PlayGUI extends JPanel {
 		removeAll();
 		add(gameOverPanel);
 		repaint();
+		pack();
 	}
 
 	class GameOverListener implements ActionListener {

@@ -14,8 +14,7 @@ import java.awt.Window;
 import java.awt.event.*;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
+import javax.swing.*;
 
 import javax.swing.*;
 
@@ -29,17 +28,17 @@ public class MenuGUI extends JPanel {
 	private AudioData AD;
 	private ContinuousAudioDataStream loop = null;
 	
+	private Color bgcolor = SColor.backgroundColor;;
 
-	private Color bgcolor;
 	private boolean mute = true;
 
 	public MenuGUI(GUI ui) {
 		super();
 		gui = ui;
-		bgcolor = gui.bgcolor;
-		
 
-		setSize(570, 690);
+		bgcolor = gui.bgcolor;
+
+		setSize(gui.size.width, gui.size.height);
 		this.setBackground(bgcolor);
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -93,7 +92,7 @@ public class MenuGUI extends JPanel {
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new GridLayout(4, 1, 0, -5));
 
-		SButton newGame = new SButton("new game", SButton.MAIN_MENU_BUTTON);
+		final SButton newGame = new SButton("new game", SButton.MAIN_MENU_BUTTON);
 		SButton settings = new SButton("settings", SButton.MAIN_MENU_BUTTON);
 		SButton highScores = new SButton("high scores",
 				SButton.MAIN_MENU_BUTTON);
@@ -112,8 +111,15 @@ public class MenuGUI extends JPanel {
 
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//gui.set
 				gui.showSettings();
 			}
+		});
+		
+		highScores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gui.showHighScores();
+			}	
 		});
 
 		quit.addActionListener(new ActionListener() {
@@ -148,5 +154,17 @@ public class MenuGUI extends JPanel {
 	private void playAudio(boolean status) {
 	}
 	
-	
+	class PlayListeners implements ActionListener{
+		private MenuGUI callerMenuGUI;
+		
+		public PlayListeners(MenuGUI callerMenuGUI){
+			this.callerMenuGUI = callerMenuGUI;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			gui.showPlay();
+		}
+		
+	}
 }

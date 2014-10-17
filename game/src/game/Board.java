@@ -1,6 +1,10 @@
 package game;
 
+
 import gui.PlayGUI;
+
+import gui.BoardPanel;
+
 
 /**
  * The class Board handles the game board of tetris
@@ -54,7 +58,7 @@ public class Board {
 	 * @return The row length of the game board.
 	 */
 	public int getRowLength(){
-		return (int) (rowSize * (pieces.Block.SIZE - (rowSize * pieces.Block.SIZE)/188));
+		return (rowSize - 1) * pieces.Block.SIZE;
 	}
 
 	/**

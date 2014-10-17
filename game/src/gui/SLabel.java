@@ -16,8 +16,15 @@ public class SLabel extends JLabel {
 	public static final int SETTINGS_LABEL = 20;
 	public static final int SETTINGS_FIELD_LABEL = 21;
 	public static final int SETTINGS_WARNING_LABEL = 22;
+	public static final int HIGHSCORES_HEADER_LABEL = 30;
+	public static final int HIGHSCORES_NUMBER_LABEL = 31;
+	public static final int HIGHSCORES_CONTENT_LABEL = 32;
 	
 	private Font font;
+	
+	public SLabel(){
+		super();
+	}
 	
 	public SLabel(String text, int type) {
 		super(text);
@@ -67,8 +74,20 @@ public class SLabel extends JLabel {
 				f = 18F;
 				this.setForeground(Color.white);
 				break;
-			default:
+			case 30:
+				f = 30F;
+				this.setForeground(Color.white);
+				break;
+			case 31:
+				f = 30F;
+				this.setForeground(Color.white);
+				break;
+			case 32:
 				f = 24F;
+				this.setForeground(Color.white);
+				break;
+			default:
+				f = 20F;
 				break;
 		}
 		font = font.deriveFont(f);

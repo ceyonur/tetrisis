@@ -167,6 +167,7 @@ public class Engine {
 	public void eliminatedLine(int lineNo){
 		boardPanel.clearEliminatedLine(lineNo);
 		nextPiecePanel.increaseDeletedLineNo();
+		boardPanel.delayPieceSelection();
 	}
 	
 	public boolean isScoreHighEnough(double score){
@@ -175,7 +176,9 @@ public class Engine {
 	}
 
 	public void increaseScore(int howManyLinesAreDeleted){
-		double speedInSeconds = speedInMilliseconds / 1000.0;
+
+		double speedInSeconds = (speedInMilliseconds / 1000.0)/1;
+
 		if (howManyLinesAreDeleted == 1)
 			score += 1.00/speedInSeconds;
 		else if (howManyLinesAreDeleted == 2)
