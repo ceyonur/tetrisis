@@ -18,6 +18,7 @@ public class SButton extends JButton {
 	
 	public static final int MAIN_MENU_BUTTON = 0;
 	public static final int SOUND_BUTTON = 1;
+	public static final int SETTINGS_BUTTON = 2;
 	
 	private Font font;
 	private int type;
@@ -53,11 +54,12 @@ public class SButton extends JButton {
 	private void setType(int t) {
 		this.type = t;
 		float f = 24F;
+		float[] hsb = Color.RGBtoHSB(41, 128, 185, null);
+		Color bgcolor = Color.getHSBColor(hsb[0],hsb[1],hsb[2]);
 		switch (type) {
 			case 0:
 				f = 52F;
-				float[] hsb = Color.RGBtoHSB(41, 128, 185, null);
-				this.setBackground(Color.getHSBColor(hsb[0],hsb[1],hsb[2]));
+				this.setBackground(bgcolor);
 				this.setBorder(BorderFactory.createLineBorder(Color.white, 5));
 				this.setForeground(Color.white);
 				this.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
@@ -65,6 +67,13 @@ public class SButton extends JButton {
 				break;
 			case 1:
 				this.setPreferredSize(new Dimension(80,40));
+				break;
+			case 2:
+				f = 32F;
+				this.setBackground(bgcolor);
+				this.setBorder(BorderFactory.createLineBorder(Color.white, 5));
+				this.setForeground(Color.white);
+				this.setPreferredSize(new Dimension(100,50));
 				break;
 			default:
 				this.setSize(140, 40);
