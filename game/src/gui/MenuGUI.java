@@ -3,6 +3,7 @@ package gui;
 import settings.Settings;
 import sun.audio.*;
 
+import java.awt.Color;
 import java.awt.event.*;
 import java.io.FileInputStream;
 import java.io.IOException;

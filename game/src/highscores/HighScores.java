@@ -1,6 +1,7 @@
 package highscores;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * This class keeps the first 5 highscores
@@ -23,20 +24,21 @@ public class HighScores {
 	 * @param player The player wanted to be added to the list
 	 */
 	public void add(Player player){
-
+		boolean added = false;
 		for (int i=0; i<playerList.size(); i++){
 			if (player.getScore() > playerList.get(i).getScore()){ // To hold the order of the ranking
 				playerList.add(i, player); // Addition of the player since it satisfies the conditions
 				if (playerList.size() > UPPERBOUND){ // To remove the players ranked more than 5th.
 					playerList.remove(UPPERBOUND);
 				}
+				added = true;
 				break; // To stop the further addition of the same player.
 			}
 		}
 
 		if (playerList.isEmpty()) // If the list is empty, then add directly
 			playerList.add(player);
-		else if (playerList.size() < 5) // If the list has less than 5 players and all of them have higher scores than the new player, 
+		else if (playerList.size() < 5 && !added) // If the list has less than 5 players and all of them have higher scores than the new player, 
 			// then the new player will be added to the end of the list since the for loop doesn't add.
 			playerList.add(playerList.size(), player);
 	}
@@ -62,6 +64,10 @@ public class HighScores {
 	public String toString(){
 		return null;
 
+	}
+	
+	public int getPlayerListSize(){
+		return playerList.size();
 	}
 }
 
