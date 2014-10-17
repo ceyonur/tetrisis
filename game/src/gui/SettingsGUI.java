@@ -561,8 +561,7 @@ public class SettingsGUI extends JPanel {
 					else if(large.isSelected())
 						boardSizeObject.setLarge();
 					else
-						boardSizeObject.setMedium();
-					System.out.println(9);
+						boardSizeObject.setMedium();					
 					settingsObject.saveSettings();
 					gui.showMenu();
 				}

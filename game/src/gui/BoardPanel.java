@@ -267,7 +267,9 @@ public class BoardPanel extends JPanel {
 
 	class PauseKeyListener implements KeyListener{
 
-		public PauseKeyListener(){ }
+		public PauseKeyListener(){ 
+			super();
+		}
 
 		@Override
 		public void keyPressed(KeyEvent e) {
