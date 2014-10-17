@@ -23,8 +23,9 @@ import javax.swing.SwingConstants;
 import settings.Settings;
 
 public class HighScoresGUI extends JFrame {
-	HighScores highScoresObject;
-	DateFormat dateFormat;
+	private HighScores highScoresObject;
+	private DateFormat dateFormat;
+	private JLabel[][] labels;
 
 	public HighScoresGUI(HighScores highscores) {
 		super();
@@ -35,6 +36,7 @@ public class HighScoresGUI extends JFrame {
 		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		labels = new JLabel[5][3];
 
 		GridLayout grd = new GridLayout(6, 3);
 		GridLayout grd2 = new GridLayout(6, 1);
@@ -68,59 +70,14 @@ public class HighScoresGUI extends JFrame {
 		westPanel.add(forth);
 		westPanel.add(fifth);
 
-		JLabel[][] labels = new JLabel[5][3];
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 3; j++) {
 				labels[i][j] = new JLabel(" - ", SwingConstants.CENTER);
 			}
 		}
-		switch (highScoresObject.getPlayerListSize()) {
-		case 1:
-			labels[0][0].setText(highScoresObject.getPlayer(1).getName());
-			labels[0][1].setText((Double.toString(highScoresObject
-					.getPlayer(1).getScore())));
-			labels[0][2].setText(dateFormat.format(highScoresObject
-					.getPlayer(1).getDate()));
-			break;
-		case 2:
-
-			for (int i = 0; i < 2; i++){
-				labels[i][0].setText(highScoresObject.getPlayer(i+1).getName());
-				labels[i][1].setText((Integer.toString((int) highScoresObject
-						.getPlayer(i+1).getScore())));
-				labels[i][2].setText(dateFormat.format(highScoresObject
-						.getPlayer(i+1).getDate()));
-			}
-			break;
-		case 3:
-			for (int i = 0; i < 3; i++){
-				labels[i][0].setText(highScoresObject.getPlayer(i+1).getName());
-				labels[i][1].setText((Integer.toString((int) highScoresObject
-						.getPlayer(i+1).getScore())));
-				labels[i][2].setText(dateFormat.format(highScoresObject
-						.getPlayer(i+1).getDate()));
-			}
-			break;
-		case 4:
-			for (int i = 0; i < 4; i++){
-				labels[i][0].setText(highScoresObject.getPlayer(i+1).getName());
-				labels[i][1].setText((Integer.toString((int) highScoresObject
-						.getPlayer(i+1).getScore())));
-				labels[i][2].setText(dateFormat.format(highScoresObject
-						.getPlayer(i+1).getDate()));
-			}
-			break;
-		case 5:
-			for (int i = 0; i < 5; i++){
-				labels[i][0].setText(highScoresObject.getPlayer(i+1).getName());
-				labels[i][1].setText((Integer.toString((int) highScoresObject
-						.getPlayer(i+1).getScore())));
-				labels[i][2].setText(dateFormat.format(highScoresObject
-						.getPlayer(i+1).getDate()));
-			}
-
-			break;
-		}
+		
+		if (highScoresObject.getPlayerListSize() > 0 && highScoresObject.getPlayerListSize() < 6)
+			fillFields(highScoresObject.getPlayerListSize());
 
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -131,6 +88,17 @@ public class HighScoresGUI extends JFrame {
 		this.add(westPanel, BorderLayout.WEST);
 		this.add(centerPanel);
 
+	}
+
+
+	private void fillFields(int a) {
+		for (int i = 0; i < a; i++) {
+			labels[i][0].setText(highScoresObject.getPlayer(i + 1).getName());
+			labels[i][1].setText((Integer.toString((int) highScoresObject
+					.getPlayer(i + 1).getScore())));
+			labels[i][2].setText(dateFormat.format(highScoresObject.getPlayer(
+					i + 1).getDate()));
+		}
 	}
 
 }
