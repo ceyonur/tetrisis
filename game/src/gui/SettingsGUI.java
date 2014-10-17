@@ -50,12 +50,11 @@ public class SettingsGUI extends JFrame {
 	private Settings settingsObject;
 	private HashMap<String, Integer> keyMap;	
 	
-	Color bgcolor;
+	Color bgcolor = SColor.backgroundColor;;
 	
 	public SettingsGUI(GUI ui, Settings settings) {
 		super();
 		gui = ui;
-		bgcolor = gui.bgcolor;
 		setSize(570, 690);
 		getContentPane().setBackground(bgcolor);
 		

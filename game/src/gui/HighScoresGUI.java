@@ -35,12 +35,11 @@ public class HighScoresGUI extends JFrame {
 	private DateFormat dateFormat;
 	private JLabel[][] labels;
 
-	private Color bgcolor;
+	private Color bgcolor = SColor.backgroundColor;;
 	
 	public HighScoresGUI(GUI ui, HighScores highscores) {
 		super();
 		gui = ui;
-		bgcolor = gui.bgcolor;
 		setSize(570, 690);
 		setBackground(bgcolor);
 

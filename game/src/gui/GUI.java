@@ -18,13 +18,11 @@ public class GUI extends JFrame {
 	MenuGUI menuGUI;
 	SettingsGUI settingsGUI;
 	HighScoresGUI highscoresGUI;
-	Color bgcolor;
+	Color bgcolor = SColor.backgroundColor;
 	Dimension size;
 
 	public GUI()  {
 		setSize(570, 690);
-		float[] hsb = Color.RGBtoHSB(41, 128, 185, null);
-		bgcolor = Color.getHSBColor(hsb[0],hsb[1],hsb[2]);
 		settings = new Settings();
 		highscores = new HighScores();
 		size = new Dimension(570, 690);

@@ -26,13 +26,12 @@ public class MenuGUI extends JPanel {
 	private AudioData AD;
 	private ContinuousAudioDataStream loop = null;
 	
-	private Color bgcolor;
+	private Color bgcolor = SColor.backgroundColor;;
 	private boolean mute = true;
 
 	public MenuGUI(GUI ui) {
 		super();
 		gui = ui;
-		bgcolor = gui.bgcolor;
 		setSize(gui.size.width, gui.size.height);
 		this.setBackground(bgcolor);
 		
