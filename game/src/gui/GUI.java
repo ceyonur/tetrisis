@@ -30,13 +30,6 @@ public class GUI extends JFrame {
 		menuGUI = new MenuGUI(this);
 		setSize(menuGUI.size());
 		showMenu();
-		
-		
-<<<<<<< HEAD
-=======
-		setEngine(Game.getEngine());
-		setContentPane(play);
->>>>>>> 4fad9792d029dd9ae9ef0b2b4f6906e8f1d90c66
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
@@ -45,7 +38,7 @@ public class GUI extends JFrame {
 		gui.show();
 	}
 	
-	public void setEngine(Engine engine){
+	public void setGameEngine(Engine engine){
 		playGUI.setEngine(engine);
 	}
 	
@@ -55,7 +48,7 @@ public class GUI extends JFrame {
 	
 	public void showPlay() {
 		playGUI = new PlayGUI();
-		setEngine(Game.getEngine());
+		setGameEngine(Game.getEngine());
 		setContentPane(playGUI);
 		repaint();
 		playGUI.repaint();
