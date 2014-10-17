@@ -39,7 +39,7 @@ import settings.LevelChoice;
 import settings.PieceChoice;
 import settings.Settings;
 
-public class SettingsGUI extends JPanel {
+public class SettingsGUI extends JFrame {
 	
 	GUI gui;
 	
@@ -57,7 +57,7 @@ public class SettingsGUI extends JPanel {
 		gui = ui;
 		bgcolor = gui.bgcolor;
 		setSize(570, 690);
-		setBackground(bgcolor);
+		getContentPane().setBackground(bgcolor);
 		
 		settingsObject= settings;
 		boardSizeObject = settingsObject.getBoardSizeChoice();
@@ -514,7 +514,7 @@ public class SettingsGUI extends JPanel {
 				
 					
 					
-				gui.showMenu();
+				dispose();
 			}
 		});
 
@@ -563,17 +563,16 @@ public class SettingsGUI extends JPanel {
 					else
 						boardSizeObject.setMedium();					
 					settingsObject.saveSettings();
-					gui.showMenu();
+					dispose();
 				}
 				
 			}
 		});
 
 		
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		add(headerPanelContainer);
 		add(settingsPanelContainer);
-		add(Box.createVerticalStrut(20));
 		add(buttonsPanelContainer);
 		
 		/*
@@ -581,6 +580,7 @@ public class SettingsGUI extends JPanel {
 		settingsPanelContainer.setBorder(BorderFactory.createLineBorder(Color.black, 1));
 		buttonsPanelContainer.setBorder(BorderFactory.createLineBorder(Color.black, 1));
 		*/
+
 	}
 	
 	public JPanel createHeader() {

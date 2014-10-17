@@ -31,7 +31,6 @@ public class GUI extends JFrame {
 		menuGUI = new MenuGUI(this);
 		setSize(size);
 		showMenu();
-		//showPlay();
 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -51,22 +50,28 @@ public class GUI extends JFrame {
 	}
 
 	public void showPlay() {
+		/*
 		playGUI = new PlayGUI();
 		setGameEngine(Game.getEngine(settings));
 		setContentPane(playGUI);
 		repaint();
 		playGUI.repaint();
 		pack();
+		*/
+		PlayGUI pgui = new PlayGUI(this);
+		pgui.setEngine(Game.getEngine(settings));
+		setEnabled(false);
+		pgui.show();
 	}
 
 	public void showSettings() {
 		settingsGUI = new SettingsGUI(this, settings);
-		setContentPane(settingsGUI);
+		settingsGUI.show();
 	}
 
 	public void showHighScores() {
 		highscores = new HighScores();
 		highscoresGUI = new HighScoresGUI(this, highscores);
-		setContentPane(highscoresGUI);
+		highscoresGUI.show();
 	}
 }

@@ -27,7 +27,7 @@ import javax.swing.SwingConstants;
 
 import settings.Settings;
 
-public class HighScoresGUI extends JPanel {
+public class HighScoresGUI extends JFrame {
 	
 	private GUI gui;
 	
@@ -125,26 +125,25 @@ public class HighScoresGUI extends JPanel {
 		buttonsPanel.setPreferredSize(new Dimension(150,50));
 		buttonsPanel.setMaximumSize(new Dimension(150,50));
 		
-		final SButton back = new SButton("back", SButton.SETTINGS_BUTTON);
+		final SButton closeButton = new SButton("close", SButton.SETTINGS_BUTTON);
 		
-		buttonsPanel.add(back);
+		buttonsPanel.add(closeButton);
 		
 		buttonsPanelContainer.add(buttonsPanel);
 		
-		back.addActionListener(new ActionListener() {
+		closeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
-				gui.showMenu();
+				dispose();
 			}
 		});
 		
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 
-		add(Box.createVerticalStrut(150));
 		add(headerPanelContainer);
 		add(scoresPanelContainer);
-		add(Box.createVerticalStrut(20));
 		add(buttonsPanelContainer);
 
+		pack();
 	}
 	
 	public JPanel createHeader() {

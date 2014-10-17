@@ -210,7 +210,6 @@ public class BoardPanel extends JPanel {
 			// effects: causes the ball to be bumped in a random direction but
 			//          only if one of the keys A-J is pressed.
 			int keynum = e.getKeyCode();
-			System.out.println(keynum);
 			Rectangle oldPos = piece.boundingBox();
 
 			if (keynum == keys.getLeft()){
