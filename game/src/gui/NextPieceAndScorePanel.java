@@ -11,18 +11,22 @@ public class NextPieceAndScorePanel extends JPanel {
 	private int height;
 	private JLabel score;
 	private JLabel level;
-	private JPanel nextPieceArea;
+	
+	private int nextPieceAreaWidth;
+	private int nextPieceAreaHeight;
+	private int nextPieceAreaX;
+	private int nextPieceAreaY;
+	private double pieceOldPositionX;
+	private double pieceOldPositionY;
 
 	public NextPieceAndScorePanel(int width, int height){
 		super();
-		setBackground(Color.WHITE);
+		setBackground(Color.LIGHT_GRAY);
 		this.width = width;
 		this.height = height;
 		setSize(width, height);
 		
-		nextPieceArea = new JPanel();
-		nextPieceArea.setBackground(Color.LIGHT_GRAY);
-		add(nextPieceArea);
+		initializeNextPieceAreaValues();
 		
 		score = new JLabel("0");
 		score.setFont(new Font(score.getFont().getFamily(), score.getFont().getStyle(), 25));
@@ -35,19 +39,31 @@ public class NextPieceAndScorePanel extends JPanel {
 	
 	public void paint(Graphics g) {
 		super.paint(g);
+		score.setLocation(0, 150);
+		level.setLocation(0, 200);
+		g.setColor(Color.BLACK);
+		g.drawRect(nextPieceAreaX, nextPieceAreaY, nextPieceAreaWidth, nextPieceAreaHeight);
+		g.drawRect(nextPieceAreaX-1, nextPieceAreaY-1, nextPieceAreaWidth+2, nextPieceAreaHeight+2);
+		g.drawRect(nextPieceAreaX-2, nextPieceAreaY-2, nextPieceAreaWidth+4, nextPieceAreaHeight+4);
+		g.setColor(Color.WHITE);
+		g.fillRect(nextPieceAreaX, nextPieceAreaY, nextPieceAreaWidth, nextPieceAreaHeight);
 		nextPiece.paint(g);
-		score.setLocation(0, 100);
-		level.setLocation(0, 140);
-		nextPieceArea.setSize(width/2, height/5);
-		nextPieceArea.setLocation((int) width/8, (int)(height - nextPieceArea.getHeight()) /2);
 	}
 	
 	public void setPiece(Piece piece){
 		nextPiece = piece;
-		repaint(0,0,width,height);
+		pieceOldPositionX = nextPiece.boundingBox().getX();
+		pieceOldPositionY = nextPiece.boundingBox().getY();
+		int pieceNewXValue = (int) (nextPieceAreaX + (int) ((nextPieceAreaWidth - nextPiece.boundingBox().getWidth()) /2) - pieceOldPositionX);
+		int pieceNewYValue = (int) (nextPieceAreaY + (int) ((nextPieceAreaHeight - nextPiece.boundingBox().getHeight()) /2) - pieceOldPositionY);
+		nextPiece.move(pieceNewXValue, pieceNewYValue);
+		repaint();
 	}
 	
 	public Piece getPiece(){
+		int pieceOldXValue = -1 * ((int) (nextPieceAreaX + (int) ((nextPieceAreaWidth - nextPiece.boundingBox().getWidth()) /2) - pieceOldPositionX));
+		int pieceOldYValue = -1 * ((int) (nextPieceAreaY + (int) ((nextPieceAreaHeight - nextPiece.boundingBox().getHeight()) /2) - pieceOldPositionY));
+		nextPiece.move(pieceOldXValue,pieceOldYValue);
 		return nextPiece;
 	}
 	
@@ -59,5 +75,12 @@ public class NextPieceAndScorePanel extends JPanel {
 	public void setLevel(int currentLevel){
 		String levelString = "Level : " + currentLevel;
 		level.setText(levelString);
+	}
+	
+	private void initializeNextPieceAreaValues(){
+		nextPieceAreaWidth = (int) (width / 2.5);
+		nextPieceAreaHeight = (int) (height / 3.25);
+		nextPieceAreaX = (width - nextPieceAreaWidth) / 2;
+		nextPieceAreaY = (height - nextPieceAreaHeight) / 10;
 	}
 }

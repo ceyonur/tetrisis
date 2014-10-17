@@ -58,8 +58,8 @@ public class PlayGUI extends JPanel {
 	}
 
 	public void showGameOver(){
-		JPanel gameOverPanel = new GameOverPanel(100, engine.getLevelNo());
-		this.remove(generalPane);
+		JPanel gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo());
+		removeAll();
 		add(gameOverPanel);
 		repaint();
 	}
