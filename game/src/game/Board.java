@@ -50,7 +50,7 @@ public class Board {
 	 * @return The row length of the game board.
 	 */
 	public int getRowLength(){
-		return rowSize * pieces.Block.SIZE;
+		return (int) (rowSize * (pieces.Block.SIZE - (rowSize * pieces.Block.SIZE)/188));
 	}
 
 	/**

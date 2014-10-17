@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public class Player {
 	private String name;
-	private int score;
+	private double score;
 	private Date date;
 
 	/**
@@ -92,7 +92,7 @@ public class Player {
 	 * This method returns the score of the player
 	 * @return The score of the player
 	 */
-	public int getScore(){
+	public double getScore(){
 		return score;
 	}
 }

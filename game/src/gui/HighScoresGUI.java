@@ -91,78 +91,78 @@ public class HighScoresGUI extends JFrame {
 
 		if (highScoresObject.getPlayerListSize() == 5) {
 			birebir.setText(highScoresObject.getPlayer(1).getName());
-			bireiki.setText((Integer.toString(highScoresObject.getPlayer(1)
+			bireiki.setText((Double.toString(highScoresObject.getPlayer(1)
 					.getScore())));
 			bireuc.setText(dateFormat.format(highScoresObject.getPlayer(1).getDate()));
 
 			ikiyebir.setText(highScoresObject.getPlayer(2).getName());
-			ikiyeiki.setText((Integer.toString(highScoresObject.getPlayer(2)
+			ikiyeiki.setText((Double.toString(highScoresObject.getPlayer(2)
 					.getScore())));
 			ikiyeuc.setText(dateFormat.format(highScoresObject.getPlayer(2).getDate()));
 			
 			ucebir.setText(highScoresObject.getPlayer(3).getName());
-			uceiki.setText((Integer.toString(highScoresObject.getPlayer(3)
+			uceiki.setText((Double.toString(highScoresObject.getPlayer(3)
 					.getScore())));
 			uceuc.setText(dateFormat.format(highScoresObject.getPlayer(3).getDate()));
 			
 			dordebir.setText(highScoresObject.getPlayer(4).getName());
-			dordeiki.setText((Integer.toString(highScoresObject.getPlayer(4)
+			dordeiki.setText((Double.toString(highScoresObject.getPlayer(4)
 					.getScore())));
 			dordeuc.setText(dateFormat.format(highScoresObject.getPlayer(4).getDate()));
 			
 			besebir.setText(highScoresObject.getPlayer(5).getName());
-			beseiki.setText((Integer.toString(highScoresObject.getPlayer(5)
+			beseiki.setText((Double.toString(highScoresObject.getPlayer(5)
 					.getScore())));
 			beseuc.setText(dateFormat.format(highScoresObject.getPlayer(5).getDate()));
 		} else if (highScoresObject.getPlayerListSize() == 4) {
 			birebir.setText(highScoresObject.getPlayer(1).getName());
-			bireiki.setText((Integer.toString(highScoresObject.getPlayer(1)
+			bireiki.setText((Double.toString(highScoresObject.getPlayer(1)
 					.getScore())));
 			bireuc.setText(dateFormat.format(highScoresObject.getPlayer(1).getDate()));
 
 			ikiyebir.setText(highScoresObject.getPlayer(2).getName());
-			ikiyeiki.setText((Integer.toString(highScoresObject.getPlayer(2)
+			ikiyeiki.setText((Double.toString(highScoresObject.getPlayer(2)
 					.getScore())));
 			ikiyeuc.setText(dateFormat.format(highScoresObject.getPlayer(2).getDate()));
 			
 			ucebir.setText(highScoresObject.getPlayer(3).getName());
-			uceiki.setText((Integer.toString(highScoresObject.getPlayer(3)
+			uceiki.setText((Double.toString(highScoresObject.getPlayer(3)
 					.getScore())));
 			uceuc.setText(dateFormat.format(highScoresObject.getPlayer(3).getDate()));
 			
 			dordebir.setText(highScoresObject.getPlayer(4).getName());
-			dordeiki.setText((Integer.toString(highScoresObject.getPlayer(4)
+			dordeiki.setText((Double.toString(highScoresObject.getPlayer(4)
 					.getScore())));
 			dordeuc.setText(dateFormat.format(highScoresObject.getPlayer(4).getDate()));
 		} else if (highScoresObject.getPlayerListSize() == 3) {
 			birebir.setText(highScoresObject.getPlayer(1).getName());
-			bireiki.setText((Integer.toString(highScoresObject.getPlayer(1)
+			bireiki.setText((Double.toString(highScoresObject.getPlayer(1)
 					.getScore())));
 			bireuc.setText(dateFormat.format(highScoresObject.getPlayer(1).getDate()));
 
 			ikiyebir.setText(highScoresObject.getPlayer(2).getName());
-			ikiyeiki.setText((Integer.toString(highScoresObject.getPlayer(2)
+			ikiyeiki.setText((Double.toString(highScoresObject.getPlayer(2)
 					.getScore())));
 			ikiyeuc.setText(dateFormat.format(highScoresObject.getPlayer(2).getDate()));
 			
 			ucebir.setText(highScoresObject.getPlayer(3).getName());
-			uceiki.setText((Integer.toString(highScoresObject.getPlayer(3)
+			uceiki.setText((Double.toString(highScoresObject.getPlayer(3)
 					.getScore())));
 			uceuc.setText(dateFormat.format(highScoresObject.getPlayer(3).getDate()));
 		} else if (highScoresObject.getPlayerListSize() == 2) {
 			birebir.setText(highScoresObject.getPlayer(1).getName());
-			bireiki.setText((Integer.toString(highScoresObject.getPlayer(1)
+			bireiki.setText((Double.toString(highScoresObject.getPlayer(1)
 					.getScore())));
 			bireuc.setText(dateFormat.format(highScoresObject.getPlayer(1).getDate()));
 
 			ikiyebir.setText(highScoresObject.getPlayer(2).getName());
-			ikiyeiki.setText((Integer.toString(highScoresObject.getPlayer(2)
+			ikiyeiki.setText((Double.toString(highScoresObject.getPlayer(2)
 					.getScore())));
 			ikiyeuc.setText(dateFormat.format(highScoresObject.getPlayer(2).getDate()));
 		} else if (highScoresObject.getPlayerListSize() == 1) {
 			
 			birebir.setText(highScoresObject.getPlayer(1).getName());
-			bireiki.setText((Integer.toString(highScoresObject.getPlayer(1)
+			bireiki.setText((Double.toString(highScoresObject.getPlayer(1)
 					.getScore())));
 			bireuc.setText(dateFormat.format(highScoresObject.getPlayer(1).getDate()));
 		}

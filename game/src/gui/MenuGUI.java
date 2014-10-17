@@ -51,7 +51,7 @@ public class MenuGUI extends JFrame {
 		JPanel headerPanel = createHeader(); 
 		headerPanelContainer.add(Box.createVerticalStrut(80));
 		headerPanelContainer.add(headerPanel);
-		headerPanelContainer.add(Box.createVerticalStrut(80));
+		headerPanelContainer.add(Box.createVerticalStrut(50));
 
 		JPanel buttonPanel = createMenuButtons();
 		buttonPanelContainer.add(buttonPanel);

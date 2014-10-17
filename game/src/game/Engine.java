@@ -3,6 +3,7 @@ package game;
 import java.awt.*;
 import java.util.Random;
 
+import highscores.*;
 import settings.*;
 import pieces.*;
 import gui.BoardPanel;
@@ -17,6 +18,7 @@ public class Engine {
 	private Piece currentPiece; // The current piece
 	private BoardPanel boardPanel; // The panel for the board
 	private NextPieceAndScorePanel nextPiecePanel;
+	private HighScores highScores;
 	private double score;
 
 	/**
@@ -145,6 +147,11 @@ public class Engine {
 
 	public void eliminatedLine(int lineNo){
 		boardPanel.clearEliminatedLine(lineNo);
+	}
+	
+	public boolean isScoreHighEnough(double score){
+		highScores = new HighScores();
+		return highScores.isScoreHighEnough(score);
 	}
 
 	public void increaseScore(int howManyLinesAreDeleted){
