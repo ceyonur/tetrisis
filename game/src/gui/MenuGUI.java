@@ -36,7 +36,7 @@ public class MenuGUI extends JPanel {
 		super();
 		gui = ui;
 
-		bgcolor = gui.bgcolor;
+		//bgcolor = gui.bgcolor;
 
 		setSize(gui.size.width, gui.size.height);
 		this.setBackground(bgcolor);
