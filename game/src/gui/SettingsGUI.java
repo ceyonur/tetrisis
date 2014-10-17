@@ -1,5 +1,6 @@
 package gui;
 
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
@@ -9,22 +10,32 @@ import java.awt.GridLayout;
 import settings.*;
 
 import java.awt.Color;
-
-import sun.audio.*;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.im.InputContext;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 
-import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import settings.BoardSize;
+import settings.KeyConfigure;
+import settings.LevelChoice;
+import settings.PieceChoice;
+import settings.Settings;
 
 public class SettingsGUI extends JPanel {
 	
@@ -47,7 +58,7 @@ public class SettingsGUI extends JPanel {
 		setBackground(bgcolor);
 		
 		settingsObject= settings;
-		boardSizeObject = settingsObject.getSizeChoice();
+		boardSizeObject = settingsObject.getBoardSizeChoice();
 		keyConfigureObject = settingsObject.getKeyConfigure();
 		levelChoiceObject = settingsObject.getLevelChoice();
 		pieceChoiceObject = settingsObject.getPieceChoice();
@@ -187,7 +198,6 @@ public class SettingsGUI extends JPanel {
 
 		JPanel pieceOptions = new JPanel();
 		pieceOptions.setLayout(new GridLayout(1,2));
-		pieceOptions.setAlignmentY(JComponent.CENTER_ALIGNMENT);
 		pieceOptions.add(tetra);
 		pieceOptions.add(tri);
 

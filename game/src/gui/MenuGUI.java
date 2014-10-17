@@ -2,6 +2,7 @@ package gui;
 
 import settings.Settings;
 import sun.audio.*;
+import highscores.HighScores;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -11,7 +12,9 @@ import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.*;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 
 import javax.swing.*;
 
@@ -50,7 +53,7 @@ public class MenuGUI extends JPanel {
 		JPanel headerPanel = createHeader(); 
 		headerPanelContainer.add(Box.createVerticalStrut(80));
 		headerPanelContainer.add(headerPanel);
-		headerPanelContainer.add(Box.createVerticalStrut(80));
+		headerPanelContainer.add(Box.createVerticalStrut(50));
 
 		JPanel buttonPanel = createMenuButtons();
 		buttonPanelContainer.add(buttonPanel);

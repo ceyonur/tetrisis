@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 import settings.*;
@@ -24,7 +25,7 @@ public class Engine {
 	 * @param settings The settings of the game (can be default)
 	 */
 	public Engine(Settings settings){
-		boardMatrix = new Board(settings.getSizeChoice().getRow(), settings.getSizeChoice().getColumn(), this);
+		boardMatrix = new Board(settings.getRow(), settings.getColumn(), this);
 		levelNo = settings.getLevelChoice().getLevel();
 		speedInMilliseconds = (int) (1000 * settings.getLevelChoice().getSpeed());
 		keys = settings.getKeyConfigure();
@@ -34,7 +35,7 @@ public class Engine {
 		score = 0;
 
 		boardPanel = new BoardPanel(keys, speedInMilliseconds, this, boardMatrix);
-		nextPiecePanel = new NextPieceAndScorePanel(getBoardRowLength(), getBoardColumnLength());
+		nextPiecePanel = new NextPieceAndScorePanel(getBoardColumnLength() , getBoardRowLength());
 		nextPiecePanel.setLevel(levelNo);
 
 		play();
@@ -42,8 +43,9 @@ public class Engine {
 
 	/**
 	 * The default constructor of the game. It creates a new Settings object, so everything will be default.
+	 * @throws FileNotFoundException 
 	 */
-	public Engine(){
+	public Engine() throws FileNotFoundException{
 		this(new Settings());
 	}
 
@@ -52,7 +54,7 @@ public class Engine {
 			boardMatrix.updateBoard(currentPiece.getLocationOnMatrix(), currentPiece.getColorAsInteger());
 		}
 
-		if (!boardMatrix.isGameOver()){
+		if (!isGameOver()){
 			if (boardMatrix.isEmpty()){
 				currentPiece = chooseRandomPiece();
 			} else {
@@ -60,9 +62,12 @@ public class Engine {
 			}
 			Piece randomPiece = chooseRandomPiece();
 			nextPiecePanel.setPiece(randomPiece);
+			while (currentPiece.getY() * -1 > currentPiece.boundingBox().getHeight())
+				currentPiece.moveABlockDown();
 			boardPanel.addPiece(currentPiece);
 		} else {
 			boardPanel.setMode(false);
+			
 		}
 		nextPiecePanel.setCurrentScore(score);
 	}
@@ -107,14 +112,21 @@ public class Engine {
 		}
 		
 		int appearX = ((int) (getBoardColumnLength() - randomPiece.boundingBox().width)/2);
-		int appearY = 0;
-		//randomPiece.move(appearX, appearY);
+		while (appearX % randomPiece.getBlocks().get(1).getBlockSize() != 0)
+			++appearX;
+			
+		int appearY = -4 * randomPiece.getBlocks().get(1).getBlockSize();
+		randomPiece.move(appearX, appearY);
 		
 		return randomPiece;
 	}
 
 	public BoardPanel getBoardPanel(){
 		return boardPanel;
+	}
+	
+	public boolean isGameOver(){
+		return boardMatrix.isGameOver();
 	}
 	
 	public NextPieceAndScorePanel getNextPieceAndScorePanel(){

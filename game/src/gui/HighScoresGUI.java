@@ -31,178 +31,157 @@ public class HighScoresGUI extends JFrame {
 		setLocationRelativeTo(null);
 		highScoresObject = highscores;
 		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		setVisible(true);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				System.exit(0);
-			} // windowClosing
-		});
-		GridLayout grd = new GridLayout(6,3);
-		GridLayout grd2 = new GridLayout(6,1);
-		
+		GridLayout grd = new GridLayout(6, 3);
+		GridLayout grd2 = new GridLayout(6, 1);
+
 		JPanel centerPanel = new JPanel(grd);
 		JPanel westPanel = new JPanel(grd2);
 
-		
-
 		JLabel playersLabel = new JLabel("Player Name", SwingConstants.CENTER);
 		JLabel scoresLabel = new JLabel("Score", SwingConstants.CENTER);
-		
-		JLabel datesLabel = new JLabel("Date", SwingConstants.CENTER);
 
-		
+		JLabel datesLabel = new JLabel("Date", SwingConstants.CENTER);
 
 		datesLabel.setLocation(400, 10);
 		datesLabel.setSize(90, 30);
-		
+
 		centerPanel.add(playersLabel);
 		centerPanel.add(scoresLabel);
 		centerPanel.add(datesLabel);
-	
-		JLabel sifir = new JLabel();
-		JLabel first = new JLabel ("    1.", SwingConstants.CENTER);
-		JLabel second = new JLabel("    2.", SwingConstants.CENTER);
-		JLabel third = new JLabel ("    3.", SwingConstants.CENTER);
-		JLabel forth = new JLabel ("    4.", SwingConstants.CENTER);
-		JLabel fifth = new JLabel ("    5.", SwingConstants.CENTER);
 
-		westPanel.add(sifir);
+		JLabel zero = new JLabel();
+		JLabel first = new JLabel("    1.", SwingConstants.CENTER);
+		JLabel second = new JLabel("    2.", SwingConstants.CENTER);
+		JLabel third = new JLabel("    3.", SwingConstants.CENTER);
+		JLabel forth = new JLabel("    4.", SwingConstants.CENTER);
+		JLabel fifth = new JLabel("    5.", SwingConstants.CENTER);
+
+		westPanel.add(zero);
 		westPanel.add(first);
 		westPanel.add(second);
 		westPanel.add(third);
 		westPanel.add(forth);
 		westPanel.add(fifth);
 
-		JLabel birebir = new JLabel(" - ", SwingConstants.CENTER);
-		JLabel bireiki = new JLabel(" - ", SwingConstants.CENTER);
-		JLabel bireuc = new JLabel(" - ", SwingConstants.CENTER);
-		JLabel ikiyebir = new JLabel(" - ", SwingConstants.CENTER);
-		JLabel ikiyeiki = new JLabel(" - ", SwingConstants.CENTER);
-		JLabel ikiyeuc = new JLabel(" - ", SwingConstants.CENTER);
-		JLabel ucebir = new JLabel(" - ", SwingConstants.CENTER);
-		JLabel uceiki = new JLabel(" - ", SwingConstants.CENTER);
-		JLabel uceuc = new JLabel(" - ", SwingConstants.CENTER);
-		JLabel dordebir = new JLabel(" - ", SwingConstants.CENTER);
-		JLabel dordeiki = new JLabel(" - ", SwingConstants.CENTER);
-		JLabel dordeuc = new JLabel(" - ", SwingConstants.CENTER);
-		JLabel besebir = new JLabel(" - ", SwingConstants.CENTER);
-		JLabel beseiki = new JLabel(" - ", SwingConstants.CENTER);
-		JLabel beseuc = new JLabel(" - ", SwingConstants.CENTER);
+		JLabel[][] labels = new JLabel[5][3];
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 3; j++) {
+				labels[i][j] = new JLabel(" - ", SwingConstants.CENTER);
+			}
+		}
+		switch (highScoresObject.getPlayerListSize()) {
+		case 1:
+			labels[0][0].setText(highScoresObject.getPlayer(1).getName());
+			labels[0][1].setText((Integer.toString(highScoresObject
+					.getPlayer(1).getScore())));
+			labels[0][2].setText(dateFormat.format(highScoresObject
+					.getPlayer(1).getDate()));
+			break;
+		case 2:
+			labels[0][0].setText(highScoresObject.getPlayer(1).getName());
+			labels[0][1].setText((Integer.toString(highScoresObject
+					.getPlayer(1).getScore())));
+			labels[0][2].setText(dateFormat.format(highScoresObject
+					.getPlayer(1).getDate()));
 
-		if (highScoresObject.getPlayerListSize() == 5) {
-			birebir.setText(highScoresObject.getPlayer(1).getName());
-			bireiki.setText((Integer.toString(highScoresObject.getPlayer(1)
-					.getScore())));
-			bireuc.setText(dateFormat.format(highScoresObject.getPlayer(1).getDate()));
+			labels[1][0].setText(highScoresObject.getPlayer(2).getName());
+			labels[1][1].setText((Integer.toString(highScoresObject
+					.getPlayer(2).getScore())));
+			labels[1][2].setText(dateFormat.format(highScoresObject
+					.getPlayer(2).getDate()));
+			break;
+		case 3:
+			labels[0][0].setText(highScoresObject.getPlayer(1).getName());
+			labels[0][1].setText((Integer.toString(highScoresObject
+					.getPlayer(1).getScore())));
+			labels[0][2].setText(dateFormat.format(highScoresObject
+					.getPlayer(1).getDate()));
 
-			ikiyebir.setText(highScoresObject.getPlayer(2).getName());
-			ikiyeiki.setText((Integer.toString(highScoresObject.getPlayer(2)
-					.getScore())));
-			ikiyeuc.setText(dateFormat.format(highScoresObject.getPlayer(2).getDate()));
-			
-			ucebir.setText(highScoresObject.getPlayer(3).getName());
-			uceiki.setText((Integer.toString(highScoresObject.getPlayer(3)
-					.getScore())));
-			uceuc.setText(dateFormat.format(highScoresObject.getPlayer(3).getDate()));
-			
-			dordebir.setText(highScoresObject.getPlayer(4).getName());
-			dordeiki.setText((Integer.toString(highScoresObject.getPlayer(4)
-					.getScore())));
-			dordeuc.setText(dateFormat.format(highScoresObject.getPlayer(4).getDate()));
-			
-			besebir.setText(highScoresObject.getPlayer(5).getName());
-			beseiki.setText((Integer.toString(highScoresObject.getPlayer(5)
-					.getScore())));
-			beseuc.setText(dateFormat.format(highScoresObject.getPlayer(5).getDate()));
-		} else if (highScoresObject.getPlayerListSize() == 4) {
-			birebir.setText(highScoresObject.getPlayer(1).getName());
-			bireiki.setText((Integer.toString(highScoresObject.getPlayer(1)
-					.getScore())));
-			bireuc.setText(dateFormat.format(highScoresObject.getPlayer(1).getDate()));
+			labels[1][0].setText(highScoresObject.getPlayer(2).getName());
+			labels[1][1].setText((Integer.toString(highScoresObject
+					.getPlayer(2).getScore())));
+			labels[1][2].setText(dateFormat.format(highScoresObject
+					.getPlayer(2).getDate()));
 
-			ikiyebir.setText(highScoresObject.getPlayer(2).getName());
-			ikiyeiki.setText((Integer.toString(highScoresObject.getPlayer(2)
-					.getScore())));
-			ikiyeuc.setText(dateFormat.format(highScoresObject.getPlayer(2).getDate()));
-			
-			ucebir.setText(highScoresObject.getPlayer(3).getName());
-			uceiki.setText((Integer.toString(highScoresObject.getPlayer(3)
-					.getScore())));
-			uceuc.setText(dateFormat.format(highScoresObject.getPlayer(3).getDate()));
-			
-			dordebir.setText(highScoresObject.getPlayer(4).getName());
-			dordeiki.setText((Integer.toString(highScoresObject.getPlayer(4)
-					.getScore())));
-			dordeuc.setText(dateFormat.format(highScoresObject.getPlayer(4).getDate()));
-		} else if (highScoresObject.getPlayerListSize() == 3) {
-			birebir.setText(highScoresObject.getPlayer(1).getName());
-			bireiki.setText((Integer.toString(highScoresObject.getPlayer(1)
-					.getScore())));
-			bireuc.setText(dateFormat.format(highScoresObject.getPlayer(1).getDate()));
+			labels[2][0].setText(highScoresObject.getPlayer(3).getName());
+			labels[2][1].setText((Integer.toString(highScoresObject
+					.getPlayer(3).getScore())));
+			labels[2][2].setText(dateFormat.format(highScoresObject
+					.getPlayer(3).getDate()));
+			break;
+		case 4:
+			labels[0][0].setText(highScoresObject.getPlayer(1).getName());
+			labels[0][1].setText((Integer.toString(highScoresObject
+					.getPlayer(1).getScore())));
+			labels[0][2].setText(dateFormat.format(highScoresObject
+					.getPlayer(1).getDate()));
 
-			ikiyebir.setText(highScoresObject.getPlayer(2).getName());
-			ikiyeiki.setText((Integer.toString(highScoresObject.getPlayer(2)
-					.getScore())));
-			ikiyeuc.setText(dateFormat.format(highScoresObject.getPlayer(2).getDate()));
-			
-			ucebir.setText(highScoresObject.getPlayer(3).getName());
-			uceiki.setText((Integer.toString(highScoresObject.getPlayer(3)
-					.getScore())));
-			uceuc.setText(dateFormat.format(highScoresObject.getPlayer(3).getDate()));
-		} else if (highScoresObject.getPlayerListSize() == 2) {
-			birebir.setText(highScoresObject.getPlayer(1).getName());
-			bireiki.setText((Integer.toString(highScoresObject.getPlayer(1)
-					.getScore())));
-			bireuc.setText(dateFormat.format(highScoresObject.getPlayer(1).getDate()));
+			labels[1][0].setText(highScoresObject.getPlayer(2).getName());
+			labels[1][1].setText((Integer.toString(highScoresObject
+					.getPlayer(2).getScore())));
+			labels[1][2].setText(dateFormat.format(highScoresObject
+					.getPlayer(2).getDate()));
 
-			ikiyebir.setText(highScoresObject.getPlayer(2).getName());
-			ikiyeiki.setText((Integer.toString(highScoresObject.getPlayer(2)
-					.getScore())));
-			ikiyeuc.setText(dateFormat.format(highScoresObject.getPlayer(2).getDate()));
-		} else if (highScoresObject.getPlayerListSize() == 1) {
-			
-			birebir.setText(highScoresObject.getPlayer(1).getName());
-			bireiki.setText((Integer.toString(highScoresObject.getPlayer(1)
-					.getScore())));
-			bireuc.setText(dateFormat.format(highScoresObject.getPlayer(1).getDate()));
+			labels[2][0].setText(highScoresObject.getPlayer(3).getName());
+			labels[2][1].setText((Integer.toString(highScoresObject
+					.getPlayer(3).getScore())));
+			labels[2][2].setText(dateFormat.format(highScoresObject
+					.getPlayer(3).getDate()));
+
+			labels[3][0].setText(highScoresObject.getPlayer(4).getName());
+			labels[3][1].setText((Integer.toString(highScoresObject
+					.getPlayer(4).getScore())));
+			labels[3][2].setText(dateFormat.format(highScoresObject
+					.getPlayer(4).getDate()));
+			break;
+		case 5:
+			labels[0][0].setText(highScoresObject.getPlayer(1).getName());
+			labels[0][1].setText((Integer.toString(highScoresObject
+					.getPlayer(1).getScore())));
+			labels[0][2].setText(dateFormat.format(highScoresObject
+					.getPlayer(1).getDate()));
+
+			labels[1][0].setText(highScoresObject.getPlayer(2).getName());
+			labels[1][1].setText((Integer.toString(highScoresObject
+					.getPlayer(2).getScore())));
+			labels[1][2].setText(dateFormat.format(highScoresObject
+					.getPlayer(2).getDate()));
+
+			labels[2][0].setText(highScoresObject.getPlayer(3).getName());
+			labels[2][1].setText((Integer.toString(highScoresObject
+					.getPlayer(3).getScore())));
+			labels[2][2].setText(dateFormat.format(highScoresObject
+					.getPlayer(3).getDate()));
+
+			labels[3][0].setText(highScoresObject.getPlayer(4).getName());
+			labels[3][1].setText((Integer.toString(highScoresObject
+					.getPlayer(4).getScore())));
+			labels[3][2].setText(dateFormat.format(highScoresObject
+					.getPlayer(4).getDate()));
+
+			labels[4][0].setText(highScoresObject.getPlayer(5).getName());
+			labels[4][1].setText((Integer.toString(highScoresObject
+					.getPlayer(5).getScore())));
+			labels[4][2].setText(dateFormat.format(highScoresObject
+					.getPlayer(5).getDate()));
+			break;
 		}
 
-		centerPanel.add(birebir);
-		centerPanel.add(bireiki);
-		centerPanel.add(bireuc);
-		centerPanel.add(ikiyebir);
-		centerPanel.add(ikiyeiki);
-		centerPanel.add(ikiyeuc);
-		centerPanel.add(ucebir);
-		centerPanel.add(uceiki);
-		centerPanel.add(uceuc);
-		centerPanel.add(dordebir);
-		centerPanel.add(dordeiki);
-		centerPanel.add(dordeuc);
-		centerPanel.add(besebir);
-		centerPanel.add(beseiki);
-		centerPanel.add(beseuc);
-		
-		
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 3; j++) {
+				centerPanel.add(labels[i][j]);
+			}
+		}
+
 		this.add(westPanel, BorderLayout.WEST);
 		this.add(centerPanel);
-		
 
 	}
 
-	public static void main(String[] args) {
-	
-		HighScores asd = new HighScores();
-
-		
-		JFrame f = new HighScoresGUI(asd);
-		
 
 
-		
-		f.show();
-		
-		
-	}
 
 }
