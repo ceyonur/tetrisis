@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
@@ -47,7 +48,8 @@ public class SettingsGUI extends JFrame {
 		super();
 		setTitle("Settings");
 		setSize(450, 690);
-	//	setResizable(f alse);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
 
 		
 		setLocation(250, 150);
@@ -58,14 +60,6 @@ public class SettingsGUI extends JFrame {
 		levelChoiceObject = settingsObject.getLevelChoice();
 		pieceChoiceObject = settingsObject.getPieceChoice();
 		keyMap = keyConfigureObject.getMap();
-		
-	
-
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				hide();
-			} // windowClosing
-		});
 
 		final JRadioButton small = new JRadioButton("Small");
 		final JRadioButton medium = new JRadioButton("Medium");
@@ -592,11 +586,7 @@ public class SettingsGUI extends JFrame {
 	}
 		
 
-	public static void main(String[] args) {
-		JFrame f = new SettingsGUI(new Settings());
-
-		f.show();
-	}
+	
 	
 	private static String getKeyText(int a){
 		if(a != 0){

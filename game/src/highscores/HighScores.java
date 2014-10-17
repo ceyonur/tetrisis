@@ -109,7 +109,7 @@ public class HighScores implements Serializable {
 	}
 	}
 	
-	public void loadHighScores() throws ParseException, IOException{		
+	public void loadHighScores() throws IOException{		
 		try{
 			 
 			   FileInputStream fin = new FileInputStream("HighScores.ser");

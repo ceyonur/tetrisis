@@ -37,8 +37,10 @@ public class Settings implements Serializable{
 
 	/**
 	 * Default constructor for the Settings class.
+	 * @throws FileNotFoundException 
 	 */
-	public Settings() {
+	public Settings() throws FileNotFoundException {
+		loadSettings();
 		boardSizeChoice = new BoardSize();
 		keyConfig = new KeyConfigure();
 		levelChoice = new LevelChoice();

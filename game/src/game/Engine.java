@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 import settings.*;
@@ -42,8 +43,9 @@ public class Engine {
 
 	/**
 	 * The default constructor of the game. It creates a new Settings object, so everything will be default.
+	 * @throws FileNotFoundException 
 	 */
-	public Engine(){
+	public Engine() throws FileNotFoundException{
 		this(new Settings());
 	}
 
