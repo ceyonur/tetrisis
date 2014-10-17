@@ -20,7 +20,7 @@ public class GUI extends JFrame {
 
 	public GUI()  {
 		setSize(570, 690);
-		play = new PlayGUI();
+		play = new PlayGUI(this);
 		settings = new Settings();
 		settingsGUI = new SettingsGUI(this, settings);
 		float[] hsb = Color.RGBtoHSB(41, 128, 185, null);

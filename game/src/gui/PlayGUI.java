@@ -19,9 +19,11 @@ public class PlayGUI extends JPanel {
 	private Timer timerForCheckingGameOver;
 	private int width;
 	private int height;
+	private GUI callerGUI;
 
-	public PlayGUI(){
+	public PlayGUI(GUI callerGUI){
 		super();
+		this.callerGUI = callerGUI;
 		gameOverListener = new GameOverListener();
 		timerForCheckingGameOver = new Timer(500,gameOverListener);
 	}
@@ -51,8 +53,6 @@ public class PlayGUI extends JPanel {
 
 		width = engine.getBoardColumnLength();
 		height = engine.getBoardRowLength();
-		
-		//showGameOver();
 	}
 
 	public void showGameOver(){
@@ -90,16 +90,14 @@ public class PlayGUI extends JPanel {
 			String infoScore = "Score: " + score;
 			String infoLevel = "Level: " + level;
 			
-			add(new JLabel("12313"));
-			
-			//setLayout(new GridLayout(4,1));
+			setLayout(new GridLayout(4,1));
 			
 			gameOverLabel = new JLabel("Game Over!!");
 			gameOverLabel.setHorizontalAlignment(JLabel.CENTER);
 			gameOverLabel.setFont(new Font(gameOverLabel.getFont().getFamily(), gameOverLabel.getFont().getStyle(), 50));
 			add(gameOverLabel);
 			
-			/*JPanel getNameForHighScoreTable = new JPanel();
+			JPanel getNameForHighScoreTable = new JPanel();
 			getNameForHighScoreTable.setLayout(new GridLayout(1,3));
 			getNameForHighScoreTable.setBackground(Color.WHITE);
 			JLabel name = new JLabel("Enter your name: ");
@@ -129,7 +127,7 @@ public class PlayGUI extends JPanel {
 			info.add(infoLevelLabel);
 			add(info);
 			
-			add(addButtons());*/
+			add(addButtons());
 		}
 
 		public void paint(Graphics g){
