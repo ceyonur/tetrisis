@@ -514,7 +514,7 @@ public class SettingsGUI extends JPanel {
 				
 					
 					
-				gui.setContentPane(gui.menuGUI);
+				gui.showMenu();
 			}
 		});
 
@@ -564,7 +564,7 @@ public class SettingsGUI extends JPanel {
 						boardSizeObject.setMedium();
 					System.out.println(9);
 					settingsObject.saveSettings();
-					gui.setContentPane(gui.menuGUI);
+					gui.showMenu();
 				}
 				
 			}

@@ -96,15 +96,13 @@ public class MenuGUI extends JPanel {
 
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//
+				gui.showPlay();
 			}
 		});
 		
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				gui.settings = new Settings();
-				gui.settingsGUI = new SettingsGUI(gui, gui.settings);
-				gui.setContentPane(gui.settingsGUI);
+				gui.showSettings();
 			}	
 		});
 
