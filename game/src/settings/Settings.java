@@ -444,7 +444,11 @@ public class Settings implements Serializable{
 		   }catch(Exception ex){
 			   try {
 				FileOutputStream fout = new FileOutputStream("Settings.ser");
+				fout.close();
 			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}		   

@@ -6,16 +6,12 @@ import settings.Settings;
 public class Game {
 	public static void main(String[] args){
 		GUI frame = new GUI();
-		Settings settings = new Settings();
-		
-		frame.setGameEngine(getEngine());
-
 		// the following code realizes the top level application window
 		frame.pack();
 		frame.setVisible(true);
 	}
 	
-	public static Engine getEngine(){
-		return new Engine();
+	public static Engine getEngine(Settings settings){
+		return new Engine(settings);
 	}
 }
