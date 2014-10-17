@@ -37,6 +37,7 @@ public class SettingsGUI extends JFrame {
 		super();
 		setTitle("Settings");
 		setSize(450, 690);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	//	setResizable(false);
 
 		
@@ -48,14 +49,6 @@ public class SettingsGUI extends JFrame {
 		levelChoiceObject = settingsObject.getLevelChoice();
 		pieceChoiceObject = settingsObject.getPieceChoice();
 		keyMap = keyConfigureObject.getMap();
-		
-	
-
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				hide();
-			} // windowClosing
-		});
 
 		final JRadioButton small = new JRadioButton("Small");
 		final JRadioButton medium = new JRadioButton("Medium");
@@ -585,7 +578,6 @@ public class SettingsGUI extends JFrame {
 	public static void main(String[] args) {
 		JFrame f = new SettingsGUI(new Settings());
 
-		f.show();
 	}
 	
 	private static String getKeyText(int a){
