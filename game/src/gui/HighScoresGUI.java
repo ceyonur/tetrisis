@@ -132,7 +132,8 @@ public class HighScoresGUI extends JFrame {
 		buttonsPanelContainer.add(buttonsPanel);
 		
 		closeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
+			public void actionPerformed(ActionEvent e) {	
+				gui.setEnabled(true);
 				dispose();
 			}
 		});
@@ -144,6 +145,13 @@ public class HighScoresGUI extends JFrame {
 		add(buttonsPanelContainer);
 
 		pack();
+		
+		this.setResizable(false);
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				gui.setEnabled(true);
+		    }
+		});
 	}
 	
 	public JPanel createHeader() {

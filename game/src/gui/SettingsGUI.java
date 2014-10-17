@@ -513,7 +513,7 @@ public class SettingsGUI extends JFrame {
 					pauseField.setText(getKeyText(keyConfigureObject.getPause()));
 				
 					
-					
+				gui.setEnabled(true);
 				dispose();
 			}
 		});
@@ -563,6 +563,8 @@ public class SettingsGUI extends JFrame {
 					else
 						boardSizeObject.setMedium();					
 					settingsObject.saveSettings();
+					
+					gui.setEnabled(true);
 					dispose();
 				}
 				
@@ -574,13 +576,13 @@ public class SettingsGUI extends JFrame {
 		add(headerPanelContainer);
 		add(settingsPanelContainer);
 		add(buttonsPanelContainer);
-		
-		/*
-		headerPanelContainer.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-		settingsPanelContainer.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-		buttonsPanelContainer.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-		*/
 
+		this.setResizable(false);
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				gui.setEnabled(true);
+		    }
+		});
 	}
 	
 	public JPanel createHeader() {

@@ -60,6 +60,13 @@ public class PlayGUI extends JFrame {
 
 		width = engine.getBoardColumnLength();
 		height = engine.getBoardRowLength();
+		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				gui.setEnabled(true);
+		    }
+		});
+		
 		pack();
 	}
 	
