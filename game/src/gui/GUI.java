@@ -37,7 +37,7 @@ public class GUI extends JFrame {
 		setSize(menuGUI.size());
 		
 		setEngine(Game.getEngine());
-		setContentPane(menuGUI);
+		setContentPane(play);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	

@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 
 import game.Board;
 import game.Engine;
@@ -20,19 +21,14 @@ public class PlayGUI extends JPanel {
 	private int height;
 
 	public PlayGUI(){
-		// Title bar
 		super();
-
 		gameOverListener = new GameOverListener();
-
 		timerForCheckingGameOver = new Timer(500,gameOverListener);
 	}
 
 	public void setEngine(Engine engine){
 		this.engine = engine;
 		timerForCheckingGameOver.start();
-		//Create the toolbar.
-		JToolBar toolBar = new JToolBar();
 
 		//Create the animation area used for output.
 		board = engine.getBoardPanel();
@@ -40,6 +36,8 @@ public class PlayGUI extends JPanel {
 		// Put it in a scrollPane, (this makes a border)
 		JScrollPane gameBoard = new JScrollPane(board);
 		JScrollPane nextPieceAndScorePanel = new JScrollPane(nextPiecePanel);
+		gameBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.GRAY, Color.DARK_GRAY)));
+		nextPieceAndScorePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.GRAY, Color.DARK_GRAY)));
 		realPane = new JPanel();
 		realPane.setLayout(new GridLayout(1,2));
 		realPane.add(gameBoard);
@@ -80,23 +78,28 @@ public class PlayGUI extends JPanel {
 	public class GameOverPanel extends JPanel{
 		private JTextField getName;
 		private JButton submit;
+		
+		private JLabel gameOverLabel;
 
 		public GameOverPanel(double score, int level){
 			super();
+			
 			setBackground(Color.WHITE);
 			setSize(width * 2,height);
 
 			String infoScore = "Score: " + score;
 			String infoLevel = "Level: " + level;
 			
-			setLayout(new GridLayout(4,1));
+			add(new JLabel("12313"));
 			
-			JLabel gameOver = new JLabel("Game Over!!");
-			gameOver.setHorizontalAlignment(JLabel.CENTER);
-			gameOver.setFont(new Font(gameOver.getFont().getFamily(), gameOver.getFont().getStyle(), 50));
-			add(gameOver);
+			//setLayout(new GridLayout(4,1));
 			
-			JPanel getNameForHighScoreTable = new JPanel();
+			gameOverLabel = new JLabel("Game Over!!");
+			gameOverLabel.setHorizontalAlignment(JLabel.CENTER);
+			gameOverLabel.setFont(new Font(gameOverLabel.getFont().getFamily(), gameOverLabel.getFont().getStyle(), 50));
+			add(gameOverLabel);
+			
+			/*JPanel getNameForHighScoreTable = new JPanel();
 			getNameForHighScoreTable.setLayout(new GridLayout(1,3));
 			getNameForHighScoreTable.setBackground(Color.WHITE);
 			JLabel name = new JLabel("Enter your name: ");
@@ -126,9 +129,14 @@ public class PlayGUI extends JPanel {
 			info.add(infoLevelLabel);
 			add(info);
 			
-			add(addButtons());
+			add(addButtons());*/
 		}
 
+		public void paint(Graphics g){
+			super.paint(g);
+			gameOverLabel.setLocation(10, 10);
+		}
+		
 		protected JPanel addButtons() {
 
 			JPanel buttons = new JPanel();
