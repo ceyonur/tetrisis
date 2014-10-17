@@ -21,6 +21,7 @@ public class GUI extends JFrame {
 	Color bgcolor;
 
 	public GUI() throws FileNotFoundException {
+		setSize(570, 690);
 		play = new PlayGUI();
 		try {
 			settings = new Settings();

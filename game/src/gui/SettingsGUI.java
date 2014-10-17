@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -67,11 +68,13 @@ public class SettingsGUI extends JPanel {
 		
 		JPanel headerPanelContainer = new JPanel();
 		headerPanelContainer.setBackground(bgcolor);
-		headerPanelContainer.setMaximumSize(new Dimension(500,100));
+		headerPanelContainer.setMaximumSize(new Dimension(500,90));
 		JPanel settingsPanelContainer = new JPanel();
 		settingsPanelContainer.setBackground(bgcolor);
+		settingsPanelContainer.setMaximumSize(new Dimension(500,500));
 		JPanel buttonsPanelContainer = new JPanel();
 		buttonsPanelContainer.setBackground(bgcolor);
+		buttonsPanelContainer.setMaximumSize(new Dimension(500,100));
 		
 		/* HEADER */
 		JPanel header = createHeader();
@@ -433,24 +436,29 @@ public class SettingsGUI extends JPanel {
 		
 		// /////////////////////////////////////////////////////////////////finishPanel
 		
-		final JPanel finishPanel = new JPanel();
-		finishPanel.setLayout(new BoxLayout(finishPanel, BoxLayout.X_AXIS));
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setLayout(new GridLayout(1,3,15,0));
+		//buttonsPanel.setMaximumSize(new Dimension(400,60));
+		
+		SButton save = new SButton("Save", SButton.SETTINGS_BUTTON);
+		SButton cancel = new SButton("Cancel", SButton.SETTINGS_BUTTON);
+		SButton defaultt = new SButton("Default", SButton.SETTINGS_BUTTON);
+		
+		buttonsPanel.add(cancel);
+		buttonsPanel.add(defaultt);
+		buttonsPanel.add(save);
+		
+		buttonsPanelContainer.add(buttonsPanel);
 
-		JButton save = new JButton("Save");
+		
 
-		JButton cancel = new JButton("Cancel");
-		JButton defaultt = new JButton("Default");
-
-		finishPanel.add(cancel);
-		finishPanel.add(defaultt);
-		finishPanel.add(save);
 
 		final JLabel uyari = new JLabel("Incorrect Key Configuration",
 				SwingConstants.CENTER);
 		uyari.setSize(200, 30);
 		uyari.setLocation(50, 45);
 		uyari.setForeground(Color.red);
-		finishPanel.add(uyari);
+		//buttonsPanel.add(uyari);
 		uyari.hide();
 
 		cancel.addActionListener(new ActionListener() {
@@ -488,14 +496,12 @@ public class SettingsGUI extends JPanel {
 					tri.setSelected(false);
 				}
 				
-				
 					leftField.setText(getKeyText(keyConfigureObject.getLeft()));
 					rightField.setText(getKeyText(keyConfigureObject.getRight()));
 					downField.setText(getKeyText(keyConfigureObject.getDown()));
 					rotateField.setText(getKeyText(keyConfigureObject.getRotate()));
 					pauseField.setText(getKeyText(keyConfigureObject.getPause()));
 				
-				//dispose();	
 			}
 		});
 
@@ -524,10 +530,6 @@ public class SettingsGUI extends JPanel {
 					else{
 					uyari.hide();
 					keyConfigureObject.setMap(keyMap);
-								
-					
-					
-				
 
 				if (tetra.isSelected() && tri.isSelected())
 					pieceChoiceObject.setBoth(true);
@@ -570,14 +572,17 @@ public class SettingsGUI extends JPanel {
 			}
 		});
 
-		//add(keyPanel);
-		//add(finishPanel);
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(headerPanelContainer);
 		add(settingsPanelContainer);
-		//add(Box.createVerticalGlue());
-		//add(buttonsPanelContainer);
+		add(buttonsPanelContainer);
+		
+		/*
+		headerPanelContainer.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+		settingsPanelContainer.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+		buttonsPanelContainer.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+		*/
 	}
 	
 	public JPanel createHeader() {
@@ -585,6 +590,7 @@ public class SettingsGUI extends JPanel {
 		
 		SLabel title = new SLabel("settings", SLabel.MAIN_MENU_TITLE);
 		header.add(title);
+		title.setVerticalAlignment(JLabel.CENTER);
 		
 		header.setBackground(bgcolor);
 		return header;
