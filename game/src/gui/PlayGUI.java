@@ -1,5 +1,11 @@
 package gui;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
@@ -13,6 +19,7 @@ import game.Engine;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,9 +43,10 @@ public class PlayGUI extends JFrame {
 	private AnimationEventListener eventListener;
 	
 	private boolean mute = true;
-	private InputStream in;
-	private AudioStream audioStream;
+	private AudioInputStream audioStream;
 	private ArrayList<String> sounds;
+
+	private Clip clipBackground;
 
 
 	public PlayGUI(GUI ui){
@@ -230,14 +238,25 @@ public class PlayGUI extends JFrame {
 
 	public void playAudio2(boolean status) {
 		String stringFile = "assets/sounds/oneKill.wav";
-		InputStream in = null;
 
-		AudioStream audioStream = null;
+		AudioInputStream audioStream = null;
 
 		try {
-			in = new FileInputStream(stringFile);
-			audioStream = new AudioStream(in);
+			if (status){
+				Clip clip = AudioSystem.getClip();
+				audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
+				clip.open(audioStream);
+				FloatControl volume = (FloatControl) clipBackground.getControl(FloatControl.Type.MASTER_GAIN);
+				volume.setValue(-15.0f);
+				clip.start();
+				}
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -277,85 +296,107 @@ public class PlayGUI extends JFrame {
 		} else if (counter == 4 && b > 0) {
 			gongFile = "assets/sounds/Unstopable.wav";
 		}
-		InputStream in = null;
 
-		AudioStream audioStream = null;
+		AudioInputStream audioStream = null;
 
 		try {
-			in = new FileInputStream(gongFile);
-			audioStream = new AudioStream(in);
+			if (status){
+				Clip clip = AudioSystem.getClip();
+				audioStream = AudioSystem.getAudioInputStream(new File(gongFile));
+				clip.open(audioStream);
+				
+				if (counter != 1 && status)
+					clip.start();
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		// play the audio clip with the audioplayer class
-
-		if (counter != 1 && status) {
-			AudioPlayer.player.start(audioStream);
-		}
-
 	}
 
 	public void playSitSound(boolean status) {
 		String stringFile = "assets/sounds/lastMove.wav";
-		InputStream in = null;
 
-		AudioStream audioStream = null;
+		AudioInputStream audioStream = null;
 
 		try {
-			in = new FileInputStream(stringFile);
-			audioStream = new AudioStream(in);
+			if (status){
+				Clip clip = AudioSystem.getClip();
+				audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
+				clip.open(audioStream);
+				FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+				volume.setValue(-10.0f);
+				clip.start();
+				}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		// play the audio clip with the audioplayer class
-		if (status)
-			AudioPlayer.player.start(audioStream);
-
 	}
 
 	public void playRotate(boolean status) {
 		String stringFile = "assets/sounds/rotate.wav";
-		InputStream in = null;
 
-		AudioStream audioStream = null;
+		AudioInputStream audioStream = null;
 
 
 		try {
-			in = new FileInputStream(stringFile);
-			audioStream = new AudioStream(in);
+			if (status){
+				Clip clipRotate = AudioSystem.getClip();
+				audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
+				clipRotate.open(audioStream);
+				FloatControl volume = (FloatControl) clipRotate.getControl(FloatControl.Type.MASTER_GAIN);
+				volume.setValue(-15.0f);
+				clipRotate.start();
+				}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		// play the audio clip with the audioplayer class
-		if (status)
-			AudioPlayer.player.start(audioStream);
-
 	}
 
 	public void playAudioFirstBlood(boolean status) {
 		String stringFile = "assets/sounds/firstBlood.wav";
-		InputStream in = null;
 
-		AudioStream audioStream = null;
+		AudioInputStream audioStream = null;
 
 		try {
-			in = new FileInputStream(stringFile);
-			audioStream = new AudioStream(in);
+			if (status){
+			Clip clipFirstBlood = AudioSystem.getClip();
+			audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
+			clipFirstBlood.open(audioStream);
+			clipFirstBlood.start();
+			}
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		// play the audio clip with the audioplayer class
-		if (status)
-			AudioPlayer.player.start(audioStream);
-
 	}
 	private void playBackground(boolean status) {
 
@@ -363,7 +404,6 @@ public class PlayGUI extends JFrame {
 		for (int i = 0; i < 29; i++) {
 			sounds.add("assets/sounds/backGround/" + (i + 1) + ".wav");
 		}
-		in = null;
 		audioStream = null;
 		timer.setInitialDelay(0);
 		timer.start();
@@ -374,13 +414,27 @@ public class PlayGUI extends JFrame {
 		
 		
 		public void actionPerformed(ActionEvent e) {
-			try {
-				in = new FileInputStream(sounds.get(0));
-				audioStream = new AudioStream(in);
-				AudioPlayer.player.start(audioStream);
-				sounds.add(sounds.remove(0));
-			} catch (IOException error) {
-			}
+			
+				 try {
+					clipBackground = AudioSystem.getClip();
+					String sound = sounds.remove(0);
+					AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(sound));
+					clipBackground.open(audioStream);
+					FloatControl volume = (FloatControl) clipBackground.getControl(FloatControl.Type.MASTER_GAIN);
+					volume.setValue(-5.0f);
+					clipBackground.start();
+					sounds.add(sound);
+					
+				} catch (LineUnavailableException e0) {
+					// TODO Auto-generated catch block
+					e0.printStackTrace();
+				} catch (UnsupportedAudioFileException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 		}
 	}
 }
