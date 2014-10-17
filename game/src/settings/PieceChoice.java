@@ -1,5 +1,7 @@
 package settings;
 
+import java.io.Serializable;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class PieceChoice. This class stores the choice of pieces.(Tetriminos or
@@ -7,7 +9,7 @@ package settings;
  * 
  * @author ceyonur
  */
-public class PieceChoice {
+public class PieceChoice implements Serializable{
 
 	/** The choice. */
 	private boolean triminos;
@@ -69,11 +71,21 @@ public class PieceChoice {
 		return hasTetriminos() && hasTriminos();
 	}
 	
-	public void setBoth(boolean bool){
-		setTetriminos(bool);
-		setTriminos(bool);
+	/**
+	 * Sets the both tetriminos and triminos to true.
+	 *
+	 * @param 
+	 */
+	public void setBoth(){
+		setTetriminos(true);
+		setTriminos(true);
 	}
 	
+	/**
+	 * Gets the choice string.
+	 *
+	 * @return String the choice
+	 */
 	public String getChoice(){
 		return "tetriminos: " + hasTetriminos() + " triminos: " + hasTriminos();
 		

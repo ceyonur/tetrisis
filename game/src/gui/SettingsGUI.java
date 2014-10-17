@@ -68,13 +68,13 @@ public class SettingsGUI extends JPanel {
 		
 		JPanel headerPanelContainer = new JPanel();
 		headerPanelContainer.setBackground(bgcolor);
-		headerPanelContainer.setMaximumSize(new Dimension(500,90));
+		headerPanelContainer.setMaximumSize(new Dimension(500,80));
 		JPanel settingsPanelContainer = new JPanel();
 		settingsPanelContainer.setBackground(bgcolor);
 		settingsPanelContainer.setMaximumSize(new Dimension(500,500));
-		JPanel buttonsPanelContainer = new JPanel();
+		final JPanel buttonsPanelContainer = new JPanel();
 		buttonsPanelContainer.setBackground(bgcolor);
-		buttonsPanelContainer.setMaximumSize(new Dimension(500,100));
+		buttonsPanelContainer.setMaximumSize(new Dimension(500,80));
 		
 		/* HEADER */
 		JPanel header = createHeader();
@@ -83,13 +83,16 @@ public class SettingsGUI extends JPanel {
 		/* SETTINGS */
 		
 		///////////////////////////////////////////////////////////size
-		final JRadioButton small = new JRadioButton("small");
-		final JRadioButton medium = new JRadioButton("medium");
-		final JRadioButton large = new JRadioButton("large");
+		final SRadioButton small = new SRadioButton("small", SRadioButton.SETTINGS_RADIO);
+		final SRadioButton medium = new SRadioButton("medium", SRadioButton.SETTINGS_RADIO);
+		final SRadioButton large = new SRadioButton("large", SRadioButton.SETTINGS_RADIO);
 		
 		small.setHorizontalAlignment(JRadioButton.CENTER);
+		small.setBackground(bgcolor);
 		medium.setHorizontalAlignment(JRadioButton.CENTER);
+		medium.setBackground(bgcolor);
 		large.setHorizontalAlignment(JRadioButton.CENTER);
+		large.setBackground(bgcolor);
 		
 		ButtonGroup bG = new ButtonGroup();
 		bG.add(small);
@@ -99,10 +102,12 @@ public class SettingsGUI extends JPanel {
 		JPanel sizePanel = new JPanel();
 		sizePanel.setPreferredSize(new Dimension(500,80));
 		sizePanel.setBorder(BorderFactory.createLineBorder(Color.white, 5));
+		sizePanel.setBackground(bgcolor);
 		
 		SLabel sizeLabel = new SLabel("board size", SLabel.SETTINGS_LABEL, SwingConstants.CENTER);
 		
 		JPanel sizeOptions = new JPanel();
+		sizeOptions.setBackground(bgcolor);
 		sizeOptions.setLayout(new GridLayout(1,3));
 		sizeOptions.add(small);
 		sizeOptions.add(medium);
@@ -128,20 +133,26 @@ public class SettingsGUI extends JPanel {
 		JPanel levelPanel = new JPanel();
 		levelPanel.setPreferredSize(new Dimension(500,100));
 		levelPanel.setBorder(BorderFactory.createLineBorder(Color.white, 5));
+		levelPanel.setBackground(bgcolor);
 		
 		SLabel levelLabel = new SLabel("difficulty", SLabel.SETTINGS_LABEL, SwingConstants.CENTER);
 
-		final JRadioButton lvl1 = new JRadioButton("granma");
-		final JRadioButton lvl2 = new JRadioButton("rookie");
-		final JRadioButton lvl3 = new JRadioButton("normalna");
-		final JRadioButton lvl4 = new JRadioButton("rampage");
-		final JRadioButton lvl5 = new JRadioButton("god mod");
+		final SRadioButton lvl1 = new SRadioButton("grandma", SRadioButton.SETTINGS_RADIO);
+		final SRadioButton lvl2 = new SRadioButton("rookie", SRadioButton.SETTINGS_RADIO);
+		final SRadioButton lvl3 = new SRadioButton("normalna", SRadioButton.SETTINGS_RADIO);
+		final SRadioButton lvl4 = new SRadioButton("rampage", SRadioButton.SETTINGS_RADIO);
+		final SRadioButton lvl5 = new SRadioButton("god mod", SRadioButton.SETTINGS_RADIO);
 		
 		lvl1.setHorizontalAlignment(JRadioButton.CENTER);
 		lvl2.setHorizontalAlignment(JRadioButton.CENTER);
 		lvl3.setHorizontalAlignment(JRadioButton.CENTER);
 		lvl4.setHorizontalAlignment(JRadioButton.CENTER);
 		lvl5.setHorizontalAlignment(JRadioButton.CENTER);
+		lvl1.setBackground(bgcolor);
+		lvl2.setBackground(bgcolor);
+		lvl3.setBackground(bgcolor);
+		lvl4.setBackground(bgcolor);
+		lvl5.setBackground(bgcolor);
 
 		ButtonGroup lG = new ButtonGroup();
 		lG.add(lvl1);
@@ -151,6 +162,7 @@ public class SettingsGUI extends JPanel {
 		lG.add(lvl5);
 
 		JPanel levelOptions = new JPanel();
+		levelOptions.setBackground(bgcolor);
 		levelOptions.setLayout(new GridLayout(1,5));
 		levelOptions.add(lvl1);
 		levelOptions.add(lvl2);
@@ -180,13 +192,16 @@ public class SettingsGUI extends JPanel {
 		JPanel piecePanel = new JPanel();
 		piecePanel.setPreferredSize(new Dimension(500,100));
 		piecePanel.setBorder(BorderFactory.createLineBorder(Color.white, 5));
+		piecePanel.setBackground(bgcolor);
 		
 		
 		SLabel pieceLabel = new SLabel("piece type", SLabel.SETTINGS_LABEL, SwingConstants.CENTER);
-		final JCheckBox tetra = new JCheckBox("Tetriminos");
-		final JCheckBox tri = new JCheckBox("Triminos");
+		final SCheckBox tetra = new SCheckBox("Tetriminos", SRadioButton.SETTINGS_RADIO);
+		final SCheckBox tri = new SCheckBox("Triminos", SRadioButton.SETTINGS_RADIO);
 		tetra.setHorizontalAlignment(JCheckBox.CENTER);
 		tri.setHorizontalAlignment(JCheckBox.CENTER);
+		tetra.setBackground(bgcolor);
+		tri.setBackground(bgcolor);
 		
 		if(pieceChoiceObject.hasBoth()){
 			tetra.setSelected(true);
@@ -229,6 +244,7 @@ public class SettingsGUI extends JPanel {
 		JPanel keyPanel = new JPanel();
 		keyPanel.setPreferredSize(new Dimension(500,200));
 		keyPanel.setBorder(BorderFactory.createLineBorder(Color.white, 5));
+		keyPanel.setBackground(bgcolor);
 
 
 		SLabel keyLabel = new SLabel("key configuration", SLabel.SETTINGS_LABEL, SwingConstants.CENTER);
@@ -246,6 +262,7 @@ public class SettingsGUI extends JPanel {
 		final JTextField pauseField = new JTextField(getKeyText(keyConfigureObject.getPause()));
 
 		JPanel keyOptions = new JPanel();
+		keyOptions.setBackground(bgcolor);
 		keyOptions.setLayout(new GridLayout(5,2,0,5));
 		keyOptions.add(enterLeft);
 		keyOptions.add(leftField);
@@ -259,6 +276,7 @@ public class SettingsGUI extends JPanel {
 		keyOptions.add(pauseField);
 		
 		JPanel keyOptionsSuper = new JPanel();
+		keyOptionsSuper.setBackground(bgcolor);
 		keyOptionsSuper.setLayout(new BoxLayout(keyOptionsSuper, BoxLayout.Y_AXIS));
 		keyOptions.setMaximumSize(new Dimension(400,140));
 		keyOptionsSuper.add(keyOptions);
@@ -437,29 +455,21 @@ public class SettingsGUI extends JPanel {
 		// /////////////////////////////////////////////////////////////////finishPanel
 		
 		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setBackground(bgcolor);
 		buttonsPanel.setLayout(new GridLayout(1,3,15,0));
-		//buttonsPanel.setMaximumSize(new Dimension(400,60));
+		buttonsPanel.setPreferredSize(new Dimension(500,50));
+		buttonsPanel.setMaximumSize(new Dimension(500,50));
 		
-		SButton save = new SButton("Save", SButton.SETTINGS_BUTTON);
-		SButton cancel = new SButton("Cancel", SButton.SETTINGS_BUTTON);
-		SButton defaultt = new SButton("Default", SButton.SETTINGS_BUTTON);
+		final SButton save = new SButton("done", SButton.SETTINGS_BUTTON);
+		final SButton cancel = new SButton("cancel", SButton.SETTINGS_BUTTON);
+		final SButton defaultt = new SButton("default", SButton.SETTINGS_BUTTON);
 		
 		buttonsPanel.add(cancel);
 		buttonsPanel.add(defaultt);
 		buttonsPanel.add(save);
 		
 		buttonsPanelContainer.add(buttonsPanel);
-
 		
-
-
-		final JLabel uyari = new JLabel("Incorrect Key Configuration",
-				SwingConstants.CENTER);
-		uyari.setSize(200, 30);
-		uyari.setLocation(50, 45);
-		uyari.setForeground(Color.red);
-		//buttonsPanel.add(uyari);
-		uyari.hide();
 
 		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
@@ -502,12 +512,14 @@ public class SettingsGUI extends JPanel {
 					rotateField.setText(getKeyText(keyConfigureObject.getRotate()));
 					pauseField.setText(getKeyText(keyConfigureObject.getPause()));
 				
+					
+					
+				gui.setContentPane(gui.menuGUI);
 			}
 		});
 
 		defaultt.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {	
-				uyari.hide();
+			public void actionPerformed(ActionEvent e) {
 				KeyConfigure defaultKeyConfig = new KeyConfigure();
 				keyMap = defaultKeyConfig.getMap();
 				leftField.setText(getKeyText(KeyEvent.VK_LEFT));
@@ -525,49 +537,35 @@ public class SettingsGUI extends JPanel {
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (keyMap.containsValue(0)) {
-					uyari.show();
-				}
-					else{
-					uyari.hide();
+					save.disable();
+				} else {
+					save.enable();
 					keyConfigureObject.setMap(keyMap);
 
-				if (tetra.isSelected() && tri.isSelected())
-					pieceChoiceObject.setBoth(true);
-				else if (tri.isSelected()){
-					pieceChoiceObject.setTriminos(true);
-					pieceChoiceObject.setTetriminos(false);
-				}
-				else{
-					pieceChoiceObject.setTetriminos(true);
-					pieceChoiceObject.setTriminos(false);
-				}
-
-				if (lvl1.isSelected())
-					levelChoiceObject.setLevel(1);
-				else if (lvl2.isSelected())
-					levelChoiceObject.setLevel(2);
-				else if (lvl3.isSelected())
-					levelChoiceObject.setLevel(3);
-				else if (lvl4.isSelected())
-					levelChoiceObject.setLevel(4);
-				else if (lvl5.isSelected())
-					levelChoiceObject.setLevel(5);
-				
-				if(small.isSelected())
-					boardSizeObject.setSmall();
-				else if(large.isSelected())
-					boardSizeObject.setLarge();
-				else
-					boardSizeObject.setMedium();
-				
-				try {
+					pieceChoiceObject.setTetriminos(tetra.isSelected());
+					pieceChoiceObject.setTriminos(tri.isSelected());
+					
+					if (lvl1.isSelected())
+						levelChoiceObject.setLevel(1);
+					else if (lvl2.isSelected())
+						levelChoiceObject.setLevel(2);
+					else if (lvl3.isSelected())
+						levelChoiceObject.setLevel(3);
+					else if (lvl4.isSelected())
+						levelChoiceObject.setLevel(4);
+					else if (lvl5.isSelected())
+						levelChoiceObject.setLevel(5);
+					
+					if(small.isSelected())
+						boardSizeObject.setSmall();
+					else if(large.isSelected())
+						boardSizeObject.setLarge();
+					else
+						boardSizeObject.setMedium();
+					System.out.println(9);
 					settingsObject.saveSettings();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					gui.setContentPane(gui.menuGUI);
 				}
-				
-			}
 				
 			}
 		});
@@ -576,6 +574,7 @@ public class SettingsGUI extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(headerPanelContainer);
 		add(settingsPanelContainer);
+		add(Box.createVerticalStrut(20));
 		add(buttonsPanelContainer);
 		
 		/*

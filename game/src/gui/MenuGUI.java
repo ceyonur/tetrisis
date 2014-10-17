@@ -12,10 +12,7 @@ import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.*;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.ParseException;
-
 import javax.swing.*;
 
 
@@ -105,6 +102,8 @@ public class MenuGUI extends JPanel {
 		
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				gui.settings = new Settings();
+				gui.settingsGUI = new SettingsGUI(gui, gui.settings);
 				gui.setContentPane(gui.settingsGUI);
 			}	
 		});

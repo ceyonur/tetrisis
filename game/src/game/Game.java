@@ -1,12 +1,10 @@
 package game;
 
-import java.io.FileNotFoundException;
-
 import gui.*;
 import settings.Settings;
 
 public class Game {
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args){
 		GUI frame = new GUI();
 		Settings settings = new Settings();
 		
@@ -17,7 +15,7 @@ public class Game {
 		frame.setVisible(true);
 	}
 	
-	public static Engine getEngine() throws FileNotFoundException{
+	public static Engine getEngine(){
 		return new Engine();
 	}
 }
