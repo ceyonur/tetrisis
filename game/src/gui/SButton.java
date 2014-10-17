@@ -54,12 +54,11 @@ public class SButton extends JButton {
 	private void setType(int t) {
 		this.type = t;
 		float f = 24F;
-		float[] hsb = Color.RGBtoHSB(41, 128, 185, null);
-		Color bgcolor = Color.getHSBColor(hsb[0],hsb[1],hsb[2]);
+		Color bgcolor = SColor.backgroundColor;
 		switch (type) {
 			case 0:
 				f = 52F;
-				this.setBackground(bgcolor);
+				this.setBackground(Color.red);
 				this.setBorder(BorderFactory.createLineBorder(Color.white, 5));
 				this.setForeground(Color.white);
 				this.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));

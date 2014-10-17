@@ -46,6 +46,8 @@ public class PlayGUI extends JFrame {
 	private AudioInputStream audioStream;
 	private ArrayList<String> sounds;
 
+	private Clip clipBackground;
+
 
 	public PlayGUI(GUI ui){
 
@@ -107,11 +109,10 @@ public class PlayGUI extends JFrame {
 		super.paint(g);
 	}
 
-	public void showGameOver() {
-		JPanel gameOverPanel = new GameOverPanel(engine.getScore(),
-				engine.getLevelNo());
-		removeAll();
-		add(gameOverPanel);
+
+	public void showGameOver(){
+		JPanel gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo());
+		setContentPane(gameOverPanel);
 		repaint();
 		pack();
 	}
@@ -247,6 +248,8 @@ public class PlayGUI extends JFrame {
 				Clip clip = AudioSystem.getClip();
 				audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
 				clip.open(audioStream);
+				FloatControl volume = (FloatControl) clipBackground.getControl(FloatControl.Type.MASTER_GAIN);
+				volume.setValue(-15.0f);
 				clip.start();
 				}
 		} catch (IOException e) {
@@ -303,10 +306,10 @@ public class PlayGUI extends JFrame {
 				Clip clip = AudioSystem.getClip();
 				audioStream = AudioSystem.getAudioInputStream(new File(gongFile));
 				clip.open(audioStream);
-				if (counter != 1 && status) 
-				clip.start();
 				
-				}
+				if (counter != 1 && status)
+					clip.start();
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -329,6 +332,8 @@ public class PlayGUI extends JFrame {
 				Clip clip = AudioSystem.getClip();
 				audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
 				clip.open(audioStream);
+				FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+				volume.setValue(-10.0f);
 				clip.start();
 				}
 		} catch (IOException e) {
@@ -351,10 +356,12 @@ public class PlayGUI extends JFrame {
 
 		try {
 			if (status){
-				Clip clip = AudioSystem.getClip();
+				Clip clipRotate = AudioSystem.getClip();
 				audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
-				clip.open(audioStream);
-				clip.start();
+				clipRotate.open(audioStream);
+				FloatControl volume = (FloatControl) clipRotate.getControl(FloatControl.Type.MASTER_GAIN);
+				volume.setValue(-15.0f);
+				clipRotate.start();
 				}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -375,10 +382,10 @@ public class PlayGUI extends JFrame {
 
 		try {
 			if (status){
-			Clip clip = AudioSystem.getClip();
+			Clip clipFirstBlood = AudioSystem.getClip();
 			audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
-			clip.open(audioStream);
-			clip.start();
+			clipFirstBlood.open(audioStream);
+			clipFirstBlood.start();
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -411,13 +418,14 @@ public class PlayGUI extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			
 				 try {
-					Clip clip = AudioSystem.getClip();
-					AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(sounds.get(0)));
-					clip.open(audioStream);
-					FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-					volume.setValue(-10.0f);
-					clip.start();
-					sounds.add(sounds.remove(0));
+					clipBackground = AudioSystem.getClip();
+					String sound = sounds.remove(0);
+					AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(sound));
+					clipBackground.open(audioStream);
+					FloatControl volume = (FloatControl) clipBackground.getControl(FloatControl.Type.MASTER_GAIN);
+					volume.setValue(-5.0f);
+					clipBackground.start();
+					sounds.add(sound);
 					
 				} catch (LineUnavailableException e0) {
 					// TODO Auto-generated catch block
