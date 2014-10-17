@@ -15,11 +15,13 @@ public class BoardPanel extends JPanel {
 	private AnimationEventListener eventListener;
 	private PauseKeyListener pauseListener;
 	private ClearLineListener clearLineListener;
+	private RestartActualTimerAgain restartActualTimerAgain;
 	private Timer timer;
 	private Timer timerForClearLine1;
 	private Timer timerForClearLine2;
 	private Timer timerForClearLine3;
 	private Timer timerForClearLine4;
+	private Timer timerForActivationTheActualTimerAgain;
 	private boolean mode;
 	private Piece piece;
 	private KeyConfigure keys;
@@ -53,6 +55,7 @@ public class BoardPanel extends JPanel {
 		eventListener = new AnimationEventListener();
 		pauseListener = new PauseKeyListener();
 		clearLineListener = new ClearLineListener(boardMatrix.getColumnSize());
+		restartActualTimerAgain = new RestartActualTimerAgain(this);
 
 		paused = new JLabel("Game is paused!");
 		paused.setFont(new Font(paused.getFont().getFamily(), paused.getFont().getStyle(), 20));
@@ -66,6 +69,8 @@ public class BoardPanel extends JPanel {
 		timerForClearLine2 = new Timer(deletionSpeed,clearLineListener);
 		timerForClearLine3 = new Timer(deletionSpeed,clearLineListener);
 		timerForClearLine4 = new Timer(deletionSpeed,clearLineListener);
+		timerForActivationTheActualTimerAgain = new Timer(deletionSpeed * boardMatrix.getColumnSize(), restartActualTimerAgain);
+		
 		setMode(true);
 	}
 
@@ -100,8 +105,6 @@ public class BoardPanel extends JPanel {
 		if (mode == true) {
 			
 			// we're about to change mode: turn off all the old listeners
-			removeMouseListener(eventListener);
-			removeMouseMotionListener(eventListener);
 			removeKeyListener(eventListener);
 		}
 
@@ -109,8 +112,6 @@ public class BoardPanel extends JPanel {
 		
 		if (mode == true) {
 			// the mode is true: turn on the listeners
-			addMouseListener(eventListener);
-			addMouseMotionListener(eventListener);
 			addKeyListener(eventListener);
 			removeKeyListener(pauseListener);
 			requestFocus();           // make sure keyboard is directed to us
@@ -137,11 +138,9 @@ public class BoardPanel extends JPanel {
 	}
 
 	public void delayPieceSelection(){
-		try {
-			timer.wait(deletionSpeed * boardMatrix.getColumnSize());
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		timer.stop();
+		timerForActivationTheActualTimerAgain.start();
+		removeKeyListener(eventListener);
 	}
 
 	public void clearEliminatedLine(int lineNo){
@@ -276,6 +275,21 @@ public class BoardPanel extends JPanel {
 		public void keyReleased(KeyEvent e) { }
 		@Override
 		public void keyTyped(KeyEvent e) { }
+	}
+	
+	class RestartActualTimerAgain implements ActionListener{
+		private BoardPanel callerPanel;
+
+		public RestartActualTimerAgain(BoardPanel callerPanel){
+			this.callerPanel = callerPanel;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			timer.start();
+			callerPanel.addKeyListener(eventListener);
+			timerForActivationTheActualTimerAgain.stop();
+		}
 	}
 
 	class ClearLineListener implements ActionListener{

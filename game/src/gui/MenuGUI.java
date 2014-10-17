@@ -89,6 +89,7 @@ public class MenuGUI extends JPanel {
 	private JPanel createMenuButtons() {
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new GridLayout(4, 1, 0, -5));
+		buttons.setBackground(SColor.backgroundColor);
 
 		final SButton newGame = new SButton("new game", SButton.MAIN_MENU_BUTTON);
 		SButton settings = new SButton("settings", SButton.MAIN_MENU_BUTTON);
