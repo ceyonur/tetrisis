@@ -79,26 +79,6 @@ public class BoardPanel extends JPanel {
 		timerForClearLine3 = new Timer(75,clearLineListener);
 		timerForClearLine4 = new Timer(75,clearLineListener);
 		setMode(false);
-		
-		System.out.println("keyPressed=");
-		KeyListener pressingLeft = new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
-			}
-		};
-		addKeyListener(pressingLeft);
-		setFocusable(true);
-		
 	}
 
 	// This is just here so that we can accept the keyboard focus
@@ -230,7 +210,7 @@ public class BoardPanel extends JPanel {
 			// effects: causes the ball to be bumped in a random direction but
 			//          only if one of the keys A-J is pressed.
 			int keynum = e.getKeyCode();
-
+			System.out.println(keynum);
 			Rectangle oldPos = piece.boundingBox();
 
 			if (keynum == keys.getLeft()){
@@ -291,7 +271,6 @@ public class BoardPanel extends JPanel {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			System.out.println("asdasd");
 			int keynum = e.getKeyCode();
 			if (keynum == keys.getPause())
 				setMode(true);

@@ -25,12 +25,12 @@ public class PlayGUI extends JPanel {
 	private Timer timerForCheckingGameOver;
 	private int width;
 	private int height;
-	private GUI callerGUI;
+	//private GUI callerGUI;
 	private LevelChoice levelChoiceObject = new LevelChoice();
 
-	public PlayGUI(GUI callerGUI){
+	public PlayGUI(){
 		super();
-		this.callerGUI = callerGUI;
+		//this.callerGUI = callerGUI;
 		gameOverListener = new GameOverListener();
 		timerForCheckingGameOver = new Timer(500,gameOverListener);
 	}
@@ -71,7 +71,7 @@ public class PlayGUI extends JPanel {
 		removeAll();
 		add(gameOverPanel);
 		repaint();
-		callerGUI.repaint();
+		//callerGUI.repaint();
 	}
 
 	class GameOverListener implements ActionListener{
