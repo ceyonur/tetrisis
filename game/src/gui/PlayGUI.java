@@ -54,12 +54,17 @@ public class PlayGUI extends JPanel {
 		width = engine.getBoardColumnLength();
 		height = engine.getBoardRowLength();
 	}
+	
+	public void paint(Graphics g){
+		super.paint(g);
+	}
 
 	public void showGameOver(){
 		JPanel gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo());
 		removeAll();
 		add(gameOverPanel);
 		repaint();
+		callerGUI.repaint();
 	}
 
 	class GameOverListener implements ActionListener{

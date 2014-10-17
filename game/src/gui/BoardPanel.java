@@ -63,7 +63,7 @@ public class BoardPanel extends JPanel {
 		newlyStarted1.setFont(new Font(newlyStarted1.getFont().getFamily(), newlyStarted1.getFont().getStyle(), 18));
 		newlyStartedPanel.add(newlyStarted1);
 		
-		newlyStarted2 = new JLabel("             to start!");
+		newlyStarted2 = new JLabel("to start!");
 		newlyStarted2.setFont(new Font(newlyStarted2.getFont().getFamily(), newlyStarted2.getFont().getStyle(), 18));
 		newlyStartedPanel.add(newlyStarted2);
 		
@@ -79,6 +79,26 @@ public class BoardPanel extends JPanel {
 		timerForClearLine3 = new Timer(75,clearLineListener);
 		timerForClearLine4 = new Timer(75,clearLineListener);
 		setMode(false);
+		
+		System.out.println("keyPressed=");
+		KeyListener pressingLeft = new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
+			}
+		};
+		addKeyListener(pressingLeft);
+		setFocusable(true);
+		
 	}
 
 	// This is just here so that we can accept the keyboard focus
@@ -267,10 +287,11 @@ public class BoardPanel extends JPanel {
 
 	class PauseKeyListener implements KeyListener{
 
-		public PauseKeyListener(){ }
+		public PauseKeyListener(){}
 
 		@Override
 		public void keyPressed(KeyEvent e) {
+			System.out.println("asdasd");
 			int keynum = e.getKeyCode();
 			if (keynum == keys.getPause())
 				setMode(true);
