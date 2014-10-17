@@ -1,8 +1,11 @@
 package gui;
 
+import game.Engine;
+
 import java.awt.*;
 
 import javax.swing.*;
+
 import pieces.Piece;
 
 public class NextPieceAndScorePanel extends JPanel {
@@ -86,7 +89,7 @@ public class NextPieceAndScorePanel extends JPanel {
 	}
 	
 	public void setCurrentScore(double newScore){
-		String scoreString = "Score : " + newScore;
+		String scoreString = "Score : " + Engine.round(newScore,2);
 		score.setText(scoreString);
 	}
 	

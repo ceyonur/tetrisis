@@ -101,7 +101,6 @@ public class PlayGUI extends JFrame {
 		super.paint(g);
 	}
 
-
 	public void showGameOver(){
 		JPanel gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo());
 		setContentPane(gameOverPanel);
@@ -135,7 +134,7 @@ public class PlayGUI extends JFrame {
 			setBackground(Color.WHITE);
 			setSize(width * 2, height);
 
-			String infoScore = "Score: " + score;
+			String infoScore = "Score: " + Engine.round(score,2);
 			String infoLevel = "Level: " + level;
 
 			setLayout(new GridLayout(4, 1));
@@ -183,7 +182,6 @@ public class PlayGUI extends JFrame {
 
 		public void paint(Graphics g) {
 			super.paint(g);
-			gameOverLabel.setLocation(10, 10);
 		}
 
 		protected JPanel addButtons() {
