@@ -389,7 +389,7 @@ public class Settings implements Serializable{
 			 
 			   FileInputStream fin = new FileInputStream("Settings.ser");
 			   ObjectInputStream ois = new ObjectInputStream(fin);
-			   Settings settings= (Settings) ois.readObject();
+			   Settings settings = (Settings) ois.readObject();
 			   ois.close();
 			   this.setBoardSizeChoice(settings.getBoardSizeChoice());
 			   this.setKeyConfigure(settings.getKeyConfigure());

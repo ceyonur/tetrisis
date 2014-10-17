@@ -5,7 +5,7 @@ import settings.Settings;
 
 public class Game {
 	public static void main(String[] args) {
-		PlayGUI frame = new PlayGUI();
+		GUI frame = new GUI();
 		Settings settings = new Settings();
 		
 		frame.setEngine(getEngine());
