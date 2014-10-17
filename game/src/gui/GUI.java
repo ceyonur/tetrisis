@@ -18,7 +18,6 @@ public class GUI extends JFrame {
 	MenuGUI menuGUI;
 	SettingsGUI settingsGUI;
 	HighScoresGUI highscoresGUI;
-	Color bgcolor = SColor.backgroundColor;
 	Dimension size;
 
 	public GUI()  {

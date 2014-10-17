@@ -2,10 +2,27 @@ package gui;
 
 import java.awt.Color;
 import java.awt.color.ColorSpace;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class SColor extends Color {
 	
-	public static Color backgroundColor = new SColor(41,128,185);
+	public static SColor backgroundColor = new SColor(41,128,185);
+	
+	public static SColor getRandomPieceColor() {
+		
+		ArrayList<SColor> pieceColorSet = new ArrayList<SColor>();
+		pieceColorSet.add(new SColor(241, 196, 15));
+		pieceColorSet.add(new SColor(230, 126, 34));
+		pieceColorSet.add(new SColor(231, 76, 60));
+		pieceColorSet.add(new SColor(46, 204, 113));
+		pieceColorSet.add(new SColor(52, 152, 219));
+		pieceColorSet.add(new SColor(155, 89, 182));
+		
+		Random rgen = new Random(System.currentTimeMillis());
+		
+		return pieceColorSet.get(rgen.nextInt(pieceColorSet.size()));
+	}
 
 	public SColor(int rgb) {
 		super(rgb);
