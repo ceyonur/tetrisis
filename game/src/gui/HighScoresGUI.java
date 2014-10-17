@@ -87,89 +87,41 @@ public class HighScoresGUI extends JFrame {
 			break;
 		case 2:
 
-			labels[1][0].setText(highScoresObject.getPlayer(2).getName());
-
-			labels[1][1].setText((Double.toString(highScoresObject
-					.getPlayer(2).getScore())));
-			labels[1][2].setText(dateFormat.format(highScoresObject
-					.getPlayer(2).getDate()));
+			for (int i = 0; i < 2; i++){
+				labels[i][0].setText(highScoresObject.getPlayer(i+1).getName());
+				labels[i][1].setText((Integer.toString((int) highScoresObject
+						.getPlayer(i+1).getScore())));
+				labels[i][2].setText(dateFormat.format(highScoresObject
+						.getPlayer(i+1).getDate()));
+			}
 			break;
 		case 3:
-			labels[0][0].setText(highScoresObject.getPlayer(1).getName());
-			labels[0][1].setText((Double.toString(highScoresObject
-					.getPlayer(1).getScore())));
-			labels[0][2].setText(dateFormat.format(highScoresObject
-					.getPlayer(1).getDate()));
-
-			labels[1][0].setText(highScoresObject.getPlayer(2).getName());
-
-			labels[1][1].setText((Double.toString(highScoresObject
-					.getPlayer(2).getScore())));
-			labels[1][2].setText(dateFormat.format(highScoresObject
-					.getPlayer(2).getDate()));
-
-			labels[2][0].setText(highScoresObject.getPlayer(3).getName());
-			labels[2][1].setText((Double.toString(highScoresObject
-					.getPlayer(3).getScore())));
-			labels[2][2].setText(dateFormat.format(highScoresObject
-					.getPlayer(3).getDate()));
+			for (int i = 0; i < 3; i++){
+				labels[i][0].setText(highScoresObject.getPlayer(i+1).getName());
+				labels[i][1].setText((Integer.toString((int) highScoresObject
+						.getPlayer(i+1).getScore())));
+				labels[i][2].setText(dateFormat.format(highScoresObject
+						.getPlayer(i+1).getDate()));
+			}
 			break;
 		case 4:
-			labels[0][0].setText(highScoresObject.getPlayer(1).getName());
-			labels[0][1].setText((Double.toString(highScoresObject
-					.getPlayer(1).getScore())));
-			labels[0][2].setText(dateFormat.format(highScoresObject
-					.getPlayer(1).getDate()));
+			for (int i = 0; i < 4; i++){
+				labels[i][0].setText(highScoresObject.getPlayer(i+1).getName());
+				labels[i][1].setText((Integer.toString((int) highScoresObject
+						.getPlayer(i+1).getScore())));
+				labels[i][2].setText(dateFormat.format(highScoresObject
+						.getPlayer(i+1).getDate()));
+			}
+			break;
+		case 5:
+			for (int i = 0; i < 5; i++){
+				labels[i][0].setText(highScoresObject.getPlayer(i+1).getName());
+				labels[i][1].setText((Integer.toString((int) highScoresObject
+						.getPlayer(i+1).getScore())));
+				labels[i][2].setText(dateFormat.format(highScoresObject
+						.getPlayer(i+1).getDate()));
+			}
 
-			labels[1][0].setText(highScoresObject.getPlayer(2).getName());
-
-			labels[1][1].setText((Double.toString(highScoresObject
-					.getPlayer(2).getScore())));
-			labels[1][2].setText(dateFormat.format(highScoresObject
-					.getPlayer(2).getDate()));
-
-			labels[2][0].setText(highScoresObject.getPlayer(3).getName());
-			labels[2][1].setText((Double.toString(highScoresObject
-
-					.getPlayer(3).getScore())));
-			labels[2][2].setText(dateFormat.format(highScoresObject
-					.getPlayer(3).getDate()));
-
-			labels[3][0].setText(highScoresObject.getPlayer(4).getName());
-
-			labels[3][1].setText((Double.toString(highScoresObject
-
-					.getPlayer(4).getScore())));
-			labels[3][2].setText(dateFormat.format(highScoresObject
-					.getPlayer(4).getDate()));
-
-			labels[1][0].setText(highScoresObject.getPlayer(2).getName());
-			labels[1][1].setText((Double.toString(highScoresObject
-					.getPlayer(2).getScore())));
-			labels[1][2].setText(dateFormat.format(highScoresObject
-					.getPlayer(2).getDate()));
-
-			labels[2][0].setText(highScoresObject.getPlayer(3).getName());
-			labels[2][1].setText((Double.toString(highScoresObject
-
-					.getPlayer(3).getScore())));
-			labels[2][2].setText(dateFormat.format(highScoresObject
-					.getPlayer(3).getDate()));
-
-			labels[3][0].setText(highScoresObject.getPlayer(4).getName());
-
-			labels[3][1].setText((Double.toString(highScoresObject
-
-					.getPlayer(4).getScore())));
-			labels[3][2].setText(dateFormat.format(highScoresObject
-					.getPlayer(4).getDate()));
-
-			labels[4][0].setText(highScoresObject.getPlayer(5).getName());
-
-			labels[4][1].setText((Double.toString(highScoresObject
-					.getPlayer(5).getScore())));
-			labels[4][2].setText(dateFormat.format(highScoresObject
-					.getPlayer(5).getDate())); 
 			break;
 		}
 
