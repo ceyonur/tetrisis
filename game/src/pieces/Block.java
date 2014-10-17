@@ -93,7 +93,7 @@ public class Block {
 	 * This method changes the size of the block
 	 * @param size The new size of the block
 	 */
-	public void setSize(int size){
+	public static void setSize(int size){
 		if (size >= 1)
 			SIZE = size;
 		else
