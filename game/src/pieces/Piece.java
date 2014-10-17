@@ -106,7 +106,7 @@ public abstract class Piece {
 	
 	/**
 	 * This method returns the color of the piece as integer
-	 * (1: BLUE, 2: CYAN. 3: DARK_GRAY, 4: GREEN, 5: MAGENTA, 6: ORANGE, 7: PINK, 8:ERD, 9: YELLOW)
+	 * (1: BLUE, 2: CYAN. 3: DARK_GRAY, 4: GREEN, 5: MAGENTA, 6: ORANGE, 7: PINK, 8: RED, 9: YELLOW)
 	 * @return The color of the piece as integer
 	 */
 	public int getColorAsInteger(){

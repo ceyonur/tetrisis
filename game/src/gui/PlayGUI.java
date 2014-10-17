@@ -55,12 +55,12 @@ public class PlayGUI extends JPanel {
 		width = engine.getBoardColumnLength();
 		height = engine.getBoardRowLength();
 		
-		showGameOver();
+		//showGameOver();
 	}
 
 	public void showGameOver(){
-		JPanel gameOverPanel = new GameOverPanel(100, engine.getLevelNo());
-		this.remove(generalPane);
+		JPanel gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo());
+		removeAll();
 		add(gameOverPanel);
 		repaint();
 	}
