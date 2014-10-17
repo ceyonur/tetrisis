@@ -54,7 +54,7 @@ public class PlayGUI extends JPanel {
 		width = engine.getBoardColumnLength();
 		height = engine.getBoardRowLength();
 		
-		showGameOver();
+		//showGameOver();
 	}
 
 	public void showGameOver(){

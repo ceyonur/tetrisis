@@ -2,11 +2,8 @@ package game;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
-<<<<<<< HEAD
-=======
 import java.io.IOException;
 import java.text.ParseException;
->>>>>>> 102bf93672869efa139dd9fa00b29bef260bab01
 import java.util.Random;
 
 import highscores.*;

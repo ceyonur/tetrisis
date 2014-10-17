@@ -1,6 +1,8 @@
 package gui;
 
 import game.Engine;
+import game.Game;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.FileNotFoundException;
@@ -18,7 +20,7 @@ public class GUI extends JFrame {
 	HighScoresGUI highscoresGUI;
 	Color bgcolor;
 
-	public GUI() {
+	public GUI() throws FileNotFoundException {
 		play = new PlayGUI();
 		try {
 			settings = new Settings();
@@ -32,11 +34,13 @@ public class GUI extends JFrame {
 		
 		menuGUI = new MenuGUI(this);
 		setSize(menuGUI.size());
+		
+		setEngine(Game.getEngine());
 		setContentPane(menuGUI);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		GUI gui = new GUI();
 		gui.show();
 	}
