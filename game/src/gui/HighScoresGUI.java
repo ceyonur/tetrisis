@@ -5,7 +5,10 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,6 +22,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import settings.Settings;
 
 public class HighScoresGUI extends JFrame {
 	HighScores highScoresObject;
@@ -81,11 +86,6 @@ public class HighScoresGUI extends JFrame {
 					.getPlayer(1).getDate()));
 			break;
 		case 2:
-			labels[0][0].setText(highScoresObject.getPlayer(1).getName());
-			labels[0][1].setText((Double.toString(highScoresObject
-					.getPlayer(1).getScore())));
-			labels[0][2].setText(dateFormat.format(highScoresObject
-					.getPlayer(1).getDate()));
 
 			labels[1][0].setText(highScoresObject.getPlayer(2).getName());
 
@@ -142,13 +142,6 @@ public class HighScoresGUI extends JFrame {
 					.getPlayer(4).getScore())));
 			labels[3][2].setText(dateFormat.format(highScoresObject
 					.getPlayer(4).getDate()));
-			break;
-		case 5:
-			labels[0][0].setText(highScoresObject.getPlayer(1).getName());
-			labels[0][1].setText((Double.toString(highScoresObject
-					.getPlayer(1).getScore())));
-			labels[0][2].setText(dateFormat.format(highScoresObject
-					.getPlayer(1).getDate()));
 
 			labels[1][0].setText(highScoresObject.getPlayer(2).getName());
 			labels[1][1].setText((Double.toString(highScoresObject
@@ -176,7 +169,7 @@ public class HighScoresGUI extends JFrame {
 			labels[4][1].setText((Double.toString(highScoresObject
 					.getPlayer(5).getScore())));
 			labels[4][2].setText(dateFormat.format(highScoresObject
-					.getPlayer(5).getDate()));
+					.getPlayer(5).getDate())); 
 			break;
 		}
 
@@ -190,8 +183,5 @@ public class HighScoresGUI extends JFrame {
 		this.add(centerPanel);
 
 	}
-
-
-
 
 }
