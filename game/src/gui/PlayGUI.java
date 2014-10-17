@@ -72,6 +72,7 @@ public class PlayGUI extends JPanel {
 		add(gameOverPanel);
 		repaint();
 		callerGUI.repaint();
+		callerGUI.pack();
 	}
 
 	class GameOverListener implements ActionListener{

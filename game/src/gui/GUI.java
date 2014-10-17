@@ -46,9 +46,11 @@ public class GUI extends JFrame {
 	public void showPlay() {
 		playGUI = new PlayGUI(this);
 		setGameEngine(Game.getEngine(settings));
+		this.
 		setContentPane(playGUI);
 		repaint();
 		playGUI.repaint();
+		pack();
 	}
 
 	public void showSettings() {

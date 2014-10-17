@@ -24,7 +24,7 @@ public class LevelChoice implements Serializable{
 	 * Default constructor for the LevelChoice class. Sets the level to 1.
 	 */
 	public LevelChoice(){
-		this(1);
+		this(5);
 	}
 	
 	/**
