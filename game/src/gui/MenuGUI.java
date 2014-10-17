@@ -102,6 +102,8 @@ public class MenuGUI extends JPanel {
 		
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				gui.settings = new Settings();
+				gui.settingsGUI = new SettingsGUI(gui, gui.settings);
 				gui.setContentPane(gui.settingsGUI);
 			}	
 		});

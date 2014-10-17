@@ -15,6 +15,7 @@ public class SLabel extends JLabel {
 	public static final int MAIN_MENU_AUTHOR = 11;
 	public static final int SETTINGS_LABEL = 20;
 	public static final int SETTINGS_FIELD_LABEL = 21;
+	public static final int SETTINGS_WARNING_LABEL = 22;
 	
 	private Font font;
 	
@@ -60,6 +61,10 @@ public class SLabel extends JLabel {
 				break;
 			case 21:
 				f = 24F;
+				this.setForeground(Color.white);
+				break;
+			case 22:
+				f = 18F;
 				this.setForeground(Color.white);
 				break;
 			default:

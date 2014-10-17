@@ -69,11 +69,11 @@ public class SButton extends JButton {
 				this.setPreferredSize(new Dimension(80,40));
 				break;
 			case 2:
-				f = 32F;
+				f = 36F;
 				this.setBackground(bgcolor);
 				this.setBorder(BorderFactory.createLineBorder(Color.white, 5));
 				this.setForeground(Color.white);
-				this.setPreferredSize(new Dimension(100,50));
+				this.setMinimumSize(new Dimension(120,30));
 				break;
 			default:
 				this.setSize(140, 40);
@@ -83,5 +83,4 @@ public class SButton extends JButton {
 		this.setFont(font);
 	}
 	
-
 }
