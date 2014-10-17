@@ -8,7 +8,7 @@ public class Game {
 		GUI frame = new GUI();
 		Settings settings = new Settings();
 		
-		frame.setEngine(getEngine());
+		frame.setGameEngine(getEngine());
 
 		// the following code realizes the top level application window
 		frame.pack();

@@ -3,11 +3,17 @@ package gui;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
+import settings.LevelChoice;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 import game.Board;
 import game.Engine;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class PlayGUI extends JPanel {
 	protected Engine engine;
@@ -20,6 +26,7 @@ public class PlayGUI extends JPanel {
 	private int width;
 	private int height;
 	private GUI callerGUI;
+	private LevelChoice levelChoiceObject = new LevelChoice();
 
 	public PlayGUI(GUI callerGUI){
 		super();
@@ -176,5 +183,141 @@ public class PlayGUI extends JPanel {
 			return buttons;
 			
 		}
+	}
+	public void playAudio2(boolean status) {
+		String stringFile = "assets/sounds/oneKill.wav";
+		InputStream in = null;
+
+		AudioStream audioStream = null;
+
+		try {
+			in = new FileInputStream(stringFile);
+			audioStream = new AudioStream(in);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+		// play the audio clip with the audioplayer class
+		if (status)
+			AudioPlayer.player.start(audioStream);
+
+	}
+
+	public void playAudio(boolean status, int counter) {
+		String gongFile = " ";
+		int a = 1;
+		int b = 1;
+		
+		int level = levelChoiceObject.getLevel();
+		if (level >= 3)
+			a = a * -1;
+		
+		if (level == 5)
+			b = b * -1;
+		
+		
+		if (counter == 1)
+			gongFile = "assets/sounds/oneKill.wav";
+		else if (counter == 2) {
+			gongFile = "assets/sounds/DoubleKill.wav";
+		}
+		else if (counter == 3 && a > 0) {
+			gongFile = "assets/sounds/TripleKill.wav";
+		}
+		else if (counter == 3 && a < 0) {
+			gongFile = "assets/sounds/MonsterKill.wav";
+		}
+		else if (counter == 4 && a > 0 && level < 5) {
+			gongFile = "assets/sounds/Rampage.wav";
+		}
+		else if (counter == 4 && a < 0 && level < 5) {
+			gongFile = "assets/sounds/GodLike.wav";
+		}
+		else if (counter == 4 && b < 0) {
+			gongFile = "assets/sounds/GodLike.wav";
+		}
+		else if (counter == 4 && b > 0) {
+			gongFile = "assets/sounds/Unstopable.wav";
+		}
+		InputStream in = null;
+
+		AudioStream audioStream = null;
+
+		try {
+			in = new FileInputStream(gongFile);
+			audioStream = new AudioStream(in);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// play the audio clip with the audioplayer class
+
+		if (counter != 1 && status) {
+			AudioPlayer.player.start(audioStream);
+		}
+
+	}
+
+	public void playSitSound(boolean status) {
+		String stringFile = "assets/sounds/lastMove.wav";
+		InputStream in = null;
+
+		AudioStream audioStream = null;
+
+		try {
+			in = new FileInputStream(stringFile);
+			audioStream = new AudioStream(in);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// play the audio clip with the audioplayer class
+		if (status)
+			AudioPlayer.player.start(audioStream);
+
+	}
+
+	public void playRotate(boolean status) {
+		String stringFile = "assets/sounds/rotate.wav";
+		InputStream in = null;
+
+		AudioStream audioStream = null;
+
+		try {
+			in = new FileInputStream(stringFile);
+			audioStream = new AudioStream(in);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// play the audio clip with the audioplayer class
+		if (status)
+			AudioPlayer.player.start(audioStream);
+
+	}
+
+	public void playAudioFirstBlood(boolean status) {
+		String stringFile = "assets/sounds/firstBlood.wav";
+		InputStream in = null;
+
+		AudioStream audioStream = null;
+
+		try {
+			in = new FileInputStream(stringFile);
+			audioStream = new AudioStream(in);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// play the audio clip with the audioplayer class
+		if (status)
+			AudioPlayer.player.start(audioStream);
+		
 	}
 }

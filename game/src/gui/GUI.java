@@ -46,7 +46,7 @@ public class GUI extends JFrame {
 	}
 	
 	public void showPlay() {
-		playGUI = new PlayGUI();
+		playGUI = new PlayGUI(this);
 		setGameEngine(Game.getEngine());
 		setContentPane(playGUI);
 		repaint();
