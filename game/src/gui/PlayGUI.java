@@ -79,6 +79,7 @@ public class PlayGUI extends JFrame {
 		removeAll();
 		add(gameOverPanel);
 		repaint();
+		pack();
 	}
 
 	class GameOverListener implements ActionListener{

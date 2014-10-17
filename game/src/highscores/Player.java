@@ -47,10 +47,10 @@ public class Player implements Serializable{
 	 * @param name The name of the player
 	 */
 	public void setName(String name){
-		if (name.length() <= 20) 
+		if (name.length() <= 10) 
 			this.name = name;
 		else
-			this.name = name.substring(0,20); // If the length of the name exceeds 20, then the first 20 letters will be taken.
+			this.name = name.substring(0,10); // If the length of the name exceeds 20, then the first 20 letters will be taken.
 	}
 
 	/**

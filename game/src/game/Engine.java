@@ -163,6 +163,7 @@ public class Engine {
 	public void eliminatedLine(int lineNo){
 		boardPanel.clearEliminatedLine(lineNo);
 		nextPiecePanel.increaseDeletedLineNo();
+		boardPanel.delayPieceSelection();
 	}
 	
 	public boolean isScoreHighEnough(double score){

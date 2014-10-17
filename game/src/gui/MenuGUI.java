@@ -13,6 +13,7 @@ import java.awt.Window;
 import java.awt.event.*;
 import java.io.FileInputStream;
 import java.io.IOException;
+
 import javax.swing.*;
 
 
@@ -150,5 +151,19 @@ public class MenuGUI extends JPanel {
 		} else {
 			AP.stop(loop);
 		}
+	}
+	
+	class PlayListeners implements ActionListener{
+		private MenuGUI callerMenuGUI;
+		
+		public PlayListeners(MenuGUI callerMenuGUI){
+			this.callerMenuGUI = callerMenuGUI;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			gui.showPlay();
+		}
+		
 	}
 }
