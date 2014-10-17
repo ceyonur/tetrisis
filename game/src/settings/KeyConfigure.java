@@ -1,6 +1,7 @@
 package settings;
 
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 import java.util.HashMap;
 
 // TODO: Auto-generated Javadoc
@@ -8,7 +9,7 @@ import java.util.HashMap;
  * The Class KeyConfigure. This class maps the game functions to keys.
  * @author ceyonur
  */
-public class KeyConfigure {
+public class KeyConfigure implements Serializable {
 	
 	/** The map. */
 	private HashMap<String, Integer> map;

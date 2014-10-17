@@ -1,10 +1,12 @@
 package settings;
 
+import java.io.Serializable;
+
 /**
  * The Class Level.
  * @author ceyonur
  */
-public class LevelChoice {
+public class LevelChoice implements Serializable{
 	
 	/** The level field. */
 	private Integer level;

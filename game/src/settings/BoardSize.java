@@ -1,10 +1,12 @@
 package settings;
 
+import java.io.Serializable;
+
 /**
  * The Class BoardSize. This class holds the selected board type. Also it returns the corresponding Row and Column size.
  * @author ceyonur
  */
-public class BoardSize {
+public class BoardSize implements Serializable{
 
 	/** The small. */
 	private boolean small;

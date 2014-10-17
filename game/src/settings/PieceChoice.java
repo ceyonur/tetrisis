@@ -1,5 +1,7 @@
 package settings;
 
+import java.io.Serializable;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class PieceChoice. This class stores the choice of pieces.(Tetriminos or
@@ -7,7 +9,7 @@ package settings;
  * 
  * @author ceyonur
  */
-public class PieceChoice {
+public class PieceChoice implements Serializable{
 
 	/** The choice. */
 	private boolean triminos;
