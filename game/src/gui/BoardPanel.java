@@ -62,7 +62,6 @@ public class BoardPanel extends JPanel {
 		timerForClearLine3 = new Timer(deletionSpeed,clearLineListener);
 		timerForClearLine4 = new Timer(deletionSpeed,clearLineListener);
 		setMode(true);
-
 	}
 
 	// This is just here so that we can accept the keyboard focus
@@ -192,7 +191,6 @@ public class BoardPanel extends JPanel {
 			// effects: causes the ball to be bumped in a random direction but
 			//          only if one of the keys A-J is pressed.
 			int keynum = e.getKeyCode();
-
 			Rectangle oldPos = piece.boundingBox();
 
 			if (keynum == keys.getLeft()){
@@ -253,7 +251,6 @@ public class BoardPanel extends JPanel {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			System.out.println("asdasd");
 			int keynum = e.getKeyCode();
 			if (keynum == keys.getPause())
 				setMode(true);

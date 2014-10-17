@@ -34,8 +34,7 @@ public class MenuGUI extends JPanel {
 		super();
 		gui = ui;
 		bgcolor = gui.bgcolor;
-		
-		setSize(570, 690);
+		setSize(gui.size.width, gui.size.height);
 		this.setBackground(bgcolor);
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -85,7 +84,7 @@ public class MenuGUI extends JPanel {
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new GridLayout(4,1,0,-5));
 
-		SButton newGame = new SButton("new game", SButton.MAIN_MENU_BUTTON);
+		final SButton newGame = new SButton("new game", SButton.MAIN_MENU_BUTTON);
 		SButton settings = new SButton("settings", SButton.MAIN_MENU_BUTTON);
 		SButton highScores = new SButton("high scores", SButton.MAIN_MENU_BUTTON);
 		SButton quit = new SButton("quit", SButton.MAIN_MENU_BUTTON);
@@ -103,7 +102,14 @@ public class MenuGUI extends JPanel {
 		
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//gui.set
 				gui.showSettings();
+			}	
+		});
+		
+		highScores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gui.showHighScores();
 			}	
 		});
 
