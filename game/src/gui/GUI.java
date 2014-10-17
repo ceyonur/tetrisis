@@ -2,6 +2,7 @@ package gui;
 
 import game.Engine;
 import game.Game;
+import highscores.HighScores;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -12,7 +13,7 @@ import settings.Settings;
 public class GUI extends JFrame {
 	
 	Settings settings;
-	PlayGUI play;
+	PlayGUI playGUI;
 	MenuGUI menuGUI;
 	SettingsGUI settingsGUI;
 	HighScoresGUI highscoresGUI;
@@ -20,7 +21,6 @@ public class GUI extends JFrame {
 
 	public GUI()  {
 		setSize(570, 690);
-		play = new PlayGUI(this);
 		settings = new Settings();
 		settingsGUI = new SettingsGUI(this, settings);
 		float[] hsb = Color.RGBtoHSB(41, 128, 185, null);
@@ -28,9 +28,8 @@ public class GUI extends JFrame {
 		
 		menuGUI = new MenuGUI(this);
 		setSize(menuGUI.size());
+		showMenu();
 		
-		setEngine(Game.getEngine());
-		setContentPane(play);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
@@ -40,6 +39,28 @@ public class GUI extends JFrame {
 	}
 	
 	public void setEngine(Engine engine){
-		play.setEngine(engine);
+		playGUI.setEngine(engine);
+	}
+	
+	public void showMenu() {
+		setContentPane(menuGUI);
+	}
+	
+	public void showPlay() {
+		playGUI = new PlayGUI(this);
+		setEngine(Game.getEngine());
+		setContentPane(playGUI);
+		repaint();
+		playGUI.repaint();
+	}
+	
+	public void showSettings() {
+		settings = new Settings();
+		settingsGUI = new SettingsGUI(this, settings);
+		setContentPane(settingsGUI);
+	}
+	
+	public void showHighScores() {
+		setContentPane(highscoresGUI);
 	}
 }
