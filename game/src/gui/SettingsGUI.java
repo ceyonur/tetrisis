@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
+import java.awt.GridLayout;
 
 import settings.*;
 
@@ -30,26 +32,16 @@ public class SettingsGUI extends JFrame {
 	private PieceChoice pieceChoiceObject;
 	private Settings settingsObject;
 	private HashMap<String, Integer> keyMap;	
-//	private int leftKey; // ascii kodlari
-//	private int rightKey;
-//	private int rotateKey;
-//	private int speedKey;
-//	private int pauseKey;	
-//	private int key1;
-//	private int key2;
-//	private int key3;
-//	private int key4;
-//	private int key5;
-//	private int boyut; // 1 ise kucuk 2 ise orta 3 ise buyuk
-//	private int level; // default level
-//	private int mode; // default blocktype
 	
 	public SettingsGUI(Settings settings) {
 		super();
 		setTitle("Settings");
-		setSize(480, 690);
+		setSize(450, 690);
+	//	setResizable(false);
+
+		
 		setLocation(250, 150);
-		setResizable(false);
+		
 		settingsObject= settings;
 		boardSizeObject = settingsObject.getSizeChoice();
 		keyConfigureObject = settingsObject.getKeyConfigure();
@@ -74,40 +66,35 @@ public class SettingsGUI extends JFrame {
 		bG.add(medium);
 		bG.add(large);
 
-
-		JPanel sizePanel = new JPanel();
+		GridLayout grd = new GridLayout(2,3);
+		GridLayout mainGrd = new GridLayout(5,1);
+		JPanel sizePanel = new JPanel(grd);
 		
-		JPanel mainPanel = new JPanel();
-		mainPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+		JPanel mainPanel = new JPanel(mainGrd);
+		mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 		
-		mainPanel.setLayout(null);
-		mainPanel.setSize(455, 800);
-		mainPanel.setLocation(10, 10);
+		JLabel sizeLabel = new JLabel("Please select the board size",
+				SwingConstants.CENTER);
+		JLabel a = new JLabel();
+		JLabel b = new JLabel();
+		sizePanel.add(a);
+		sizePanel.add(sizeLabel);
+	
+		sizePanel.add(b);
 		
-		sizePanel.setLayout(null);
-		sizePanel.setLocation(10, 20);
-		sizePanel.setSize(455, 90);
 		
 		sizePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-		small.setLocation(120, 50);
-		small.setSize(80, 20);
+
 
 		sizePanel.add(small);
 
-		medium.setLocation(200, 50);
-		medium.setSize(80, 20);
+
 		sizePanel.add(medium);
 
-		large.setLocation(280, 50);
-		large.setSize(80, 20);
+
 		sizePanel.add(large);
 
-		JLabel l = new JLabel("Please select the board size",
-				SwingConstants.CENTER);
-		l.setLocation(130, -5);
-		l.setSize(220, 60);
-		sizePanel.add(l);
 
 		if(boardSizeObject.isSmall()){
 			small.setSelected(true);
@@ -120,15 +107,22 @@ public class SettingsGUI extends JFrame {
 		}
 		
 		this.setVisible(true);
-		mainPanel.add(sizePanel);
+		
+		
+		mainPanel.add(sizePanel, BorderLayout.CENTER);
 
 		// //////////////////////////////////////////////////LEVEL PANEL
-		JPanel levelPanel = new JPanel();
-		levelPanel.setLayout(null);
-		levelPanel.setSize(455, 80);
-		levelPanel.setLocation(10, 120);
-		
+		GridLayout grd2 = new GridLayout(2,5);
+		JPanel levelPanel = new JPanel(grd2);
+
 		levelPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
+		JLabel levelLabel = new JLabel("Please select dificulty level",
+				SwingConstants.CENTER);
+		JLabel c = new JLabel();
+		JLabel d = new JLabel();
+		JLabel e = new JLabel();
+		JLabel f = new JLabel();
 
 		final JRadioButton lvl1 = new JRadioButton("Level 1");
 		final JRadioButton lvl2 = new JRadioButton("Level 2");
@@ -143,30 +137,22 @@ public class SettingsGUI extends JFrame {
 		lG.add(lvl4);
 		lG.add(lvl5);
 
-		JLabel levelLabel = new JLabel("Please select dificulty level",
-				SwingConstants.CENTER);
-		levelLabel.setLocation(130, -10);
-		levelLabel.setSize(220, 60);
 
-		lvl1.setLocation(45, 40);
-		lvl1.setSize(80, 20);
+		levelPanel.add(c);
+		levelPanel.add(d);
+		levelPanel.add(levelLabel);
+		levelPanel.add(e);
+		levelPanel.add(f);
+
 
 		levelPanel.add(lvl1);
 
-		lvl2.setLocation(125, 40);
-		lvl2.setSize(80, 20);
 		levelPanel.add(lvl2);
 
-		lvl3.setLocation(205, 40);
-		lvl3.setSize(80, 20);
 		levelPanel.add(lvl3);
 
-		lvl4.setLocation(285, 40);
-		lvl4.setSize(80, 20);
 		levelPanel.add(lvl4);
 
-		lvl5.setLocation(365, 40);
-		lvl5.setSize(80, 20);
 		levelPanel.add(lvl5);
 
 		switch(levelChoiceObject.getLevel()){
@@ -181,16 +167,19 @@ public class SettingsGUI extends JFrame {
 		case 5: lvl5.setSelected(true);
 		break;		
 		}
-		levelPanel.add(levelLabel);
 		mainPanel.add(levelPanel);
 
 		// /////////////////////////////////////////////////block paneli
-		JPanel blockPanel = new JPanel();
-		blockPanel.setLayout(null);
-		blockPanel.setSize(455, 80);
-		blockPanel.setLocation(10, 210);
+		GridLayout blockGrid = new GridLayout(2,2);
+		JPanel blockPanel = new JPanel(blockGrid);
+//		blockPanel.setLayout(null);
+//		blockPanel.setSize(455, 80);
+//		blockPanel.setLocation(10, 210);
 		blockPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
+		JLabel blockLabel = new JLabel("                                                          Please select block type",
+				SwingConstants.CENTER);
+		JLabel h = new JLabel();
 		final JCheckBox tetra = new JCheckBox("Tetriminos");
 		final JCheckBox tri = new JCheckBox("Triminos");
 		
@@ -204,18 +193,18 @@ public class SettingsGUI extends JFrame {
 		else if(pieceChoiceObject.hasTriminos()){
 			tri.setSelected(true);
 		}
-		JLabel blockLabel = new JLabel("Please select block type",
-				SwingConstants.CENTER);
-		blockLabel.setLocation(130, -10);
-		blockLabel.setSize(220, 60);
+//		blockLabel.setLocation(130, -10);
+//		blockLabel.setSize(220, 60);
 
-		tetra.setLocation(120, 40);
-		tetra.setSize(140, 20);
-
+//		tetra.setLocation(120, 40);
+//		tetra.setSize(140, 20);
+		//blockPanel.add(h);
+		blockPanel.add(blockLabel);
+		blockPanel.add(h);
 		blockPanel.add(tetra);
 
-		tri.setLocation(260, 40);
-		tri.setSize(140, 20);
+//		tri.setLocation(260, 40);
+//		tri.setSize(140, 20);
 
 		tetra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -232,22 +221,18 @@ public class SettingsGUI extends JFrame {
 		});
 
 		blockPanel.add(tri);
-		blockPanel.add(blockLabel);
 
 		mainPanel.add(blockPanel);
 
 		// /////////////////////////////////////////keyConfig
-		JPanel keyPanel = new JPanel();
-		keyPanel.setLayout(null);
-		keyPanel.setSize(455, 230);
-		keyPanel.setLocation(10, 300);
+		GridLayout keyGrid = new GridLayout(5,2);
+		JPanel keyPanel = new JPanel(keyGrid);
+
 
 		JLabel keyLabel = new JLabel("Key Configuration", SwingConstants.CENTER);
+		
+		JLabel enterLeft = new JLabel("Move Left");
 
-		keyLabel.setLocation(130, 0);
-		keyLabel.setSize(220, 60);
-
-		keyPanel.add(keyLabel);
 
 		final JTextField leftField = new JTextField(getKeyText(keyConfigureObject.getLeft()));
 		final JTextField rightField = new JTextField(getKeyText(keyConfigureObject.getRight()));
@@ -255,14 +240,11 @@ public class SettingsGUI extends JFrame {
 		final JTextField rotateField = new JTextField(getKeyText(keyConfigureObject.getRotate()));
 		final JTextField pauseField = new JTextField(getKeyText(keyConfigureObject.getPause()));
 		
-		leftField.setSize(60, 20);
-		leftField.setLocation(260, 60);
+
+		keyPanel.add(enterLeft);
 		keyPanel.add(leftField);
 
-		JLabel enterLeft = new JLabel("Move Left");
-		enterLeft.setLocation(170, 60);
-		enterLeft.setSize(140, 20);
-		keyPanel.add(enterLeft);
+
 		
 		keyPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
@@ -298,15 +280,12 @@ public class SettingsGUI extends JFrame {
 		});
 
 		// /////////////////////////////////rightKEy
-		
-		rightField.setSize(60, 20);
-		rightField.setLocation(260, 90);
+		JLabel enterRight = new JLabel("Move Right");
+
+		keyPanel.add(enterRight);
 		keyPanel.add(rightField);
 
-		JLabel enterRight = new JLabel("Move Right");
-		enterRight.setLocation(170, 90);
-		enterRight.setSize(140, 20);
-		keyPanel.add(enterRight);
+
 
 		rightField.addKeyListener(new KeyListener() {
 			@Override
@@ -341,14 +320,12 @@ public class SettingsGUI extends JFrame {
 		});
 		// ////////////////////////////////////rotateKey
 		
-		rotateField.setSize(60, 20);
-		rotateField.setLocation(260, 120);
-		keyPanel.add(rotateField);
 
 		JLabel enterRotate = new JLabel("Rotate Blocks");
-		enterRotate.setLocation(170, 120);
-		enterRotate.setSize(140, 20);
 		keyPanel.add(enterRotate);
+		keyPanel.add(rotateField);
+
+
 
 		rotateField.addKeyListener(new KeyListener() {
 			@Override
@@ -383,14 +360,13 @@ public class SettingsGUI extends JFrame {
 		});
 		// //////////////////////////////////////////////////////////////////moveDown
 	
-		downField.setSize(60, 20);
-		downField.setLocation(260, 150);
-		keyPanel.add(downField);
 
 		JLabel enterSpeed = new JLabel("Move Down");
-		enterSpeed.setLocation(170, 150);
-		enterSpeed.setSize(140, 20);
 		keyPanel.add(enterSpeed);
+		keyPanel.add(downField);
+
+
+		
 
 		downField.addKeyListener(new KeyListener() {
 			@Override
@@ -425,14 +401,11 @@ public class SettingsGUI extends JFrame {
 		});
 		// ////////////////////////////////////////////////////////////////////pause
 	
-		pauseField.setSize(60, 20);
-		pauseField.setLocation(260, 180);
-		keyPanel.add(pauseField);
 
 		JLabel enterPause = new JLabel("Pause");
-		enterPause.setLocation(170, 180);
-		enterPause.setSize(140, 20);
 		keyPanel.add(enterPause);
+		keyPanel.add(pauseField);
+
 
 		
 		pauseField.addKeyListener(new KeyListener() {
@@ -467,24 +440,18 @@ public class SettingsGUI extends JFrame {
 		});
 
 		// /////////////////////////////////////////////////////////////////finishPanel
+		
 		final JPanel finishPanel = new JPanel();
-		finishPanel.setLayout(null);
-		finishPanel.setLocation(10, 560);
-		finishPanel.setSize(455, 80);
+		finishPanel.setLayout(new BoxLayout(finishPanel, BoxLayout.X_AXIS));
+
 		JButton save = new JButton("Save");
-		save.setSize(80, 30);
-		save.setLocation(280, 20);
-		finishPanel.add(save);
 
 		JButton cancel = new JButton("Cancel");
-		cancel.setSize(80, 30);
-		cancel.setLocation(80, 20);
-		finishPanel.add(cancel);
-
 		JButton defaultt = new JButton("Default");
-		defaultt.setSize(80, 30);
-		defaultt.setLocation(180, 20);
+
+		finishPanel.add(cancel);
 		finishPanel.add(defaultt);
+		finishPanel.add(save);
 
 		final JLabel uyari = new JLabel("Incorrect Key Configuration",
 				SwingConstants.CENTER);
@@ -495,8 +462,7 @@ public class SettingsGUI extends JFrame {
 		uyari.hide();
 
 		cancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				hide();
+			public void actionPerformed(ActionEvent e) {				
 				if(boardSizeObject.isSmall())
 					small.setSelected(true);
 				else if(boardSizeObject.isLarge())
@@ -537,7 +503,7 @@ public class SettingsGUI extends JFrame {
 					rotateField.setText(getKeyText(keyConfigureObject.getRotate()));
 					pauseField.setText(getKeyText(keyConfigureObject.getPause()));
 				
-					
+				dispose();	
 			}
 		});
 
@@ -567,7 +533,7 @@ public class SettingsGUI extends JFrame {
 					uyari.hide();
 					keyConfigureObject.setMap(keyMap);
 					hide();					
-					}
+					
 					
 				
 
@@ -598,17 +564,23 @@ public class SettingsGUI extends JFrame {
 				else if(large.isSelected())
 					boardSizeObject.setLarge();
 				else
-					boardSizeObject.setMedium();	
+					boardSizeObject.setMedium();
+				
+				dispose();
+				
+				
+			}
+				
 			}
 		});
 
 		mainPanel.add(keyPanel);
 		mainPanel.add(finishPanel);
 
-		this.add(mainPanel);
+		this.add(mainPanel, BorderLayout.CENTER);
 		this.setVisible(true);
-
-	}	
+	}
+		
 
 	public static void main(String[] args) {
 		JFrame f = new SettingsGUI(new Settings());
@@ -624,5 +596,6 @@ public class SettingsGUI extends JFrame {
 			return null;
 		}
 	}
+
 
 }

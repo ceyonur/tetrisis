@@ -3,6 +3,12 @@ package gui;
 import settings.Settings;
 import sun.audio.*;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Window;
 import java.awt.event.*;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,145 +17,131 @@ import javax.swing.*;
 
 public class MenuGUI extends JFrame {
 
-	JFrame settingsGui;
-	AudioPlayer AP = AudioPlayer.player;
-	AudioStream AS;
-	AudioData AD;
-	ContinuousAudioDataStream loop = null;
-	Settings settingObject = new Settings();
+	private JFrame settingsGui;
+	private AudioPlayer AP = AudioPlayer.player;
+	private AudioStream AS;
+	private AudioData AD;
+	private ContinuousAudioDataStream loop = null;
+	private final Settings settingObject = new Settings();
+	private Color bgcolor;
+	private boolean mute = true;
 
 	public MenuGUI() {
 		super();
-		setTitle("Main Menu");
-		setSize(680, 690);
-		setLocation(780, 150);
-		playAudio(true);
+		setTitle("Tetris/Triris Game - Main Menu");
+		setSize(570, 690);
+		setResizable(false);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
+		float[] hsb = Color.RGBtoHSB(41, 128, 185, null);
+		bgcolor = Color.getHSBColor(hsb[0],hsb[1],hsb[2]);
+		this.getContentPane().setBackground(bgcolor);
+		
+		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+				
+		JPanel headerPanelContainer = new JPanel();
+		headerPanelContainer.setBackground(bgcolor);
 
+		JPanel buttonPanelContainer = new JPanel();
+		buttonPanelContainer.setBackground(bgcolor);
+		JPanel footerPanelContainer = new JPanel();
+		footerPanelContainer.setBackground(bgcolor);
+		
+		headerPanelContainer.setLayout(new BoxLayout(headerPanelContainer, BoxLayout.Y_AXIS));
+		JPanel headerPanel = createHeader(); 
+		headerPanelContainer.add(Box.createVerticalStrut(80));
+		headerPanelContainer.add(headerPanel);
+		headerPanelContainer.add(Box.createVerticalStrut(80));
 
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				System.exit(0);
-			} // windowClosing
-		});
+		JPanel buttonPanel = createMenuButtons();
+		buttonPanelContainer.add(buttonPanel);
+		
+		JPanel footerPanel = createFooter();
+		footerPanelContainer.add(footerPanel);
 
+		this.getContentPane().add(headerPanelContainer);
+		this.getContentPane().add(buttonPanelContainer);
+		this.getContentPane().add(footerPanelContainer);
+		
+		playAudio(!mute);
+	}
 
-		//buton panel tum butonlari tutuyor
-		final JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(null);
-		buttonPanel.setLocation(950, 500);
-		buttonPanel.setSize(250, 70);
+	public static void main(String[] args) {
+		JFrame f = new MenuGUI();
+		f.show();
+	}
+	
+	public JPanel createHeader() {
+		JPanel header = new JPanel();
 
-		JButton newGame = new JButton();
+		SLabel openit = new SLabel("OpenIT proudly presents", SLabel.MAIN_MENU_AUTHOR);
+		SLabel title = new SLabel("tetris/triris game", SLabel.MAIN_MENU_TITLE);
+		SLabel subtitle = new SLabel("a COMP 302 Project", SLabel.MAIN_MENU_AUTHOR);
+		header.add(openit);
+		header.add(title);
+		header.add(subtitle);
+		
+		header.setBackground(bgcolor);
+		return header;
+	}
+	
+	private JPanel createMenuButtons(){
+		JPanel buttons = new JPanel();
+		buttons.setLayout(new GridLayout(4,1,0,-5));
+
+		SButton newGame = new SButton("new game", SButton.MAIN_MENU_BUTTON);
+		SButton settings = new SButton("settings", SButton.MAIN_MENU_BUTTON);
+		SButton highScores = new SButton("high scores", SButton.MAIN_MENU_BUTTON);
+		SButton quit = new SButton("quit", SButton.MAIN_MENU_BUTTON);
+		
+		buttons.add(newGame);
+		buttons.add(settings);
+		buttons.add(highScores);
+		buttons.add(quit);
 
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				buttonPanel.setVisible(false);
-				setTitle("Tetris-v1.0");
-				setResizable(true);
-			}
-
-		});
-		//sound button olusturuldu
-		final JButton sound = new JButton();
-		final JButton durdur = new JButton();
-		sound.setVisible(false);
-		durdur.setVisible(true);
-
-
-		durdur.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				playAudio(false);
-				durdur.setVisible(false);
-				sound.setVisible(true);
-			}	
-		});
-
-
-		sound.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				playAudio(true);				
-				sound.setVisible(false);
-				durdur.setVisible(true);
+				// to be filled
 			}
 		});
 		
-		//new game button eklendi
-		ImageIcon img = new ImageIcon("temp1.png");
-		newGame.setIcon(img);
-
-		newGame.setLocation(120, 90);
-		newGame.setSize(370, 93);
-		buttonPanel.add(newGame);
-
-		JButton settings = new JButton();
-		ImageIcon img2 = new ImageIcon("temp2.png");
-		settings.setIcon(img2);
-
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				settingsGui = new SettingsGUI(settingObject);
 			}	
 		});
 
-		settings.setLocation(120, 180);
-		settings.setSize(370, 93);
-		buttonPanel.add(settings);
-
-
-		//highscore button eklendi
-		JButton highScores = new JButton();
-		ImageIcon img3 = new ImageIcon("temp3.png");
-		highScores.setIcon(img3);
-
-		highScores.setLocation(120, 270);
-		highScores.setSize(370, 93);
-		buttonPanel.add(highScores);
-
-		JButton quit = new JButton();
 		quit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 
 		});
-		//quit button eklendi
-		ImageIcon img4 = new ImageIcon("temp4.png");
-		quit.setIcon(img4);
-
-		quit.setLocation(120, 360);
-		quit.setSize(370, 93);
-		buttonPanel.add(quit);
-		// Sound button eklendi
-		ImageIcon img5 = new ImageIcon("sound.png");
-		ImageIcon img6 = new ImageIcon("mute.png");
-		sound.setIcon(img6);
-		sound.setLocation(260, 590);
-		sound.setSize(80, 40);
-		buttonPanel.add(sound);
-
-
-		// mute button eklendi	
-
-		durdur.setIcon(img5);
-		durdur.setLocation(260, 590);
-		durdur.setSize(80, 40);
-		buttonPanel.add(durdur);
-
-		this.add(buttonPanel);
+		
+		return buttons;
 	}
+	
+	private JPanel createFooter() {
+		JPanel footer = new JPanel();
+		footer.setBackground(bgcolor);
+		final SButton musicButton = new SButton(new ImageIcon("assets/images/" + (mute ? "unmute" : "mute") + ".png"), SButton.SOUND_BUTTON);
 
-	public static void main(String[] args) {
-		JFrame f = new MenuGUI();
-		f.setResizable(false);
-
-		f.show();
+		musicButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mute = !mute;
+				playAudio(!mute);
+				musicButton.setIcon(new ImageIcon("assets/images/" + (mute ? "unmute" : "mute") + ".png"));
+			}	
+		});
+		
+		footer.add(musicButton);
+		return footer;
 	}
 	
 	private void playAudio(boolean status){
 		if (status){
 			try{
-				AS = new AudioStream(new FileInputStream("backGround.wav"));
+				AS = new AudioStream(new FileInputStream("assets/sounds/backGround.wav"));
 				AD = AS.getData();
 				loop = new ContinuousAudioDataStream(AD);
 			}

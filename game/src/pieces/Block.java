@@ -1,6 +1,14 @@
 package pieces;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 /**
  * This class is the building stone of all of the pieces (both Tetriminoses and Triminoses).
