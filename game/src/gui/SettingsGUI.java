@@ -16,6 +16,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
@@ -536,7 +537,7 @@ public class SettingsGUI extends JFrame {
 					else{
 					uyari.hide();
 					keyConfigureObject.setMap(keyMap);
-					hide();					
+								
 					
 					
 				
@@ -571,7 +572,12 @@ public class SettingsGUI extends JFrame {
 					boardSizeObject.setMedium();
 				
 				dispose();
-				
+				try {
+					settingsObject.saveSettings();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 				
