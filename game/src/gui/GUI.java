@@ -26,16 +26,19 @@ public class GUI extends JFrame {
 		highscores = new HighScores();
 		size = new Dimension(570, 690);
 		menuGUI = new MenuGUI(this);
+
 		setSize(size);
 		showMenu();
 		
 		this.setResizable(false);
+
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
 	public static void main(String[] args) {
 		GUI gui = new GUI();
 		gui.show();
+
 	}
 	
 	public void setGameEngine(Engine engine){
