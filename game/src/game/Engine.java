@@ -2,6 +2,7 @@ package game;
 
 import gui.BoardPanel;
 import gui.NextPieceAndScorePanel;
+import gui.SColor;
 import highscores.HighScores;
 
 import java.awt.Color;
@@ -90,19 +91,8 @@ public class Engine {
 	private Piece chooseRandomPiece(){
 		Random randomGenerator = new Random(System.currentTimeMillis());
 
-		Color randomColor = null;
+		Color randomColor = SColor.getRandomPieceColor();
 		int randomNumberForColor = randomGenerator.nextInt(9) + 1;
-		switch (randomNumberForColor){
-		case 1: randomColor = Color.BLUE; break;
-		case 2: randomColor = Color.CYAN; break;
-		case 3: randomColor = Color.DARK_GRAY; break;
-		case 4: randomColor = Color.GREEN; break;
-		case 5: randomColor = Color.MAGENTA; break;
-		case 6: randomColor = Color.ORANGE; break;
-		case 7: randomColor = Color.PINK; break;
-		case 8: randomColor = Color.RED; break;
-		default: randomColor = Color.YELLOW; break;
-		}
 
 		Piece randomPiece = null;
 		int randomNumberForPiece = 0;
@@ -159,6 +149,10 @@ public class Engine {
 	public int getBoardRowLength(){
 		return boardMatrix.getRowLength();
 	}
+	
+	public Board getBoardMatrix(){
+		return boardMatrix;
+	}
 
 	public void eliminatedLine(int lineNo){
 		boardPanel.clearEliminatedLine(lineNo);
@@ -172,7 +166,9 @@ public class Engine {
 	}
 
 	public void increaseScore(int howManyLinesAreDeleted){
+
 		double speedInSeconds = (speedInMilliseconds / 1000.0)/1;
+
 		if (howManyLinesAreDeleted == 1)
 			score += 1.00/speedInSeconds;
 		else if (howManyLinesAreDeleted == 2)

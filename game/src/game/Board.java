@@ -1,6 +1,10 @@
 package game;
 
+
+import gui.PlayGUI;
+
 import gui.BoardPanel;
+
 
 /**
  * The class Board handles the game board of tetris
@@ -8,13 +12,15 @@ import gui.BoardPanel;
  */
 public class Board {
 	private int[][] board; // The board represented as 2D integer matrix
-
+	
 	private int rowSize; // The field holding the row size of the board
 	private int actualRowSize;
 	private int columnSize; // The field holding the column size of the board
 	private boolean emptyness; // True if the board is empty
 
 	private Engine callerEngine;
+	private PlayGUI playGUI;
+	boolean firstKill = true;
 
 	/**
 	 * The constructor of the class Board. Creates the matrix of the given dimensions
@@ -95,6 +101,10 @@ public class Board {
 			}
 		}
 		return true;
+	}
+	
+	public void setCurrentPlayGUI(PlayGUI playGUI){
+		this.playGUI = playGUI;
 	}
 
 	/**
@@ -178,8 +188,15 @@ public class Board {
 				deletedLineCounter++;
 			}
 		}
-		if (deletedLineCounter != 0)
+		if (deletedLineCounter != 0){
 			callerEngine.increaseScore(deletedLineCounter);
+			playGUI.playAudio(true, deletedLineCounter);
+			playGUI.playAudio2(true);
+			if(firstKill){
+			playGUI.playAudioFirstBlood(true);
+			firstKill = false;
+			}
+		}
 	}
 
 	/**
