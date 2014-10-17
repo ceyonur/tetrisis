@@ -1,28 +1,14 @@
 package game;
 
-import gui.BoardPanel;
-import gui.NextPieceAndScorePanel;
-import gui.SColor;
+import gui.*;
 import highscores.HighScores;
 
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.util.Random;
 
-import pieces.ITetriminos;
-import pieces.ITriminos;
-import pieces.JTetriminos;
-import pieces.JTriminos;
-import pieces.LTetriminos;
-import pieces.OTetriminos;
-import pieces.Piece;
-import pieces.RTriminos;
-import pieces.STetriminos;
-import pieces.TTetriminos;
-import pieces.ZTetriminos;
-import settings.KeyConfigure;
-import settings.PieceChoice;
-import settings.Settings;
+import pieces.*;
+import settings.*;
 
 public class Engine {
 	private Board boardMatrix; // The field for board object of the game
@@ -41,6 +27,13 @@ public class Engine {
 	 * @param settings The settings of the game (can be default)
 	 */
 	public Engine(Settings settings){
+		if (settings.getBoardSizeChoice().isLarge()){
+			Block.setSize(30);
+		} else if (settings.getBoardSizeChoice().isMedium()){
+			Block.setSize(40);
+		} else {
+			Block.setSize(45);
+		}
 		boardMatrix = new Board(settings.getRow(), settings.getColumn(), this);
 		levelNo = settings.getLevelChoice().getLevel();
 		speedInMilliseconds = (int) (1000 * settings.getLevelChoice().getSpeed());
