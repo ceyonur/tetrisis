@@ -33,7 +33,7 @@ public class MenuGUI extends JPanel {
 	public MenuGUI(GUI ui) {
 		super();
 		gui = ui;
-		setSize(gui.size.width, gui.size.height);
+		setSize(gui.size);
 		this.setBackground(bgcolor);
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

@@ -73,11 +73,11 @@ public class Engine {
 
 		if (!isGameOver()){
 			if (boardMatrix.isEmpty()){
-				currentPiece = chooseRandomPiece();
+				currentPiece = Piece.getRandomPiece(pieceChoice, getBoardColumnLength());
 			} else {
 				currentPiece = nextPiecePanel.getPiece();
 			}
-			Piece randomPiece = chooseRandomPiece();
+			Piece randomPiece = Piece.getRandomPiece(pieceChoice, getBoardColumnLength());
 			nextPiecePanel.setPiece(randomPiece);
 			while (currentPiece.getY() * -1 > currentPiece.boundingBox().getHeight())
 				currentPiece.moveABlockDown();
@@ -86,44 +86,6 @@ public class Engine {
 			boardPanel.setMode(false);
 		}
 		nextPiecePanel.setCurrentScore(score);
-	}
-
-	private Piece chooseRandomPiece(){
-		Random randomGenerator = new Random(System.currentTimeMillis());
-
-		Color randomColor = SColor.getRandomPieceColor();
-		int randomNumberForColor = randomGenerator.nextInt(9) + 1;
-
-		Piece randomPiece = null;
-		int randomNumberForPiece = 0;
-		if (pieceChoice.hasBoth())
-			randomNumberForPiece = randomGenerator.nextInt(10) + 1;
-		else if (pieceChoice.hasTetriminos())
-			randomNumberForPiece = randomGenerator.nextInt(7) + 1;
-		else if (pieceChoice.hasTriminos())
-			randomNumberForPiece = randomGenerator.nextInt(3) + 8;
-		
-		switch (randomNumberForPiece){
-		case 1: randomPiece = new ZTetriminos(0,0,randomColor); break;
-		case 2: randomPiece = new STetriminos(0,0,randomColor); break;
-		case 3: randomPiece = new OTetriminos(0,0,randomColor); break;
-		case 4: randomPiece = new TTetriminos(0,0,randomColor); break;
-		case 5: randomPiece = new JTetriminos(0,0,randomColor); break;
-		case 6: randomPiece = new LTetriminos(0,0,randomColor); break;
-		case 7: randomPiece = new ITetriminos(0,0,randomColor); break;
-		case 8: randomPiece = new ITriminos(0,0,randomColor); break;
-		case 9: randomPiece = new JTriminos(0,0,randomColor); break;
-		default: randomPiece = new RTriminos(0,0,randomColor); break;
-		}
-		
-		int appearX = ((int) (getBoardColumnLength() - randomPiece.boundingBox().width)/2);
-		while (appearX % randomPiece.getBlocks().get(1).getBlockSize() != 0)
-			++appearX;
-			
-		int appearY = -4 * randomPiece.getBlocks().get(1).getBlockSize();
-		randomPiece.move(appearX, appearY);
-		
-		return randomPiece;
 	}
 
 	public BoardPanel getBoardPanel(){

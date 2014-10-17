@@ -1,7 +1,12 @@
 package pieces;
 
+import gui.SColor;
+
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
+
+import settings.PieceChoice;
 
 /**
  * This abstract class is a template for all of the pieces (both Tetriminoses and Triminoses).
@@ -168,4 +173,42 @@ public abstract class Piece {
 	public abstract ArrayList<Block> getBlocks(); // Returns the blocks as an ArrayList
 	public abstract void moveToAppropriatePositionToRotate(int maximumColumn); // To rotate, sometimes the piece must be located a block right or left
 	protected abstract void setBlockList(ArrayList<Block> blocks); // To set the block list to the given special list
+	
+	public static Piece getRandomPiece(PieceChoice pieceChoice, int xRange) {
+		Random rgen = new Random(System.currentTimeMillis());
+
+		Color randomColor = SColor.getRandomPieceColor();
+		int randomNumberForColor = rgen.nextInt(9) + 1;
+
+		Piece randomPiece = null;
+		int randomNumberForPiece = 0;
+		if (pieceChoice.hasBoth())
+			randomNumberForPiece = rgen.nextInt(10) + 1;
+		else if (pieceChoice.hasTetriminos())
+			randomNumberForPiece = rgen.nextInt(7) + 1;
+		else if (pieceChoice.hasTriminos())
+			randomNumberForPiece = rgen.nextInt(3) + 8;
+
+		switch (randomNumberForPiece){
+		case 1: randomPiece = new ZTetriminos(0,0,randomColor); break;
+		case 2: randomPiece = new STetriminos(0,0,randomColor); break;
+		case 3: randomPiece = new OTetriminos(0,0,randomColor); break;
+		case 4: randomPiece = new TTetriminos(0,0,randomColor); break;
+		case 5: randomPiece = new JTetriminos(0,0,randomColor); break;
+		case 6: randomPiece = new LTetriminos(0,0,randomColor); break;
+		case 7: randomPiece = new ITetriminos(0,0,randomColor); break;
+		case 8: randomPiece = new ITriminos(0,0,randomColor); break;
+		case 9: randomPiece = new JTriminos(0,0,randomColor); break;
+		default: randomPiece = new RTriminos(0,0,randomColor); break;
+		}
+
+		int appearX = ((int) (xRange - randomPiece.boundingBox().width)/2);
+		while (appearX % randomPiece.getBlocks().get(1).getBlockSize() != 0)
+			++appearX;
+
+		int appearY = -4 * randomPiece.getBlocks().get(1).getBlockSize();
+		randomPiece.move(appearX, appearY);
+
+		return randomPiece;
+	}
 }

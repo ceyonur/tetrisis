@@ -64,6 +64,7 @@ public class PlayGUI extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				gui.setEnabled(true);
+				dispose();
 		    }
 		});
 		
