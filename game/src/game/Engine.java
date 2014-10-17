@@ -1,6 +1,9 @@
 package game;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.Random;
 
 import highscores.*;
@@ -26,7 +29,7 @@ public class Engine {
 	 * @param settings The settings of the game (can be default)
 	 */
 	public Engine(Settings settings){
-		boardMatrix = new Board(settings.getSizeChoice().getRow(), settings.getSizeChoice().getColumn(), this);
+		boardMatrix = new Board(settings.getRow(), settings.getColumn(), this);
 		levelNo = settings.getLevelChoice().getLevel();
 		speedInMilliseconds = (int) (1000 * settings.getLevelChoice().getSpeed());
 		keys = settings.getKeyConfigure();
@@ -44,8 +47,9 @@ public class Engine {
 
 	/**
 	 * The default constructor of the game. It creates a new Settings object, so everything will be default.
+	 * @throws FileNotFoundException 
 	 */
-	public Engine(){
+	public Engine() throws FileNotFoundException{
 		this(new Settings());
 	}
 
@@ -150,8 +154,15 @@ public class Engine {
 	}
 	
 	public boolean isScoreHighEnough(double score){
-		highScores = new HighScores();
-		return highScores.isScoreHighEnough(score);
+		try {
+			highScores = new HighScores();
+			return highScores.isScoreHighEnough(score);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public void increaseScore(int howManyLinesAreDeleted){

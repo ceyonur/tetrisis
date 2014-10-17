@@ -2,6 +2,7 @@ package gui;
 
 import settings.Settings;
 import sun.audio.*;
+import highscores.HighScores;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -11,26 +12,35 @@ import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.*;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 
 import javax.swing.*;
 
 public class MenuGUI extends JFrame {
 
 	private JFrame settingsGui;
+	private JFrame highScoresGui;
 	private AudioPlayer AP = AudioPlayer.player;
 	private AudioStream AS;
 	private AudioData AD;
 	private ContinuousAudioDataStream loop = null;
-	private final Settings settingObject = new Settings();
+	private final Settings settingsObject;
+	private final HighScores highScoresObject;
 	private Color bgcolor;
 	private boolean mute = true;
 
-	public MenuGUI() {
+	public MenuGUI() throws ParseException, IOException {
 		super();
+		
+		settingsObject = new Settings();
+		highScoresObject = new HighScores();
+		
 		setTitle("Tetris/Triris Game - Main Menu");
 		setSize(570, 690);
 		setResizable(false);
+		setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		float[] hsb = Color.RGBtoHSB(41, 128, 185, null);
@@ -66,7 +76,7 @@ public class MenuGUI extends JFrame {
 		playAudio(!mute);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException, IOException {
 		JFrame f = new MenuGUI();
 		f.show();
 	}
@@ -107,7 +117,13 @@ public class MenuGUI extends JFrame {
 		
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				settingsGui = new SettingsGUI(settingObject);
+				settingsGui = new SettingsGUI(settingsObject);
+			}	
+		});
+		highScores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				highScoresGui = new HighScoresGUI(highScoresObject);
+	
 			}	
 		});
 

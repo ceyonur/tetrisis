@@ -73,4 +73,9 @@ public class PieceChoice {
 		setTetriminos(bool);
 		setTriminos(bool);
 	}
+	
+	public String getChoice(){
+		return "tetriminos: " + hasTetriminos() + " triminos: " + hasTriminos();
+		
+	}
 }
