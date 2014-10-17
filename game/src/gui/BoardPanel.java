@@ -13,11 +13,9 @@ import settings.KeyConfigure;
 
 public class BoardPanel extends JPanel {
 	private AnimationEventListener eventListener;
-	private QuickReactionListener quickReactionListener;
 	private PauseKeyListener pauseListener;
 	private ClearLineListener clearLineListener;
 	private Timer timer;
-	private Timer timerForQuickReaction;
 	private Timer timerForClearLine1;
 	private Timer timerForClearLine2;
 	private Timer timerForClearLine3;
@@ -43,12 +41,10 @@ public class BoardPanel extends JPanel {
 		// timer in the setMode() method
 		eventListener = new AnimationEventListener();
 		pauseListener = new PauseKeyListener();
-		quickReactionListener = new QuickReactionListener();
 		clearLineListener = new ClearLineListener(boardMatrix.getColumnSize());
 		// The first parameter is how often (in milliseconds) the timer
 		// should call us back.  50 milliseconds = 20 frames/second
 		timer = new Timer(speed, eventListener);
-		timerForQuickReaction = new Timer(200,quickReactionListener);
 		timerForClearLine1 = new Timer(75,clearLineListener);
 		timerForClearLine2 = new Timer(75,clearLineListener);
 		timerForClearLine3 = new Timer(75,clearLineListener);
@@ -95,12 +91,10 @@ public class BoardPanel extends JPanel {
 			removeKeyListener(pauseListener);
 			requestFocus();           // make sure keyboard is directed to us
 			timer.start();
-			timerForQuickReaction.start();
 		}
 		else {
 			addKeyListener(pauseListener);
 			timer.stop();
-			timerForQuickReaction.stop();
 		}		
 	}
 
@@ -191,6 +185,8 @@ public class BoardPanel extends JPanel {
 			} else if (keynum == keys.getDown()){
 				if (boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix()))
 					piece.moveABlockDown();
+				else
+					callerEngine.play();
 			} else if (keynum == keys.getPause()){
 				if (getMode())
 					setMode(false);
@@ -239,21 +235,6 @@ public class BoardPanel extends JPanel {
 		public void keyReleased(KeyEvent e) { }
 		@Override
 		public void keyTyped(KeyEvent e) { }
-	}
-
-	class QuickReactionListener implements ActionListener{
-
-		public QuickReactionListener(){ }
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (!boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix())){
-				restartTimer();
-				callerEngine.play();
-			}
-			Rectangle oldPos = piece.boundingBox();
-			repaintPanel(oldPos);
-		}
 	}
 
 	class ClearLineListener implements ActionListener{

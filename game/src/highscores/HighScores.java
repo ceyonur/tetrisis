@@ -133,7 +133,16 @@ public class HighScores implements Serializable {
 	public int getPlayerListSize(){
 		return playerList.size();
 	}
+	
+	public boolean isScoreHighEnough(double score){
+		if (playerList.size() >= 5){
+		for (int i=0; i<playerList.size(); i++){
+			if ((int) score >= (int) playerList.get(i).getScore()){
+				return true;
+			}
+		}
+		return false;
+		} else
+			return true;
+	}
 }
-
-
-

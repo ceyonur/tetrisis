@@ -12,12 +12,14 @@ import settings.Settings;
 public class GUI extends JFrame {
 	
 	Settings settings;
+	PlayGUI play;
 	MenuGUI menuGUI;
 	SettingsGUI settingsGUI;
 	HighScoresGUI highscoresGUI;
 	Color bgcolor;
 
 	public GUI() {
+		play = new PlayGUI();
 		try {
 			settings = new Settings();
 			settingsGUI = new SettingsGUI(this, settings);
@@ -37,5 +39,9 @@ public class GUI extends JFrame {
 	public static void main(String[] args) {
 		GUI gui = new GUI();
 		gui.show();
+	}
+	
+	public void setEngine(Engine engine){
+		play.setEngine(engine);
 	}
 }

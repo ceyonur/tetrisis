@@ -2,8 +2,14 @@ package game;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
+<<<<<<< HEAD
+=======
+import java.io.IOException;
+import java.text.ParseException;
+>>>>>>> 102bf93672869efa139dd9fa00b29bef260bab01
 import java.util.Random;
 
+import highscores.*;
 import settings.*;
 import pieces.*;
 import gui.BoardPanel;
@@ -18,6 +24,7 @@ public class Engine {
 	private Piece currentPiece; // The current piece
 	private BoardPanel boardPanel; // The panel for the board
 	private NextPieceAndScorePanel nextPiecePanel;
+	private HighScores highScores;
 	private double score;
 
 	/**
@@ -147,6 +154,18 @@ public class Engine {
 
 	public void eliminatedLine(int lineNo){
 		boardPanel.clearEliminatedLine(lineNo);
+	}
+	
+	public boolean isScoreHighEnough(double score){
+		try {
+			highScores = new HighScores();
+			return highScores.isScoreHighEnough(score);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public void increaseScore(int howManyLinesAreDeleted){
