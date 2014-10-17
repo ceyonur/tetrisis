@@ -31,7 +31,6 @@ public class PlayGUI extends JPanel {
 	public void setEngine(Engine engine){
 		this.engine = engine;
 		timerForCheckingGameOver.start();
-
 		//Create the toolbar.
 		JToolBar toolBar = new JToolBar();
 

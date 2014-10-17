@@ -18,36 +18,29 @@ import java.text.ParseException;
 
 import javax.swing.*;
 
-public class MenuGUI extends JFrame {
 
-	private JFrame settingsGui;
-	private JFrame highScoresGui;
+public class MenuGUI extends JPanel {
+	
+	private GUI gui;
+	
+	private JPanel settingsGui;
 	private AudioPlayer AP = AudioPlayer.player;
 	private AudioStream AS;
 	private AudioData AD;
 	private ContinuousAudioDataStream loop = null;
-	private final Settings settingsObject;
-	private final HighScores highScoresObject;
+	
 	private Color bgcolor;
 	private boolean mute = true;
 
-	public MenuGUI() throws ParseException, IOException {
+	public MenuGUI(GUI ui) {
 		super();
+		gui = ui;
+		bgcolor = gui.bgcolor;
 		
-		settingsObject = new Settings();
-		highScoresObject = new HighScores();
-		
-		setTitle("Tetris/Triris Game - Main Menu");
 		setSize(570, 690);
-		setResizable(false);
-		setVisible(true);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setBackground(bgcolor);
 		
-		float[] hsb = Color.RGBtoHSB(41, 128, 185, null);
-		bgcolor = Color.getHSBColor(hsb[0],hsb[1],hsb[2]);
-		this.getContentPane().setBackground(bgcolor);
-		
-		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 				
 		JPanel headerPanelContainer = new JPanel();
 		headerPanelContainer.setBackground(bgcolor);
@@ -69,16 +62,11 @@ public class MenuGUI extends JFrame {
 		JPanel footerPanel = createFooter();
 		footerPanelContainer.add(footerPanel);
 
-		this.getContentPane().add(headerPanelContainer);
-		this.getContentPane().add(buttonPanelContainer);
-		this.getContentPane().add(footerPanelContainer);
+		this.add(headerPanelContainer);
+		this.add(buttonPanelContainer);
+		this.add(footerPanelContainer);
 		
 		playAudio(!mute);
-	}
-
-	public static void main(String[] args) throws ParseException, IOException {
-		JFrame f = new MenuGUI();
-		f.show();
 	}
 	
 	public JPanel createHeader() {
@@ -111,19 +99,13 @@ public class MenuGUI extends JFrame {
 
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// to be filled
+				//
 			}
 		});
 		
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				settingsGui = new SettingsGUI(settingsObject);
-			}	
-		});
-		highScores.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				highScoresGui = new HighScoresGUI(highScoresObject);
-	
+				gui.setContentPane(gui.settingsGUI);
 			}	
 		});
 
