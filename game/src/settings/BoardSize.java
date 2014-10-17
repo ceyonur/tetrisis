@@ -106,6 +106,11 @@ public class BoardSize {
 		return columnSize;
 	}
 	
+	/**
+	 * Gets the choice string.
+	 *
+	 * @return String the choice
+	 */
 	public String getChoice(){
 		if(isSmall()){
 			return "small";

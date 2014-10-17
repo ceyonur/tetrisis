@@ -21,20 +21,24 @@ import java.util.Locale;
 
 import javax.swing.text.DateFormatter;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class keeps the first 5 highscores
+ * This class keeps the first 5 highscores.
+ *
  * @author bedirhancaldir
  */
 public class HighScores implements Serializable {
+	
+	/** The player list. */
 	private ArrayList<Player> playerList;
+	
+	/** The upperbound. */
 	private final int UPPERBOUND = 5;
 
 	/**
 	 * The constructor of the HighScores class. HighScores holds the players having the highest scores up to 5 players.
-	 * @throws IOException 
-	 * @throws ParseException 
 	 */
-	public HighScores() throws ParseException, IOException{
+	public HighScores(){
 		playerList = new ArrayList<Player>();
 		this.loadHighScores();		
 	}
@@ -76,9 +80,8 @@ public class HighScores implements Serializable {
 		return null; // If not, return null.
 	}
 
-	/**
-	 * 
-	 * @return 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString(){
@@ -94,7 +97,10 @@ public class HighScores implements Serializable {
 
 	}
 	
-	public void saveHighScores() throws IOException{
+	/**
+	 * Saves high scores.
+	 */
+	public void saveHighScores(){
 	try{
 			
 			
@@ -109,7 +115,10 @@ public class HighScores implements Serializable {
 	}
 	}
 	
-	public void loadHighScores() throws IOException{		
+	/**
+	 * Loads high scores to the same HighScore object.
+	 */
+	public void loadHighScores() {		
 		try{
 			 
 			   FileInputStream fin = new FileInputStream("HighScores.ser");
@@ -122,7 +131,12 @@ public class HighScores implements Serializable {
 			   
 	 
 		   }catch(Exception ex){
-			   FileOutputStream fout = new FileOutputStream("HighScores.ser");		   
+			   try {
+				FileOutputStream fout = new FileOutputStream("HighScores.ser");
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		   
 		   } 
 		
 	}
@@ -130,10 +144,21 @@ public class HighScores implements Serializable {
 	
 	
 	
+	/**
+	 * Gets the player list size.
+	 *
+	 * @return the player list size
+	 */
 	public int getPlayerListSize(){
 		return playerList.size();
 	}
 	
+	/**
+	 * Checks if is score high enough.
+	 *
+	 * @param score the score
+	 * @return true, if is score high enough
+	 */
 	public boolean isScoreHighEnough(double score){
 		if (playerList.size() >= 5){
 		for (int i=0; i<playerList.size(); i++){

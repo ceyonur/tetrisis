@@ -69,11 +69,21 @@ public class PieceChoice {
 		return hasTetriminos() && hasTriminos();
 	}
 	
-	public void setBoth(boolean bool){
-		setTetriminos(bool);
-		setTriminos(bool);
+	/**
+	 * Sets the both tetriminos and triminos to true.
+	 *
+	 * @param 
+	 */
+	public void setBoth(){
+		setTetriminos(true);
+		setTriminos(true);
 	}
 	
+	/**
+	 * Gets the choice string.
+	 *
+	 * @return String the choice
+	 */
 	public String getChoice(){
 		return "tetriminos: " + hasTetriminos() + " triminos: " + hasTriminos();
 		

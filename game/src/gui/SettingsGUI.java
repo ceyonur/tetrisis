@@ -532,7 +532,7 @@ public class SettingsGUI extends JPanel {
 					keyConfigureObject.setMap(keyMap);
 
 				if (tetra.isSelected() && tri.isSelected())
-					pieceChoiceObject.setBoth(true);
+					pieceChoiceObject.setBoth();
 				else if (tri.isSelected()){
 					pieceChoiceObject.setTriminos(true);
 					pieceChoiceObject.setTetriminos(false);
@@ -560,12 +560,7 @@ public class SettingsGUI extends JPanel {
 				else
 					boardSizeObject.setMedium();
 				
-				try {
-					settingsObject.saveSettings();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				settingsObject.saveSettings();
 				
 			}
 				

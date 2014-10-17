@@ -3,13 +3,9 @@ package settings;
 import highscores.HighScores;
 import highscores.Player;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -18,7 +14,8 @@ import java.util.HashMap;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class Settings.
+ * The Class Settings. This class holds other elements of settings package,
+ * and provides a direct access to getters and setters.
  * @author ceyonur
  */
 public class Settings implements Serializable{
@@ -37,9 +34,10 @@ public class Settings implements Serializable{
 
 	/**
 	 * Default constructor for the Settings class.
-	 * @throws FileNotFoundException 
+	 *
+	 * @throws FileNotFoundException the file not found exception
 	 */
-	public Settings() throws FileNotFoundException {
+	public Settings() {
 		loadSettings();
 		boardSizeChoice = new BoardSize();
 		keyConfig = new KeyConfigure();
@@ -119,6 +117,11 @@ public class Settings implements Serializable{
 		this.pieceChoice = piece;
 	}
 	
+	/**
+	 * Checks if is small.
+	 *
+	 * @return true, if is small
+	 */
 	public boolean isSmall() {
 		return boardSizeChoice.isSmall();
 	}
@@ -180,11 +183,21 @@ public class Settings implements Serializable{
 		return boardSizeChoice.getColumn();
 	}
 	
+	/**
+	 * Gets the size choice.
+	 *
+	 * @return the size choice
+	 */
 	public String getSizeChoice(){
 		return boardSizeChoice.getChoice();
 		
 	}
 	
+	/**
+	 * Gets the left.
+	 *
+	 * @return the left
+	 */
 	public int getLeft() {
 		return keyConfig.getLeft();
 	}
@@ -280,10 +293,20 @@ public class Settings implements Serializable{
 
 	}
 	
+	/**
+	 * Gets the map.
+	 *
+	 * @return the map
+	 */
 	public HashMap<String, Integer> getMap(){
 		return keyConfig.getMap();
 	}
 	
+	/**
+	 * Sets the map.
+	 *
+	 * @param map the map
+	 */
 	public void setMap(HashMap<String, Integer> map){
 		keyConfig.setMap(map);
 	}
@@ -362,16 +385,31 @@ public class Settings implements Serializable{
 		return pieceChoice.hasBoth();
 	}
 	
+	/**
+	 * Sets the both.
+	 *
+	 * @param bool the new both
+	 */
 	public void setBoth(boolean bool){
-		pieceChoice.setBoth(bool);
+		pieceChoice.setBoth();
 	}
 	
+	/**
+	 * Gets the choice.
+	 *
+	 * @return the choice
+	 */
 	public String getChoice(){
 		return pieceChoice.getChoice();
 		
 	}
 	
-	public void saveSettings() throws IOException{
+	/**
+	 * Save settings.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public void saveSettings() {
 		try{
 			
 			
@@ -386,7 +424,12 @@ public class Settings implements Serializable{
 	}
 	}
 	
-	public void loadSettings() throws FileNotFoundException{
+	/**
+	 * Load settings.
+	 *
+	 * @throws FileNotFoundException the file not found exception
+	 */
+	public void loadSettings() {
 		try{
 			 
 			   FileInputStream fin = new FileInputStream("Settings.ser");
@@ -398,7 +441,12 @@ public class Settings implements Serializable{
 			   this.setLevelChoice(settings.getLevelChoice());
 			   this.setPieceChoice(settings.getPieceChoice());			   
 		   }catch(Exception ex){
-			   FileOutputStream fout = new FileOutputStream("Settings.ser");		   
+			   try {
+				FileOutputStream fout = new FileOutputStream("Settings.ser");
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		   
 		   }		
 		
 	}	

@@ -1,16 +1,27 @@
 package game;
 
-import java.awt.*;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.Random;
-
-import highscores.*;
-import settings.*;
-import pieces.*;
 import gui.BoardPanel;
 import gui.NextPieceAndScorePanel;
+import highscores.HighScores;
+
+import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.util.Random;
+
+import pieces.ITetriminos;
+import pieces.ITriminos;
+import pieces.JTetriminos;
+import pieces.JTriminos;
+import pieces.LTetriminos;
+import pieces.OTetriminos;
+import pieces.Piece;
+import pieces.RTriminos;
+import pieces.STetriminos;
+import pieces.TTetriminos;
+import pieces.ZTetriminos;
+import settings.KeyConfigure;
+import settings.PieceChoice;
+import settings.Settings;
 
 public class Engine {
 	private Board boardMatrix; // The field for board object of the game
@@ -49,7 +60,7 @@ public class Engine {
 	 * The default constructor of the game. It creates a new Settings object, so everything will be default.
 	 * @throws FileNotFoundException 
 	 */
-	public Engine() throws FileNotFoundException{
+	public Engine(){
 		this(new Settings());
 	}
 
@@ -154,15 +165,8 @@ public class Engine {
 	}
 	
 	public boolean isScoreHighEnough(double score){
-		try {
-			highScores = new HighScores();
-			return highScores.isScoreHighEnough(score);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return false;
+		highScores = new HighScores();
+		return highScores.isScoreHighEnough(score);
 	}
 
 	public void increaseScore(int howManyLinesAreDeleted){
