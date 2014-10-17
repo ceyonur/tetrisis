@@ -15,8 +15,13 @@ public class BoardPanel extends JPanel {
 	private AnimationEventListener eventListener;
 	private QuickReactionListener quickReactionListener;
 	private PauseKeyListener pauseListener;
+	private ClearLineListener clearLineListener;
 	private Timer timer;
 	private Timer timerForQuickReaction;
+	private Timer timerForClearLine1;
+	private Timer timerForClearLine2;
+	private Timer timerForClearLine3;
+	private Timer timerForClearLine4;
 	private boolean mode;
 	private Piece piece;
 	private KeyConfigure keys;
@@ -36,14 +41,19 @@ public class BoardPanel extends JPanel {
 		//putDotIndicators();
 		// this only initializes the timer, we actually start and stop the
 		// timer in the setMode() method
-		eventListener = new AnimationEventListener(this);
-		pauseListener = new PauseKeyListener(this);
-		quickReactionListener = new QuickReactionListener(this);
+		eventListener = new AnimationEventListener();
+		pauseListener = new PauseKeyListener();
+		quickReactionListener = new QuickReactionListener();
+		clearLineListener = new ClearLineListener(boardMatrix.getColumnSize());
 		// The first parameter is how often (in milliseconds) the timer
 		// should call us back.  50 milliseconds = 20 frames/second
 		timer = new Timer(speed, eventListener);
-		timerForQuickReaction = new Timer(50,quickReactionListener);
-		mode = false;
+		timerForQuickReaction = new Timer(200,quickReactionListener);
+		timerForClearLine1 = new Timer(75,clearLineListener);
+		timerForClearLine2 = new Timer(75,clearLineListener);
+		timerForClearLine3 = new Timer(75,clearLineListener);
+		timerForClearLine4 = new Timer(75,clearLineListener);
+		setMode(false);
 	}
 
 	// This is just here so that we can accept the keyboard focus
@@ -73,7 +83,6 @@ public class BoardPanel extends JPanel {
 			removeMouseListener(eventListener);
 			removeMouseMotionListener(eventListener);
 			removeKeyListener(eventListener);
-			addKeyListener(pauseListener);
 		}
 
 		mode = m;
@@ -89,6 +98,7 @@ public class BoardPanel extends JPanel {
 			timerForQuickReaction.start();
 		}
 		else {
+			addKeyListener(pauseListener);
 			timer.stop();
 			timerForQuickReaction.stop();
 		}		
@@ -97,22 +107,32 @@ public class BoardPanel extends JPanel {
 	public boolean getMode(){
 		return mode;
 	}
-	
+
 	public void restartTimer(){
 		timer.restart();
 	}
 
 	public void clearEliminatedLine(int lineNo){
-		for (int i=0; i<blocks.size(); i++){
-			int lineOfCurrentBlock = blocks.get(i).getY() / blocks.get(i).getBlockSize() + 1;
-			if (lineOfCurrentBlock == lineNo){
-				blocks.remove(i);
-				i--;
-			} else if (lineOfCurrentBlock < lineNo){
-				blocks.get(i).move(0, blocks.get(i).getBlockSize());
-			}
-		}
-		repaint();
+		if (timerForClearLine1.isRunning()){
+			if (timerForClearLine2.isRunning()){
+				if (timerForClearLine3.isRunning())
+					timerForClearLine4.start();
+				else
+					timerForClearLine3.start();
+			}else
+				timerForClearLine2.start();
+		}else
+			timerForClearLine1.start();
+		
+		clearLineListener.addDeletedLineNo(lineNo);
+	}
+	
+	private void repaintPanel(Rectangle oldPos){
+		Rectangle repaintArea = oldPos.union(piece.boundingBox());
+		repaint(repaintArea.x,
+				repaintArea.y,
+				repaintArea.width,
+				repaintArea.height);
 	}
 
 	/*private void putDotIndicators(){
@@ -128,11 +148,9 @@ public class BoardPanel extends JPanel {
 		// owns, and sends semantic actions to the ball and window of the
 		// outer class
 
-		private BoardPanel callerBoard;
 
-		public AnimationEventListener(BoardPanel caller){
-			super();		
-			callerBoard = caller;
+		public AnimationEventListener(){
+			super();
 		}
 		// MouseAdapter gives us empty methods for the MouseListener
 		// interface: mouseClicked, mouseEntered, mouseExited, mousePressed,
@@ -174,12 +192,14 @@ public class BoardPanel extends JPanel {
 				if (boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix()))
 					piece.moveABlockDown();
 			} else if (keynum == keys.getPause()){
-				if (callerBoard.getMode())
-					callerBoard.setMode(false);
+				if (getMode())
+					setMode(false);
 				else
-					callerBoard.setMode(true);
+					setMode(true);
 			}
 
+			Rectangle all = new Rectangle(0,0,getWidth(),getHeight());
+			repaintPanel(all);
 			repaintPanel(oldPos);
 
 		}
@@ -197,31 +217,21 @@ public class BoardPanel extends JPanel {
 				piece.moveABlockDown();
 			else
 				callerEngine.play();
-
+			Rectangle all = new Rectangle(0,0,getWidth(),getHeight());
 			repaintPanel(oldPos);
-		}
-
-		private void repaintPanel(Rectangle oldPos){
-			Rectangle repaintArea = oldPos.union(piece.boundingBox());
-			repaint(repaintArea.x,
-					repaintArea.y,
-					repaintArea.width,
-					repaintArea.height);
+			repaintPanel(all);
 		}
 	}
 
 	class PauseKeyListener implements KeyListener{
-		private BoardPanel callerBoard;
 
-		public PauseKeyListener(BoardPanel caller){
-			callerBoard = caller;
-		}
+		public PauseKeyListener(){ }
 
 		@Override
 		public void keyPressed(KeyEvent e) {
 			int keynum = e.getKeyCode();
 			if (keynum == keys.getPause()){
-				callerBoard.setMode(true);
+				setMode(true);
 			}
 		}
 
@@ -230,30 +240,121 @@ public class BoardPanel extends JPanel {
 		@Override
 		public void keyTyped(KeyEvent e) { }
 	}
-	
-	class QuickReactionListener implements ActionListener{
-		private BoardPanel callerBoard;
 
-		public QuickReactionListener(BoardPanel caller){
-			callerBoard = caller;
-		}
+	class QuickReactionListener implements ActionListener{
+
+		public QuickReactionListener(){ }
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (!boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix())){
-				callerBoard.restartTimer();
+				restartTimer();
 				callerEngine.play();
 			}
 			Rectangle oldPos = piece.boundingBox();
 			repaintPanel(oldPos);
 		}
+	}
+
+	class ClearLineListener implements ActionListener{
+		private int totalBlockNumber;
+		private ArrayList<Integer> cleanedCounters;
+		private ArrayList<Integer> lineNumbers;
+
+		public ClearLineListener(int totalBlockNumber){
+			cleanedCounters = new ArrayList<Integer>();
+			this.totalBlockNumber = totalBlockNumber;
+			lineNumbers = new ArrayList<Integer>();
+		}
 		
-		private void repaintPanel(Rectangle oldPos){
-			Rectangle repaintArea = oldPos.union(piece.boundingBox());
-			repaint(repaintArea.x,
-					repaintArea.y,
-					repaintArea.width,
-					repaintArea.height);
+		public void addDeletedLineNo(int n){
+			lineNumbers.add(n);
+			cleanedCounters.add(0);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int lineNo = 0;
+			int cleanedCounter = 0;
+			int index = 0;
+			if (e.getSource().toString().equals(timerForClearLine1.toString())){
+				lineNo = lineNumbers.get(0);
+				cleanedCounter = cleanedCounters.get(0);
+			} else if (e.getSource().toString().equals(timerForClearLine2.toString())){
+				lineNo = lineNumbers.get(1);
+				cleanedCounter = cleanedCounters.get(1);
+				index = 1;
+			} else if (e.getSource().toString().equals(timerForClearLine3.toString())){
+				lineNo = lineNumbers.get(2);
+				cleanedCounter = cleanedCounters.get(2);
+				index = 2;
+			} else {
+				lineNo = lineNumbers.get(3);
+				cleanedCounter = cleanedCounters.get(3);
+				index = 3;
+			}
+			
+			if (cleanedCounter != totalBlockNumber){
+				for (int i=0; i<blocks.size(); i++){
+					int lineOfCurrentBlock = blocks.get(i).getY() / blocks.get(i).getBlockSize() + 5;
+					if (lineOfCurrentBlock == lineNo){
+						blocks.remove(i);
+						repaint();
+						cleanedCounters.set(index, ++cleanedCounter);
+						Rectangle oldPos = piece.boundingBox();
+						repaintPanel(oldPos);
+						break;
+					}
+				}
+			} else {
+				if (lineNo == lineNumbers.get(0))
+					timerForClearLine1.stop();
+				else if (lineNo == lineNumbers.get(1))
+					timerForClearLine2.stop();
+				else if (lineNo == lineNumbers.get(2))
+					timerForClearLine3.stop();
+				else
+					timerForClearLine4.stop();
+				
+				boolean clear = false;
+				if (cleanedCounters.size()==1){
+					if (e.getSource().toString().equals(timerForClearLine1.toString())){
+						clear = true;
+					}
+				} else if (cleanedCounters.size()==2) {
+					if (e.getSource().toString().equals(timerForClearLine2.toString())){
+						clear = true;
+					}
+				} else if (cleanedCounters.size()==3) {
+					if (e.getSource().toString().equals(timerForClearLine3.toString())){
+						clear = true;
+					}
+				} else {
+					if (e.getSource().toString().equals(timerForClearLine4.toString())){
+						clear = true;
+					}
+				}
+				
+				if (clear){
+					lineNo=0; // to find the maximum line no
+					for (int i=0; i<lineNumbers.size() ; i++){
+						if (lineNumbers.get(i) > lineNo)
+							lineNo = lineNumbers.get(i);
+					}
+					for (int i=0; i<blocks.size(); i++){
+						int lineOfCurrentBlock = blocks.get(i).getY() / blocks.get(i).getBlockSize() + 5;
+						if (lineOfCurrentBlock < lineNo)
+							blocks.get(i).move(0, lineNumbers.size() * blocks.get(i).getBlockSize());
+					}
+					
+					while (!cleanedCounters.isEmpty())
+						cleanedCounters.remove(0);
+					while (!lineNumbers.isEmpty())
+						lineNumbers.remove(0);
+				}
+				
+				repaintPanel(new Rectangle(0,0,getWidth(),getHeight()));
+			}
 		}
 	}
 }

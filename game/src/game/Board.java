@@ -8,8 +8,9 @@ public class Board {
 	private int[][] board; // The board represented as 2D integer matrix
 
 	private int rowSize; // The field holding the row size of the board
+	private int actualRowSize;
 	private int columnSize; // The field holding the column size of the board
-	private boolean emptyness;
+	private boolean emptyness; // True if the board is empty
 
 	private Engine callerEngine;
 
@@ -19,8 +20,9 @@ public class Board {
 	 * @param column The column number of the matrix
 	 */
 	public Board(int row, int column, Engine engine){
-		board = new int[row][column];
+		board = new int[row+4][column];
 		rowSize = row;
+		actualRowSize = rowSize + 4;
 		columnSize = column;
 		emptyness = true;
 		
@@ -65,13 +67,13 @@ public class Board {
 
 	/**
 	 * This method updates the board matrix with the given piece's location and color
-	 * Colors -> 1: BLUE, 2: CYAN. 3: DARK_GRAY, 4: GREEN, 5: MAGENTA, 6: ORANGE, 7: PINK, 8:ERD, 9: YELLOW
+	 * Colors -> 1: BLUE, 2: CYAN. 3: DARK_GRAY, 4: GREEN, 5: MAGENTA, 6: ORANGE, 7: PINK, 8: RED, 9: YELLOW
 	 */
 	public void updateBoard(int[][] locations, int color){
 		if (emptyness)
 			emptyness=false;
 		for (int i=0; i<locations.length; i++){
-			board[locations[i][1]][locations[i][0]] = color;
+			board[locations[i][1] + 4][locations[i][0]] = color;
 		}
 		checkLinesForCompletion();
 	}
@@ -83,8 +85,8 @@ public class Board {
 	 */
 	public boolean checkCollisionsToGoBelow(int[][] locations){
 		for (int i=0; i<locations.length; i++){
-			if (locations[i][1] < board.length - 1){
-				if (board[locations[i][1] + 1][locations[i][0]] != 0)
+			if (locations[i][1] < board.length - 5){
+				if (board[locations[i][1] + 5][locations[i][0]] != 0)
 					return false;
 			} else {
 				return false;
@@ -102,7 +104,7 @@ public class Board {
 		for (int i=0; i<locations.length; i++){
 			if (locations[i][0] > 0){
 				if (locations[i][0] < board[0].length - 1){
-					if (board[locations[i][1]][locations[i][0] + 1] != 0)
+					if (board[locations[i][1] + 4][locations[i][0] + 1] != 0)
 						return false;
 				} else {
 					return false;
@@ -121,7 +123,7 @@ public class Board {
 		for (int i=0; i<locations.length; i++){
 			if (locations[i][0] < board[0].length - 1){
 				if (locations[i][0] > 0){
-					if (board[locations[i][1]][locations[i][0] - 1] != 0)
+					if (board[locations[i][1] + 4][locations[i][0] - 1] != 0)
 						return false;
 				} else {
 					return false;
@@ -163,13 +165,12 @@ public class Board {
 	public void checkLinesForCompletion(){
 		int filledSpaceCounter;
 		int deletedLineCounter = 0;
-		for (int i=0; i<rowSize; i++){
+		for (int i=0; i<actualRowSize; i++){
 			filledSpaceCounter = 0;
 			for (int j=0; j<columnSize; j++){
 				if (board[i][j] != 0)
 					++filledSpaceCounter;
 			}
-			
 			if (filledSpaceCounter == columnSize){
 				removeCompletedLine(i);
 				deletedLineCounter++;
@@ -199,7 +200,7 @@ public class Board {
 	 */
 	public boolean isGameOver(){
 		for (int i=0; i<board[0].length ; i++){
-			if (board[1][i] != 0)
+			if (board[5][i] != 0)
 				return true;
 		}
 		return false;
