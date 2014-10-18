@@ -1,6 +1,10 @@
 package pieces;
 
+import gui.SColor;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  * This class is the building stone of all of the pieces (both Tetriminoses and Triminoses).
@@ -21,6 +26,9 @@ public class Block {
 	private int x; // The x-position of the upper-left corner of the block
 	private int y; // The y-position of the upper-left corner of the block
 	private Color color; // The color of the block
+	
+	private Timer timerForFadeAway;
+	private FadeOutTheBlockListener fadeOutBlockListener;
 
 	/**
 	 * The constructor of the class Block. Sets the color, x and y coordinates of the block
@@ -31,6 +39,8 @@ public class Block {
 	public Block(int x, int y, Color color){
 		setLocation(x,y);
 		setColor(color);
+		fadeOutBlockListener = new FadeOutTheBlockListener();
+		timerForFadeAway = new Timer(10,fadeOutBlockListener);
 	}
 	
 	/**
@@ -51,6 +61,10 @@ public class Block {
 			g.setColor(color);
 			g.fill3DRect(x, y, SIZE, SIZE,true);
 		}
+	}
+	
+	public void fadeOut(){
+		timerForFadeAway.start();
 	}
 
 	/**
@@ -130,5 +144,21 @@ public class Block {
 	 */
 	public int getY(){
 		return y;
+	}
+	
+	
+	
+	class FadeOutTheBlockListener implements ActionListener{
+
+		public FadeOutTheBlockListener(){ }
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (color.getAlpha() != 0)
+				color = new SColor(color.getRed(),color.getGreen(),color.getBlue(),color.getAlpha()-1);
+			else
+				timerForFadeAway.stop();
+		}
+		
 	}
 }
