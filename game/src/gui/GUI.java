@@ -3,9 +3,11 @@ package gui;
 import game.Engine;
 import game.Game;
 import highscores.HighScores;
+import highscores.Player;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 import settings.Settings;
@@ -32,7 +34,7 @@ public class GUI extends JFrame {
 		
 		this.setResizable(false);
 
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 
 	public static void main(String[] args) {
@@ -64,9 +66,13 @@ public class GUI extends JFrame {
 	}
 
 	public void showHighScores() {
-		highscores = new HighScores();
 		highscoresGUI = new HighScoresGUI(this, highscores);
 		setEnabled(false);
 		highscoresGUI.show();
+	}
+	
+	public void addPlayerToHighScoreList(Player player){
+		highscores.add(player);
+		highscores.saveHighScores();
 	}
 }

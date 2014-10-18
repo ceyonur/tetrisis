@@ -19,16 +19,16 @@ import java.util.HashMap;
  * @author ceyonur
  */
 public class Settings implements Serializable{
-	
+
 	/** The size. */
 	private BoardSize boardSizeChoice;
-	
+
 	/** The key. */
 	private KeyConfigure keyConfig;
-	
+
 	/** The level. */
 	private LevelChoice levelChoice;
-	
+
 	/** The piece. */
 	private PieceChoice pieceChoice;
 
@@ -37,13 +37,13 @@ public class Settings implements Serializable{
 	 *
 	 * @throws FileNotFoundException the file not found exception
 	 */
-	
+
 	public Settings() {
 		boardSizeChoice = new BoardSize();
 		keyConfig = new KeyConfigure();
 		levelChoice = new LevelChoice();
 		pieceChoice = new PieceChoice();
-		this.loadSettings();
+		loadSettings();
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class Settings implements Serializable{
 	public void setPieceChoice(PieceChoice piece) {
 		this.pieceChoice = piece;
 	}
-	
+
 	/**
 	 * Checks if is small.
 	 *
@@ -183,7 +183,7 @@ public class Settings implements Serializable{
 	public int getColumn() {
 		return boardSizeChoice.getColumn();
 	}
-	
+
 	/**
 	 * Gets the size choice.
 	 *
@@ -191,9 +191,9 @@ public class Settings implements Serializable{
 	 */
 	public String getSizeChoice(){
 		return boardSizeChoice.getChoice();
-		
+
 	}
-	
+
 	/**
 	 * Gets the left.
 	 *
@@ -293,7 +293,7 @@ public class Settings implements Serializable{
 		keyConfig.setPause(pause);
 
 	}
-	
+
 	/**
 	 * Gets the map.
 	 *
@@ -302,7 +302,7 @@ public class Settings implements Serializable{
 	public HashMap<String, Integer> getMap(){
 		return keyConfig.getMap();
 	}
-	
+
 	/**
 	 * Sets the map.
 	 *
@@ -311,7 +311,7 @@ public class Settings implements Serializable{
 	public void setMap(HashMap<String, Integer> map){
 		keyConfig.setMap(map);
 	}
-	
+
 
 	/**
 	 * Gets the level.
@@ -321,7 +321,7 @@ public class Settings implements Serializable{
 	public Integer getLevel(){
 		return levelChoice.getLevel();
 	}
-	
+
 	/**
 	 * Sets the level. Check whether the given level between 1 and 5, otherwise sets the level to 1.
 	 *
@@ -330,7 +330,7 @@ public class Settings implements Serializable{
 	public void setLevel(Integer level){
 		this.levelChoice.setLevel(level);
 	}
-	
+
 	/**
 	 * Gets the speed according to the level.
 	 *
@@ -339,7 +339,7 @@ public class Settings implements Serializable{
 	public Double getSpeed(){
 		return levelChoice.getSpeed();
 	}
-	
+
 	/**
 	 * Sets the Tetriminos.
 	 *
@@ -358,7 +358,7 @@ public class Settings implements Serializable{
 		pieceChoice.setTriminos(choice);
 	}
 
-	
+
 	/**
 	 * Checks for triminos.
 	 *
@@ -367,7 +367,7 @@ public class Settings implements Serializable{
 	public boolean hasTriminos(){
 		return pieceChoice.hasTriminos();
 	}
-	
+
 	/**
 	 * Checks for tetriminos.
 	 *
@@ -376,7 +376,7 @@ public class Settings implements Serializable{
 	public boolean hasTetriminos(){
 		return pieceChoice.hasTetriminos();
 	}
-	
+
 	/**
 	 * Checks for both tetriminos and triminos.	
 	 *
@@ -385,7 +385,7 @@ public class Settings implements Serializable{
 	public boolean hasBoth(){
 		return pieceChoice.hasBoth();
 	}
-	
+
 	/**
 	 * Sets the both.
 	 *
@@ -394,7 +394,7 @@ public class Settings implements Serializable{
 	public void setBoth(boolean bool){
 		pieceChoice.setBoth();
 	}
-	
+
 	/**
 	 * Gets the choice.
 	 *
@@ -402,9 +402,9 @@ public class Settings implements Serializable{
 	 */
 	public String getChoice(){
 		return pieceChoice.getChoice();
-		
+
 	}
-	
+
 	/**
 	 * Save settings.
 	 *
@@ -412,19 +412,15 @@ public class Settings implements Serializable{
 	 */
 	public void saveSettings() {
 		try{
-			
-			
 			FileOutputStream fout = new FileOutputStream("Settings.ser");
 			ObjectOutputStream oos = new ObjectOutputStream(fout);   
 			oos.writeObject(this);
-			oos.close();			
-	 
-		   }catch(Exception ex){
-			   ex.printStackTrace();
-		   
+			oos.close();	
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
-	}
-	
+
 	/**
 	 * Load settings.
 	 *
@@ -432,17 +428,16 @@ public class Settings implements Serializable{
 	 */
 	public void loadSettings() {
 		try{
-			 
-			   FileInputStream fin = new FileInputStream("Settings.ser");
-			   ObjectInputStream ois = new ObjectInputStream(fin);
-			   Settings settings = (Settings) ois.readObject();
-			   ois.close();
-			   this.setBoardSizeChoice(settings.getBoardSizeChoice());
-			   this.setKeyConfigure(settings.getKeyConfigure());
-			   this.setLevelChoice(settings.getLevelChoice());
-			   this.setPieceChoice(settings.getPieceChoice());			   
-		   }catch(Exception ex){
-			   try {
+			FileInputStream fin = new FileInputStream("Settings.ser");
+			ObjectInputStream ois = new ObjectInputStream(fin);
+			Settings settings = (Settings) ois.readObject();
+			ois.close();
+			this.setBoardSizeChoice(settings.getBoardSizeChoice());
+			this.setKeyConfigure(settings.getKeyConfigure());
+			this.setLevelChoice(settings.getLevelChoice());
+			this.setPieceChoice(settings.getPieceChoice());	
+		}catch(Exception ex){
+			try {
 				FileOutputStream fout = new FileOutputStream("Settings.ser");
 				fout.close();
 			} catch (FileNotFoundException e) {
@@ -452,7 +447,6 @@ public class Settings implements Serializable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}		   
-		   }		
-		
+		}
 	}	
 }

@@ -5,6 +5,7 @@ import game.Engine;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.*;
 
@@ -31,10 +32,10 @@ public class BoardPanel extends JPanel {
 	private NextPieceAndScorePanel nextPiecePanel;
 
 	private JLabel paused;
-	
+
 	private PlayGUI playGUI;
 
-	
+
 	public static int deletionSpeed = 75; //ms
 
 
@@ -70,7 +71,7 @@ public class BoardPanel extends JPanel {
 		timerForClearLine3 = new Timer(deletionSpeed,clearLineListener);
 		timerForClearLine4 = new Timer(deletionSpeed,clearLineListener);
 		timerForActivationTheActualTimerAgain = new Timer(deletionSpeed * boardMatrix.getColumnSize(), restartActualTimerAgain);
-		
+
 		setMode(true);
 	}
 
@@ -88,8 +89,10 @@ public class BoardPanel extends JPanel {
 			}
 			paused.setVisible(false);
 		} else {
-			paused.setLocation(paused.getX(), (getHeight() - paused.getHeight()) / 2);
-			paused.setVisible(true);
+			if (!callerEngine.isGameOver()){
+				paused.setLocation(paused.getX(), (getHeight() - paused.getHeight()) / 2);
+				paused.setVisible(true);
+			}
 		}
 	}
 
@@ -101,15 +104,14 @@ public class BoardPanel extends JPanel {
 	public void setMode(boolean m) {
 		// modifies: this
 		// effects: changes the mode to <m>.
-		
+
 		if (mode == true) {
-			
 			// we're about to change mode: turn off all the old listeners
 			removeKeyListener(eventListener);
 		}
 
 		mode = m;
-		
+
 		if (mode == true) {
 			// the mode is true: turn on the listeners
 			addKeyListener(eventListener);
@@ -131,7 +133,7 @@ public class BoardPanel extends JPanel {
 	public void restartTimer(){
 		timer.restart();
 	}
-	
+
 
 	public void setCurrentPlayGUI(PlayGUI playGUI){
 		this.playGUI = playGUI;
@@ -276,7 +278,7 @@ public class BoardPanel extends JPanel {
 		@Override
 		public void keyTyped(KeyEvent e) { }
 	}
-	
+
 	class RestartActualTimerAgain implements ActionListener{
 		private BoardPanel callerPanel;
 
@@ -372,21 +374,19 @@ public class BoardPanel extends JPanel {
 				}
 
 				if (clear){
-					lineNo=30; // to find the minimum line no
-					for (int i=0; i<lineNumbers.size() ; i++){
-						if (lineNumbers.get(i) < lineNo)
-							lineNo = lineNumbers.get(i);
-					}
-					for (int i=0; i<blocks.size(); i++){
-						int lineOfCurrentBlock = blocks.get(i).getY() / blocks.get(i).getBlockSize() + 5;
-						if (lineOfCurrentBlock < lineNo)
-							blocks.get(i).move(0, lineNumbers.size() * blocks.get(i).getBlockSize());
+					Collections.sort(lineNumbers);
+
+					while (!lineNumbers.isEmpty()){
+						int currentLineNo = lineNumbers.remove(0);
+						for (int i=0; i<blocks.size(); i++){
+							int lineOfCurrentBlock = blocks.get(i).getY() / blocks.get(i).getBlockSize() + 5;
+							if (lineOfCurrentBlock < currentLineNo)
+								blocks.get(i).move(0, blocks.get(i).getBlockSize());
+						}
 					}
 
 					while (!cleanedCounters.isEmpty())
 						cleanedCounters.remove(0);
-					while (!lineNumbers.isEmpty())
-						lineNumbers.remove(0);
 				}
 
 				repaintPanel(new Rectangle(0,0,getWidth(),getHeight()));
