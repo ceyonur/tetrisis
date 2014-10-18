@@ -38,6 +38,7 @@ public class PlayGUI extends JFrame {
 	private int height;
 	private GUI gui;
 	private LevelChoice levelChoiceObject = new LevelChoice();
+	private boolean effectSelector = true;
 	
 	private Timer timer; 
 	
@@ -272,7 +273,7 @@ public class PlayGUI extends JFrame {
 				audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
 				clip.open(audioStream);
 				FloatControl volume = (FloatControl) clipBackground.getControl(FloatControl.Type.MASTER_GAIN);
-				volume.setValue(-15.0f);
+			//	volume.setValue(-15.0f);
 				clip.start();
 				}
 		} catch (IOException e) {
@@ -291,31 +292,21 @@ public class PlayGUI extends JFrame {
 
 	public void playAudio(boolean status, int counter) {
 		String gongFile = " ";
-		int a = 1;
-		int b = 1;
-
 		int level = levelChoiceObject.getLevel();
-		if (level >= 3)
-			a = a * -1;
-
-		if (level == 5)
-			b = b * -1;
 
 		if (counter == 1)
 			gongFile = "assets/sounds/oneKill.wav";
 		else if (counter == 2) {
 			gongFile = "assets/sounds/DoubleKill.wav";
-		} else if (counter == 3 && a > 0) {
+		} else if (counter == 3 && effectSelector) {
 			gongFile = "assets/sounds/TripleKill.wav";
-		} else if (counter == 3 && a < 0) {
+		} else if (counter == 3 && !effectSelector) {
 			gongFile = "assets/sounds/MonsterKill.wav";
-		} else if (counter == 4 && a > 0 && level < 5) {
+		} else if (counter == 4 && effectSelector && level < 5) {
 			gongFile = "assets/sounds/Rampage.wav";
-		} else if (counter == 4 && a < 0 && level < 5) {
+		} else if (counter == 4 && effectSelector) {
 			gongFile = "assets/sounds/GodLike.wav";
-		} else if (counter == 4 && b < 0) {
-			gongFile = "assets/sounds/GodLike.wav";
-		} else if (counter == 4 && b > 0) {
+		} else if (counter == 4 && !effectSelector && level == 5) {
 			gongFile = "assets/sounds/Unstopable.wav";
 		}
 
@@ -325,10 +316,15 @@ public class PlayGUI extends JFrame {
 			if (status){
 				Clip clip = AudioSystem.getClip();
 				audioStream = AudioSystem.getAudioInputStream(new File(gongFile));
+				if(effectSelector)
+					effectSelector = false;
+				else
+					effectSelector = true;
 				clip.open(audioStream);
 				
-				if (counter != 1 && status)
+				if (counter != 1 && status){
 					clip.start();
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -429,6 +425,7 @@ public class PlayGUI extends JFrame {
 					clipBackground = AudioSystem.getClip();
 					String sound = sounds.remove(0);
 					AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(sound));
+					System.out.println(audioStream.getFrameLength());
 					clipBackground.open(audioStream);
 					FloatControl volume = (FloatControl) clipBackground.getControl(FloatControl.Type.MASTER_GAIN);
 					volume.setValue(-5.0f);
