@@ -216,6 +216,7 @@ public class SettingsGUI extends JFrame {
 
 		JPanel pieceOptions = new JPanel();
 		pieceOptions.setLayout(new GridLayout(1,2));
+		pieceOptions.setBackground(SColor.backgroundColor);
 		pieceOptions.add(tetra);
 		pieceOptions.add(tri);
 

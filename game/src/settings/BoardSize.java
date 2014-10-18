@@ -24,7 +24,7 @@ public class BoardSize implements Serializable{
 	 * Default constructor for the BoardSize class. Sets the choice to medium.
 	 */
 	public BoardSize() {
-		setMedium();
+		setSmall();
 	}
 
 	/**
@@ -44,8 +44,8 @@ public class BoardSize implements Serializable{
 		medium = false;
 		large = false;
 		
-		rowSize = 10;
-		columnSize = 5;
+		rowSize = 15;
+		columnSize = 10;
 	}
 
 	/**
@@ -65,8 +65,8 @@ public class BoardSize implements Serializable{
 		small = false;
 		large = false;
 		
-		rowSize = 15;
-		columnSize = 10;
+		rowSize = 18;
+		columnSize = 12;
 	}
 
 	/**
@@ -86,8 +86,8 @@ public class BoardSize implements Serializable{
 		small = false;
 		medium = false;
 		
-		rowSize = 20;
-		columnSize = 15;
+		rowSize = 24;
+		columnSize = 16;
 	}
 
 	/**

@@ -16,6 +16,7 @@ import sun.audio.AudioStream;
 import sun.audio.ContinuousAudioDataStream;
 import game.Board;
 import game.Engine;
+import highscores.Player;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -41,12 +42,11 @@ public class PlayGUI extends JFrame {
 	
 	private Timer timer; 
 	
-	private AnimationEventListener eventListener;
+	private MusicLoopPlayerListener musicPlayerListener;
 	
 	private boolean mute = true;
 	private AudioInputStream audioStream;
 	private ArrayList<String> sounds;
-
 	private Clip clipBackground;
 
 
@@ -57,10 +57,22 @@ public class PlayGUI extends JFrame {
 		gameOverListener = new GameOverListener();
 		timerForCheckingGameOver = new Timer(500, gameOverListener);
 		
-		eventListener = new AnimationEventListener();
-		timer= new Timer(5000, eventListener);
+		musicPlayerListener = new MusicLoopPlayerListener();
+		timer= new Timer(5000, musicPlayerListener);
 		
 		playBackground(!mute);
+		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				engine.shutDown();
+				gui.setEnabled(true);
+				timerForCheckingGameOver.stop();
+				timer.stop();
+				clipBackground.stop();
+				engine = null;
+				dispose();
+		    }
+		});
 	}
 
 	public void setEngine(Engine engine) {
@@ -75,12 +87,14 @@ public class PlayGUI extends JFrame {
 		// Put it in a scrollPane, (this makes a border)
 		JScrollPane gameBoard = new JScrollPane(board);
 		JScrollPane nextPieceAndScorePanel = new JScrollPane(nextPiecePanel);
+		/*
 		gameBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory
 				.createBevelBorder(BevelBorder.RAISED, Color.GRAY,
 						Color.DARK_GRAY)));
 		nextPieceAndScorePanel.setBorder(BorderFactory
 				.createTitledBorder(BorderFactory.createBevelBorder(
 						BevelBorder.RAISED, Color.GRAY, Color.DARK_GRAY)));
+		*/
 		realPane = new JPanel();
 		realPane.setLayout(new GridLayout(1, 2));
 		realPane.add(gameBoard);
@@ -96,23 +110,13 @@ public class PlayGUI extends JFrame {
 		width = engine.getBoardColumnLength();
 		height = engine.getBoardRowLength();
 		
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				gui.setEnabled(true);
-				dispose();
-		    }
-		});
-		
 		pack();
 	}
-	
-	public void paint(Graphics g){
-		super.paint(g);
-	}
-
 
 	public void showGameOver(){
 		JPanel gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo());
+		timer.stop();
+		clipBackground.stop();
 		setContentPane(gameOverPanel);
 		repaint();
 		pack();
@@ -144,7 +148,7 @@ public class PlayGUI extends JFrame {
 			setBackground(Color.WHITE);
 			setSize(width * 2, height);
 
-			String infoScore = "Score: " + score;
+			String infoScore = "Score: " + Engine.round(score,2);
 			String infoLevel = "Level: " + level;
 
 			setLayout(new GridLayout(4, 1));
@@ -163,6 +167,7 @@ public class PlayGUI extends JFrame {
 			getName = new JTextField();
 			getNameForHighScoreTable.add(getName);
 			submit = new JButton("Submit");
+			submit.addActionListener(new SubmitHandler(getName,score));
 			getNameForHighScoreTable.add(submit);
 			add(getNameForHighScoreTable);
 
@@ -190,11 +195,6 @@ public class PlayGUI extends JFrame {
 			add(addButtons());
 		}
 
-		public void paint(Graphics g) {
-			super.paint(g);
-			gameOverLabel.setLocation(10, 10);
-		}
-
 		protected JPanel addButtons() {
 
 			JPanel buttons = new JPanel();
@@ -207,7 +207,8 @@ public class PlayGUI extends JFrame {
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					//
+					gui.showPlay();
+					dispose();
 				}
 			});
 			buttons.add(button);
@@ -219,7 +220,8 @@ public class PlayGUI extends JFrame {
 			button2.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					//
+					gui.setEnabled(true);
+					dispose();
 				}
 			});
 			buttons.add(button2);
@@ -236,6 +238,27 @@ public class PlayGUI extends JFrame {
 
 			return buttons;
 
+		}
+		
+		class SubmitHandler implements ActionListener{
+			private JTextField nameField;
+			private double score;
+			
+			public SubmitHandler(JTextField name, double score){
+				nameField = name;
+				this.score = score;
+			}
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JButton callerButton = (JButton) e.getSource();
+				callerButton.setText("Submitted");
+				callerButton.setEnabled(false);
+				String name = nameField.getText();
+				nameField.setEnabled(false);
+				Player newPlayer = new Player(name, Engine.round(score, 2));
+				gui.addPlayerToHighScoreList(newPlayer);
+			}
 		}
 	}
 
@@ -254,13 +277,10 @@ public class PlayGUI extends JFrame {
 				clip.start();
 				}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -307,13 +327,10 @@ public class PlayGUI extends JFrame {
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -333,13 +350,10 @@ public class PlayGUI extends JFrame {
 				clip.start();
 				}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -360,13 +374,10 @@ public class PlayGUI extends JFrame {
 				clipRotate.start();
 				}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -384,13 +395,10 @@ public class PlayGUI extends JFrame {
 			clipFirstBlood.start();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -407,8 +415,8 @@ public class PlayGUI extends JFrame {
 		timer.start();
 	}
 	
-	class AnimationEventListener implements  ActionListener{
-		public AnimationEventListener(){ }
+	class MusicLoopPlayerListener implements  ActionListener{
+		public MusicLoopPlayerListener(){ }
 		
 		
 		public void actionPerformed(ActionEvent e) {
@@ -425,13 +433,10 @@ public class PlayGUI extends JFrame {
 					sounds.add(sound);
 					
 				} catch (LineUnavailableException e0) {
-					// TODO Auto-generated catch block
 					e0.printStackTrace();
 				} catch (UnsupportedAudioFileException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (IOException e2) {
-					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
 		}

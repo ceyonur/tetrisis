@@ -15,7 +15,7 @@ import javax.swing.JPanel;
  * @author bedirhancaldir
  */
 public class Block {
-	public static int SIZE = 45; // The size (width and height) of a block
+	public static int SIZE = 25; // The size (width and height) of a block
 	private final static Color defaultColor = Color.RED; // The default color of a block
 	
 	private int x; // The x-position of the upper-left corner of the block

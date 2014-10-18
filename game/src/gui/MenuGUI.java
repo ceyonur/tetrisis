@@ -95,12 +95,12 @@ public class MenuGUI extends JPanel {
 		SButton settings = new SButton("settings", SButton.MAIN_MENU_BUTTON);
 		SButton highScores = new SButton("high scores",
 				SButton.MAIN_MENU_BUTTON);
-		SButton quit = new SButton("quit", SButton.MAIN_MENU_BUTTON);
+		SButton exit = new SButton("exit", SButton.MAIN_MENU_BUTTON);
 
 		buttons.add(newGame);
 		buttons.add(settings);
 		buttons.add(highScores);
-		buttons.add(quit);
+		buttons.add(exit);
 
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -121,7 +121,7 @@ public class MenuGUI extends JPanel {
 			}	
 		});
 
-		quit.addActionListener(new ActionListener() {
+		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
@@ -134,15 +134,14 @@ public class MenuGUI extends JPanel {
 	private JPanel createFooter() {
 		JPanel footer = new JPanel();
 		footer.setBackground(bgcolor);
-		final SButton musicButton = new SButton(new ImageIcon("assets/images/"
-				+ (mute ? "unmute" : "mute") + ".png"), SButton.SOUND_BUTTON);
+		int type = mute ? SButton.SOUND_BUTTON_MUTE : SButton.SOUND_BUTTON_UNMUTE;
+		final SButton musicButton = new SButton(SButton.getIcon(type), type);
 
 		musicButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mute = !mute;
 				playAudio(!mute);
-				musicButton.setIcon(new ImageIcon("assets/images/"
-						+ (mute ? "unmute" : "mute") + ".png"));
+				musicButton.changeState();
 			}
 		});
 

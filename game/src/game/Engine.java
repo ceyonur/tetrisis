@@ -28,11 +28,11 @@ public class Engine {
 	 */
 	public Engine(Settings settings){
 		if (settings.getBoardSizeChoice().isLarge()){
-			Block.setSize(30);
+			Block.setSize(25);
 		} else if (settings.getBoardSizeChoice().isMedium()){
-			Block.setSize(40);
+			Block.setSize(30);
 		} else {
-			Block.setSize(45);
+			Block.setSize(35);
 		}
 		boardMatrix = new Board(settings.getRow(), settings.getColumn(), this);
 		levelNo = settings.getLevelChoice().getLevel();
@@ -136,5 +136,18 @@ public class Engine {
 
 	public double getScore(){
 		return score;
+	}
+	
+	public void shutDown(){
+		boardPanel.setMode(false);
+	}
+	
+	public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
 	}
 }
