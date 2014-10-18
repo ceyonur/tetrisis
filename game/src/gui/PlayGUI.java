@@ -66,12 +66,14 @@ public class PlayGUI extends JFrame {
 		// Put it in a scrollPane, (this makes a border)
 		JScrollPane gameBoard = new JScrollPane(board);
 		JScrollPane nextPieceAndScorePanel = new JScrollPane(nextPiecePanel);
+		/*
 		gameBoard.setBorder(BorderFactory.createTitledBorder(BorderFactory
 				.createBevelBorder(BevelBorder.RAISED, Color.GRAY,
 						Color.DARK_GRAY)));
 		nextPieceAndScorePanel.setBorder(BorderFactory
 				.createTitledBorder(BorderFactory.createBevelBorder(
 						BevelBorder.RAISED, Color.GRAY, Color.DARK_GRAY)));
+		*/
 		realPane = new JPanel();
 		realPane.setLayout(new GridLayout(1, 2));
 		realPane.add(gameBoard);
@@ -96,14 +98,9 @@ public class PlayGUI extends JFrame {
 		
 		pack();
 	}
-	
-	public void paint(Graphics g){
-		super.paint(g);
-	}
-
 
 	public void showGameOver(){
-		JPanel gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo());
+		GameOverPanel gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo());
 		setContentPane(gameOverPanel);
 		repaint();
 		pack();

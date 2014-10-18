@@ -3,16 +3,21 @@ package gui;
 import java.awt.*;
 
 import javax.swing.*;
+
 import pieces.Piece;
 
 public class NextPieceAndScorePanel extends JPanel {
 	private Piece nextPiece;
 	private int width;
 	private int height;
-	private JLabel score;
-	private JLabel level;
-	private JLabel deletedLines;
-	private JPanel info;
+	private SLabel score;
+	private SLabel level;
+	private SLabel deletedLines;
+	private SLabel nextPieceLabel;
+	
+	private JPanel nextPiecePanel;
+	private JPanel infoPanel;
+	private JPanel buttonsPanel;
 	
 	private int deletedLineNo = -1;
 	
@@ -27,42 +32,83 @@ public class NextPieceAndScorePanel extends JPanel {
 
 	public NextPieceAndScorePanel(int width, int height){
 		super();
-		setBackground(Color.LIGHT_GRAY);
+		setBackground(SColor.sidePanelColor);
 		this.width = width;
 		this.height = height;
 		setSize(width, height);
 		
 		initializeNextPieceAreaValues();
 		
-		info = new JPanel();
-		info.setBackground(getBackground());
-		info.setLayout(new GridLayout(3,1));
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		deletedLines = new JLabel();
-		deletedLines.setFont(new Font(deletedLines.getFont().getFamily(), deletedLines.getFont().getStyle(), 25));
-		info.add(deletedLines);
+		nextPiecePanel = new JPanel();
+		nextPiecePanel.setBackground(getBackground());
+		nextPiecePanel.setLayout(new BorderLayout());
 		
-		score = new JLabel();
-		score.setFont(new Font(score.getFont().getFamily(), score.getFont().getStyle(), 25));
-		info.add(score);
+		infoPanel = new JPanel();
+		infoPanel.setBackground(getBackground());
+		infoPanel.setLayout(new GridLayout(3,1));
 		
-		level = new JLabel();
-		level.setFont(new Font(level.getFont().getFamily(), level.getFont().getStyle(), 25));
-		info.add(level);
+		buttonsPanel = new JPanel();
+		buttonsPanel.setBackground(getBackground());
+		buttonsPanel.setLayout(new GridLayout(2,1));
 		
-		add(info);
+		nextPieceLabel = new SLabel("next piece :", SLabel.SIDE_PANEL_NEXT, JLabel.CENTER);
+		nextPiecePanel.add(nextPieceLabel, BorderLayout.NORTH);
+				
+		JPanel nextPieceContainerSuper = new JPanel();
+		nextPieceContainerSuper.setBackground(SColor.backgroundColor);
+		nextPiecePanel.add(nextPieceContainerSuper, BorderLayout.CENTER);
+		
+		JPanel nextPieceContainer = new JPanel();
+		nextPieceContainer.setBackground(Color.white);
+		nextPieceContainer.setPreferredSize(new Dimension(nextPieceAreaWidth, nextPieceAreaWidth));
+		nextPieceContainerSuper.add(nextPieceContainer);
+		
+		deletedLines = new SLabel(SLabel.SIDE_PANEL_LINES, SwingConstants.CENTER);
+		infoPanel.add(deletedLines);
+		
+		score = new SLabel(SLabel.SIDE_PANEL_LINES, SwingConstants.CENTER);
+		infoPanel.add(score);
+		
+		level = new SLabel(SLabel.SIDE_PANEL_LINES, SwingConstants.CENTER);
+		infoPanel.add(level);
+		
+		JPanel gameControlButtonsPanel = new JPanel();
+		gameControlButtonsPanel.setLayout(new GridLayout(1,2));
+		gameControlButtonsPanel.setBackground(SColor.backgroundColor);
+		
+		SButton pauseButton = new SButton("pause", SButton.GAME_BUTTON);
+		SButton quitButton = new SButton("quit", SButton.GAME_BUTTON);
+		
+		gameControlButtonsPanel.add(pauseButton);
+		gameControlButtonsPanel.add(quitButton);
+		
+		JPanel soundControlButtonsPanel = new JPanel();
+		soundControlButtonsPanel.setLayout(new GridLayout(1,3));
+		soundControlButtonsPanel.setBackground(SColor.backgroundColor);
+		
+		SButton allSoundsButton = new SButton(SButton.SOUND_BUTTON_UNMUTE);
+		SButton musicButton = new SButton(SButton.SOUND_BUTTON_MUSIC_ON);
+		SButton dotaEffectsButton = new SButton(SButton.SOUND_BUTTON_EFFECTS_ON);
+		
+		soundControlButtonsPanel.add(allSoundsButton);
+		soundControlButtonsPanel.add(musicButton);
+		soundControlButtonsPanel.add(dotaEffectsButton);
+		
+		buttonsPanel.add(gameControlButtonsPanel);
+		buttonsPanel.add(soundControlButtonsPanel);
+		
+		add(Box.createVerticalStrut(30));
+		add(nextPiecePanel);
+		add(infoPanel);
+		add(buttonsPanel);
 		
 		increaseDeletedLineNo();
 	}
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		info.setLocation(0,nextPieceAreaY + nextPieceAreaHeight + 20);
-		g.drawRect(nextPieceAreaX, nextPieceAreaY, nextPieceAreaWidth, nextPieceAreaHeight);
-		g.drawRect(nextPieceAreaX-1, nextPieceAreaY-1, nextPieceAreaWidth+2, nextPieceAreaHeight+2);
-		g.drawRect(nextPieceAreaX-2, nextPieceAreaY-2, nextPieceAreaWidth+4, nextPieceAreaHeight+4);
-		g.setColor(Color.WHITE);
-		g.fillRect(nextPieceAreaX, nextPieceAreaY, nextPieceAreaWidth, nextPieceAreaHeight);
 		if (currentState){
 			nextPiece.paint(g);
 		}
@@ -86,25 +132,25 @@ public class NextPieceAndScorePanel extends JPanel {
 	}
 	
 	public void setCurrentScore(double newScore){
-		String scoreString = "Score : " + newScore;
+		String scoreString = "score : " + newScore;
 		score.setText(scoreString);
 	}
 	
 	public void setLevel(int currentLevel){
-		String levelString = "Level : " + currentLevel;
+		String levelString = "level : " + currentLevel;
 		level.setText(levelString);
 	}
 	
 	public void setDeletedLine(){
-		String deletedLineString = "Lines : " + deletedLineNo;
+		String deletedLineString = "lines : " + deletedLineNo;
 		deletedLines.setText(deletedLineString);
 	}
 	
 	private void initializeNextPieceAreaValues(){
-		nextPieceAreaWidth = (int) (width / 2.5);
-		nextPieceAreaHeight = (int) (height / 3.25);
-		nextPieceAreaX = (width - nextPieceAreaWidth) / 2;
-		nextPieceAreaY = (height - nextPieceAreaHeight) / 10;
+		nextPieceAreaWidth = (int) (width * 0.44);
+		nextPieceAreaHeight = (int) (height * 0.33);
+		nextPieceAreaX = (int) ((width - nextPieceAreaWidth) * 0.5);
+		nextPieceAreaY = (int) ((height - nextPieceAreaHeight) * 0.18);
 	}
 	
 	public void setVisibility(boolean state){

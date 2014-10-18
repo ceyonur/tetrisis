@@ -42,7 +42,7 @@ public class BoardPanel extends JPanel {
 		// effects: initializes this to be in the off mode.
 
 		super();                    // do the standard JPanel setup stuff
-		setBackground(Color.GRAY);
+		setBackground(SColor.boardColor);
 		this.keys = keys;
 		this.boardMatrix = boardMatrix;
 		callerEngine = engine;
