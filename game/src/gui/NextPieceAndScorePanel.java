@@ -134,7 +134,7 @@ public class NextPieceAndScorePanel extends JPanel {
 	}
 	
 	public void setCurrentScore(double newScore){
-		String scoreString = "score : " + newScore;
+		String scoreString = "score : " + Engine.round(newScore,2);
 		score.setText(scoreString);
 	}
 	

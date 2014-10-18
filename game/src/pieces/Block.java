@@ -40,7 +40,7 @@ public class Block {
 		setLocation(x,y);
 		setColor(color);
 		fadeOutBlockListener = new FadeOutTheBlockListener();
-		timerForFadeAway = new Timer(10,fadeOutBlockListener);
+		timerForFadeAway = new Timer(100,fadeOutBlockListener);
 	}
 	
 	/**

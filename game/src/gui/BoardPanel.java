@@ -17,17 +17,20 @@ public class BoardPanel extends JPanel {
 	private PauseKeyListener pauseListener;
 	private ClearLineListener clearLineListener;
 	private RestartActualTimerAgain restartActualTimerAgain;
+	private FastFadeOutUpdater fastFadeOutUpdater;
 	private Timer timer;
 	private Timer timerForClearLine1;
 	private Timer timerForClearLine2;
 	private Timer timerForClearLine3;
 	private Timer timerForClearLine4;
+	private Timer fastUpdaterForFadeOut;
 	private Timer timerForActivationTheActualTimerAgain;
 	private boolean mode;
 	private Piece piece;
 	private KeyConfigure keys;
 	private Engine callerEngine;
 	private ArrayList<Block> blocks;
+	private ArrayList<Block> deletedBlocks;
 	private game.Board boardMatrix;
 	private NextPieceAndScorePanel nextPiecePanel;
 
@@ -48,6 +51,7 @@ public class BoardPanel extends JPanel {
 		this.boardMatrix = boardMatrix;
 		callerEngine = engine;
 		blocks = new ArrayList<Block>();
+		deletedBlocks = new ArrayList<Block>();
 
 		//putDotIndicators();
 		// this only initializes the timer, we actually start and stop the
@@ -57,6 +61,7 @@ public class BoardPanel extends JPanel {
 		pauseListener = new PauseKeyListener();
 		clearLineListener = new ClearLineListener(boardMatrix.getColumnSize());
 		restartActualTimerAgain = new RestartActualTimerAgain(this);
+		fastFadeOutUpdater = new FastFadeOutUpdater(this);
 
 		paused = new JLabel("Game is paused!");
 		paused.setFont(new Font(paused.getFont().getFamily(), paused.getFont().getStyle(), 20));
@@ -65,6 +70,8 @@ public class BoardPanel extends JPanel {
 		// The first parameter is how often (in milliseconds) the timer
 		// should call us back.  50 milliseconds = 20 frames/second
 		timer = new Timer(speed, eventListener);
+		
+		fastUpdaterForFadeOut = new Timer(1,fastFadeOutUpdater);
 
 		timerForClearLine1 = new Timer(deletionSpeed,clearLineListener);
 		timerForClearLine2 = new Timer(deletionSpeed,clearLineListener);
@@ -279,6 +286,20 @@ public class BoardPanel extends JPanel {
 		public void keyTyped(KeyEvent e) { }
 	}
 
+	class FastFadeOutUpdater implements ActionListener{
+		private BoardPanel callerBoard;
+
+		public FastFadeOutUpdater(BoardPanel board){
+			callerBoard = board;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			callerBoard.repaint();
+		}
+		
+	}
+	
 	class RestartActualTimerAgain implements ActionListener{
 		private BoardPanel callerPanel;
 
@@ -333,10 +354,13 @@ public class BoardPanel extends JPanel {
 			}
 
 			if (cleanedCounter != totalBlockNumber){
+				fastUpdaterForFadeOut.start();
 				for (int i=0; i<blocks.size(); i++){
 					int lineOfCurrentBlock = blocks.get(i).getY() / blocks.get(i).getBlockSize() + 5;
 					if (lineOfCurrentBlock == lineNo){
-						blocks.remove(i);
+						Block aDeletedBlock = blocks.remove(i);
+						deletedBlocks.add(aDeletedBlock);
+						aDeletedBlock.fadeOut();
 						repaint();
 						cleanedCounters.set(index, ++cleanedCounter);
 						Rectangle oldPos = piece.boundingBox();
@@ -374,6 +398,9 @@ public class BoardPanel extends JPanel {
 				}
 
 				if (clear){
+					while(!deletedBlocks.isEmpty()){
+						deletedBlocks.remove(0);
+					}
 					Collections.sort(lineNumbers);
 
 					while (!lineNumbers.isEmpty()){
@@ -387,6 +414,8 @@ public class BoardPanel extends JPanel {
 
 					while (!cleanedCounters.isEmpty())
 						cleanedCounters.remove(0);
+					
+					fastUpdaterForFadeOut.stop();
 				}
 
 				repaintPanel(new Rectangle(0,0,getWidth(),getHeight()));
