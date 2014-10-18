@@ -258,7 +258,7 @@ public class PlayGUI extends JFrame {
 				String name = nameField.getText();
 				nameField.setEnabled(false);
 				Player newPlayer = new Player(name, Engine.round(score, 2));
-				GUI.addPlayerToHighScoreList(newPlayer);
+				gui.addPlayerToHighScoreList(newPlayer);
 			}
 		}
 	}

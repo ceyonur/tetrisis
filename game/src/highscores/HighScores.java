@@ -1,37 +1,21 @@
 package highscores;
 
-
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
+import java.io.*;
+import java.text.*;
+import java.util.*;
 
 import javax.swing.text.DateFormatter;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class keeps the first 5 highscores.
  *
  * @author bedirhancaldir
  */
 public class HighScores implements Serializable {
-	
+
 	/** The player list. */
 	private ArrayList<Player> playerList;
-	
+
 	/** The upperbound. */
 	private final int UPPERBOUND = 5;
 
@@ -40,7 +24,7 @@ public class HighScores implements Serializable {
 	 */
 	public HighScores(){
 		playerList = new ArrayList<Player>();
-		this.loadHighScores();		
+		loadHighScores();		
 	}
 
 	/**
@@ -73,7 +57,7 @@ public class HighScores implements Serializable {
 	 * @return The player corresponding to the index given (null if the index isn't in the interval of [1,5])
 	 */
 	public Player getPlayer(int index){
-		
+
 		if (index <= UPPERBOUND && index > 0) // Check whether the given index is in the permitted range.
 			return playerList.get(index-1);	
 
@@ -92,62 +76,49 @@ public class HighScores implements Serializable {
 			result += '\n';
 			i++;
 		}
-		
+
 		return result;
 
 	}
-	
+
 	/**
 	 * Saves high scores.
 	 */
 	public void saveHighScores(){
-	try{
-			
-			
+		try{
 			FileOutputStream fout = new FileOutputStream("HighScores.ser");
 			ObjectOutputStream oos = new ObjectOutputStream(fout);   
 			oos.writeObject(this);
-			oos.close();			
-	 
-		   }catch(Exception ex){
-			   ex.printStackTrace();
-		   
+			oos.close();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
-	}
-	
+
 	/**
 	 * Loads high scores to the same HighScore object.
 	 */
-	public void loadHighScores() {		
+	public void loadHighScores() {
 		try{
-			 
-			   FileInputStream fin = new FileInputStream("HighScores.ser");
-			   ObjectInputStream ois = new ObjectInputStream(fin);
-			   HighScores highScores= (HighScores) ois.readObject();
-			   ois.close();
-			   for(Player player : highScores.playerList){
-				   this.add(player);
-			   }
-			   
-	 
-		   }catch(Exception ex){
-			   try {
+			FileInputStream fin = new FileInputStream("HighScores.ser");
+			ObjectInputStream ois = new ObjectInputStream(fin);
+			HighScores highScores= (HighScores) ois.readObject();
+			for(Player player : highScores.playerList){
+				add(player);
+			}
+			ois.close();
+		}catch(Exception ex){
+			try {
 				FileOutputStream fout = new FileOutputStream("HighScores.ser");
 				fout.close();
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}		   
-		   } 
-		
+		} 
 	}
-	
-	
-	
-	
+
 	/**
 	 * Gets the player list size.
 	 *
@@ -156,7 +127,7 @@ public class HighScores implements Serializable {
 	public int getPlayerListSize(){
 		return playerList.size();
 	}
-	
+
 	/**
 	 * Checks if is score high enough.
 	 *
@@ -165,12 +136,12 @@ public class HighScores implements Serializable {
 	 */
 	public boolean isScoreHighEnough(double score){
 		if (playerList.size() >= 5){
-		for (int i=0; i<playerList.size(); i++){
-			if ((int) score >= (int) playerList.get(i).getScore()){
-				return true;
+			for (int i=0; i<playerList.size(); i++){
+				if ((int) score >= (int) playerList.get(i).getScore()){
+					return true;
+				}
 			}
-		}
-		return false;
+			return false;
 		} else
 			return true;
 	}

@@ -15,7 +15,7 @@ import settings.Settings;
 public class GUI extends JFrame {
 
 	Settings settings;
-	static HighScores highscores;
+	HighScores highscores;
 	PlayGUI playGUI;
 	MenuGUI menuGUI;
 	SettingsGUI settingsGUI;
@@ -34,7 +34,7 @@ public class GUI extends JFrame {
 		
 		this.setResizable(false);
 
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 
 	public static void main(String[] args) {
@@ -71,7 +71,8 @@ public class GUI extends JFrame {
 		highscoresGUI.show();
 	}
 	
-	public static void addPlayerToHighScoreList(Player player){
+	public void addPlayerToHighScoreList(Player player){
 		highscores.add(player);
+		highscores.saveHighScores();
 	}
 }
