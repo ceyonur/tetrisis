@@ -27,8 +27,8 @@ public class Block {
 	private int y; // The y-position of the upper-left corner of the block
 	private Color color; // The color of the block
 	
-	private Timer timerForFadeAway;
-	private FadeOutTheBlockListener fadeOutBlockListener;
+	private Timer timerForFadeAway; // The timer to fade the block out when it is deleted
+	private FadeOutTheBlockListener fadeOutBlockListener; // The listener causing the transparency decrement
 
 	/**
 	 * The constructor of the class Block. Sets the color, x and y coordinates of the block
@@ -40,7 +40,7 @@ public class Block {
 		setLocation(x,y);
 		setColor(color);
 		fadeOutBlockListener = new FadeOutTheBlockListener();
-		timerForFadeAway = new Timer(100,fadeOutBlockListener);
+		timerForFadeAway = new Timer(2,fadeOutBlockListener);
 	}
 	
 	/**
@@ -63,6 +63,9 @@ public class Block {
 		}
 	}
 	
+	/**
+	 * This method cause the fade-out effect of the block when it is deleted from the game board
+	 */
 	public void fadeOut(){
 		timerForFadeAway.start();
 	}
@@ -146,14 +149,17 @@ public class Block {
 		return y;
 	}
 	
-	
-	
+	/**
+	 * This is an inner class of actionListener causing the fade-out step by step when it is provoked by the timer of the Block.java class
+	 */
 	class FadeOutTheBlockListener implements ActionListener{
 
 		public FadeOutTheBlockListener(){ }
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			// If color has an alpha value (opacity) different than 0, then it is decremented by one
+			// If it is already 0, the timer provoking this listener will be stopped
 			if (color.getAlpha() != 0)
 				color = new SColor(color.getRed(),color.getGreen(),color.getBlue(),color.getAlpha()-1);
 			else

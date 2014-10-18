@@ -178,8 +178,7 @@ public abstract class Piece {
 		Random rgen = new Random(System.currentTimeMillis());
 
 		Color randomColor = SColor.getRandomPieceColor();
-		int randomNumberForColor = rgen.nextInt(9) + 1;
-
+		
 		Piece randomPiece = null;
 		int randomNumberForPiece = 0;
 		if (pieceChoice.hasBoth())
