@@ -41,12 +41,11 @@ public class PlayGUI extends JFrame {
 	
 	private Timer timer; 
 	
-	private AnimationEventListener eventListener;
+	private MusicLoopPlayerListener musicPlayerListener;
 	
 	private boolean mute = true;
 	private AudioInputStream audioStream;
 	private ArrayList<String> sounds;
-
 	private Clip clipBackground;
 
 
@@ -57,8 +56,8 @@ public class PlayGUI extends JFrame {
 		gameOverListener = new GameOverListener();
 		timerForCheckingGameOver = new Timer(500, gameOverListener);
 		
-		eventListener = new AnimationEventListener();
-		timer= new Timer(5000, eventListener);
+		musicPlayerListener = new MusicLoopPlayerListener();
+		timer= new Timer(5000, musicPlayerListener);
 		
 		playBackground(!mute);
 		
@@ -279,13 +278,10 @@ public class PlayGUI extends JFrame {
 				clip.start();
 				}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -337,13 +333,10 @@ public class PlayGUI extends JFrame {
 					clip.start();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -363,13 +356,10 @@ public class PlayGUI extends JFrame {
 				clip.start();
 				}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -390,13 +380,10 @@ public class PlayGUI extends JFrame {
 				clipRotate.start();
 				}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -414,13 +401,10 @@ public class PlayGUI extends JFrame {
 			clipFirstBlood.start();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -437,8 +421,8 @@ public class PlayGUI extends JFrame {
 		timer.start();
 	}
 	
-	class AnimationEventListener implements  ActionListener{
-		public AnimationEventListener(){ }
+	class MusicLoopPlayerListener implements  ActionListener{
+		public MusicLoopPlayerListener(){ }
 		
 		
 		public void actionPerformed(ActionEvent e) {
@@ -454,13 +438,10 @@ public class PlayGUI extends JFrame {
 					sounds.add(sound);
 					
 				} catch (LineUnavailableException e0) {
-					// TODO Auto-generated catch block
 					e0.printStackTrace();
 				} catch (UnsupportedAudioFileException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (IOException e2) {
-					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
 		}
