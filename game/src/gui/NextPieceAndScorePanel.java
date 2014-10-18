@@ -53,7 +53,7 @@ public class NextPieceAndScorePanel extends JPanel {
 		
 		buttonsPanel = new JPanel();
 		buttonsPanel.setBackground(getBackground());
-		buttonsPanel.setLayout(new GridLayout(2,1));
+		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 		
 		nextPieceLabel = new SLabel("next piece :", SLabel.SIDE_PANEL_NEXT, JLabel.CENTER);
 		nextPiecePanel.add(nextPieceLabel, BorderLayout.NORTH);
@@ -77,7 +77,7 @@ public class NextPieceAndScorePanel extends JPanel {
 		infoPanel.add(level);
 		
 		JPanel gameControlButtonsPanel = new JPanel();
-		gameControlButtonsPanel.setLayout(new GridLayout(1,2));
+		gameControlButtonsPanel.setLayout(new GridLayout(1,2,20,0));
 		gameControlButtonsPanel.setBackground(SColor.backgroundColor);
 		
 		SButton pauseButton = new SButton("pause", SButton.GAME_BUTTON);
@@ -86,8 +86,12 @@ public class NextPieceAndScorePanel extends JPanel {
 		gameControlButtonsPanel.add(pauseButton);
 		gameControlButtonsPanel.add(quitButton);
 		
+		JPanel gameControlButtonsPanelSuper = new JPanel();
+		gameControlButtonsPanelSuper.setBackground(SColor.backgroundColor);
+		gameControlButtonsPanelSuper.add(gameControlButtonsPanel);
+		
 		JPanel soundControlButtonsPanel = new JPanel();
-		soundControlButtonsPanel.setLayout(new GridLayout(1,3));
+		soundControlButtonsPanel.setLayout(new GridLayout(1,3,10,0));
 		soundControlButtonsPanel.setBackground(SColor.backgroundColor);
 		
 		SButton allSoundsButton = new SButton(SButton.SOUND_BUTTON_UNMUTE);
@@ -98,12 +102,17 @@ public class NextPieceAndScorePanel extends JPanel {
 		soundControlButtonsPanel.add(musicButton);
 		soundControlButtonsPanel.add(dotaEffectsButton);
 		
-		buttonsPanel.add(gameControlButtonsPanel);
-		buttonsPanel.add(soundControlButtonsPanel);
+		JPanel soundControlButtonsPanelSuper = new JPanel();
+		soundControlButtonsPanelSuper.setBackground(SColor.backgroundColor);
+		soundControlButtonsPanelSuper.add(soundControlButtonsPanel);
+		
+		buttonsPanel.add(gameControlButtonsPanelSuper);
+		buttonsPanel.add(soundControlButtonsPanelSuper);
 		
 		add(Box.createVerticalStrut(30));
 		add(nextPiecePanel);
 		add(infoPanel);
+		add(Box.createVerticalStrut(30));
 		add(buttonsPanel);
 		
 		increaseDeletedLineNo();
