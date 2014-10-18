@@ -16,6 +16,7 @@ import sun.audio.AudioStream;
 import sun.audio.ContinuousAudioDataStream;
 import game.Board;
 import game.Engine;
+import highscores.Player;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -60,6 +61,18 @@ public class PlayGUI extends JFrame {
 		timer= new Timer(5000, eventListener);
 		
 		playBackground(!mute);
+		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				engine.shutDown();
+				gui.setEnabled(true);
+				timerForCheckingGameOver.stop();
+				timer.stop();
+				clipBackground.stop();
+				engine = null;
+				dispose();
+		    }
+		});
 	}
 
 	public void setEngine(Engine engine) {
@@ -95,13 +108,6 @@ public class PlayGUI extends JFrame {
 		width = engine.getBoardColumnLength();
 		height = engine.getBoardRowLength();
 		
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				gui.setEnabled(true);
-				dispose();
-		    }
-		});
-		
 		pack();
 	}
 	
@@ -111,6 +117,8 @@ public class PlayGUI extends JFrame {
 
 	public void showGameOver(){
 		JPanel gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo());
+		timer.stop();
+		clipBackground.stop();
 		setContentPane(gameOverPanel);
 		repaint();
 		pack();
@@ -161,6 +169,7 @@ public class PlayGUI extends JFrame {
 			getName = new JTextField();
 			getNameForHighScoreTable.add(getName);
 			submit = new JButton("Submit");
+			submit.addActionListener(new SubmitHandler(getName,score));
 			getNameForHighScoreTable.add(submit);
 			add(getNameForHighScoreTable);
 
@@ -188,10 +197,6 @@ public class PlayGUI extends JFrame {
 			add(addButtons());
 		}
 
-		public void paint(Graphics g) {
-			super.paint(g);
-		}
-
 		protected JPanel addButtons() {
 
 			JPanel buttons = new JPanel();
@@ -204,7 +209,8 @@ public class PlayGUI extends JFrame {
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					//
+					gui.showPlay();
+					dispose();
 				}
 			});
 			buttons.add(button);
@@ -216,7 +222,8 @@ public class PlayGUI extends JFrame {
 			button2.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					//
+					gui.setEnabled(true);
+					dispose();
 				}
 			});
 			buttons.add(button2);
@@ -233,6 +240,23 @@ public class PlayGUI extends JFrame {
 
 			return buttons;
 
+		}
+		
+		class SubmitHandler implements ActionListener{
+			private JTextField nameField;
+			private double score;
+			
+			public SubmitHandler(JTextField name, double score){
+				nameField = name;
+				this.score = score;
+			}
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name = nameField.getText();
+				Player newPlayer = new Player(name, Engine.round(score, 2));
+				GUI.addPlayerToHighScoreList(newPlayer);
+			}
 		}
 	}
 

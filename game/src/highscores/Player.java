@@ -18,7 +18,7 @@ public class Player implements Serializable{
 	 * @param score The score of the player (must be greater than or equal to 0)
 	 * @param date The date of the game played
 	 */
-	public Player(String name, int score, Date date){
+	public Player(String name, double score, Date date){
 		setName(name);
 		setScore(score);
 		setDate(date);
@@ -29,7 +29,7 @@ public class Player implements Serializable{
 	 * @param name The name of the player (must have at most 20 characters)
 	 * @param score The score of the player (must be greater than or equal to 0)
 	 */
-	public Player(String name, int score){
+	public Player(String name, double score){
 		this(name, score, new Date()); // new Date() -> gives the instance of calling
 	}
 
@@ -66,7 +66,7 @@ public class Player implements Serializable{
 	 * Otherwise the score would be set to 0 automatically.
 	 * @param score The score of the player
 	 */
-	public void setScore(int score){
+	public void setScore(double score){
 		if (score >= 0)
 			this.score = score;
 		else // If score is below 0, then it will be equalized to 0.

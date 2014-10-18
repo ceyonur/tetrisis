@@ -103,7 +103,6 @@ public class BoardPanel extends JPanel {
 		// effects: changes the mode to <m>.
 		
 		if (mode == true) {
-			
 			// we're about to change mode: turn off all the old listeners
 			removeKeyListener(eventListener);
 		}

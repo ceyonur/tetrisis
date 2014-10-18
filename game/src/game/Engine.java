@@ -138,6 +138,10 @@ public class Engine {
 		return score;
 	}
 	
+	public void shutDown(){
+		boardPanel.setMode(false);
+	}
+	
 	public static double round(double value, int places) {
 	    if (places < 0) throw new IllegalArgumentException();
 
