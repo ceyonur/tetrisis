@@ -410,8 +410,15 @@ public class BoardPanel extends JPanel {
 						int currentLineNo = lineNumbers.remove(0);
 						for (int i=0; i<blocks.size(); i++){
 							int lineOfCurrentBlock = blocks.get(i).getY() / blocks.get(i).getBlockSize() + 5;
-							if (lineOfCurrentBlock < currentLineNo)
-								blocks.get(i).move(0, blocks.get(i).getBlockSize());
+							if (lineOfCurrentBlock < currentLineNo){
+								boolean isThisBelongToCurrentPiece = false;
+								for (int j=0; j<piece.getBlocks().size() ; j++){
+									if (piece.getBlocks().get(j) == blocks.get(i))
+										isThisBelongToCurrentPiece = true;
+								}
+								if (!isThisBelongToCurrentPiece)
+									blocks.get(i).move(0, blocks.get(i).getBlockSize());
+							}
 						}
 					}
 
