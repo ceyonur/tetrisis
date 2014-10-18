@@ -253,7 +253,11 @@ public class PlayGUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				JButton callerButton = (JButton) e.getSource();
+				callerButton.setText("Submitted");
+				callerButton.setEnabled(false);
 				String name = nameField.getText();
+				nameField.setEnabled(false);
 				Player newPlayer = new Player(name, Engine.round(score, 2));
 				GUI.addPlayerToHighScoreList(newPlayer);
 			}
