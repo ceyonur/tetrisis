@@ -209,10 +209,11 @@ public class Board {
 		if (deletedLineCounter != 0) {
 			callerEngine.increaseScore(deletedLineCounter);
 			playGUI.playAudio2(true);
-			if (firstKill) {
+			if(firstKill){
 				playGUI.playAudioFirstBlood(true);
 				firstKill = false;
-			} else
+			}
+			else
 				playGUI.playAudio(true, deletedLineCounter);
 		}
 	}

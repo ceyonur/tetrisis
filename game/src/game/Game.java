@@ -14,6 +14,11 @@ public class Game {
 		frame.setVisible(true);
 	}
 	
+	/**
+	 * This static method generates an Engine object and returns it
+	 * @param settings The settings to generate the Engine object
+	 * @return The generated Engine object
+	 */
 	public static Engine getEngine(Settings settings){
 		return new Engine(settings);
 	}

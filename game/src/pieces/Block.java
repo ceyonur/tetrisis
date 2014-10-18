@@ -40,7 +40,7 @@ public class Block {
 		setLocation(x,y);
 		setColor(color);
 		fadeOutBlockListener = new FadeOutTheBlockListener();
-		timerForFadeAway = new Timer(2,fadeOutBlockListener);
+		timerForFadeAway = new Timer(1,fadeOutBlockListener);
 	}
 	
 	/**
@@ -160,11 +160,19 @@ public class Block {
 		public void actionPerformed(ActionEvent e) {
 			// If color has an alpha value (opacity) different than 0, then it is decremented by one
 			// If it is already 0, the timer provoking this listener will be stopped
-			if (color.getAlpha() != 0)
-				color = new SColor(color.getRed(),color.getGreen(),color.getBlue(),color.getAlpha()-1);
+			
+			int changeLevel;
+			
+			// The changeLevel of the alpha differs from OS to OS to make it sensible
+			if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0)
+				changeLevel = 5;
+			else
+				changeLevel = 1;
+			
+			if (color.getAlpha() >= changeLevel)
+				color = new SColor(color.getRed(),color.getGreen(),color.getBlue(),color.getAlpha() - changeLevel);
 			else
 				timerForFadeAway.stop();
 		}
-		
 	}
 }
