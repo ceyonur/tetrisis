@@ -20,7 +20,7 @@ public class Engine {
 	private BoardPanel boardPanel; // The panel for the board (the left one)
 	private NextPieceAndScorePanel nextPiecePanel; // The next piece panel (the right one)
 	private HighScores highScores; // The HighScores object to update it when necessary
-	private double score;
+	private double score = 0; // The current score of the game - initially 0
 
 	/**
 	 * The constructor of the Engine class. Creates the board and takes the settings (if nothing changed, default ones will be used)
@@ -41,7 +41,6 @@ public class Engine {
 		pieceChoice = settings.getPieceChoice();
 
 		currentPiece = null;
-		score = 0;
 
 		nextPiecePanel = new NextPieceAndScorePanel(getBoardColumnLength() , getBoardRowLength());
 		nextPiecePanel.setLevel(levelNo);
