@@ -13,22 +13,18 @@ public class Board {
 	private int[][] board; // The board represented as 2D integer matrix
 
 	private int rowSize; // The field holding the row size of the board
-	private int actualRowSize;
+	private int actualRowSize; // This gives the real row size which is rowSize+4
 	private int columnSize; // The field holding the column size of the board
 	private boolean emptyness; // True if the board is empty
 
 	private Engine callerEngine;
-	private PlayGUI playGUI;
-	boolean firstKill = true;
+	private PlayGUI playGUI; // The PlayGUI frame object generating this Board object
+	private boolean firstKill = true; // FirstBlood indicator
 
 	/**
-	 * The constructor of the class Board. Creates the matrix of the given
-	 * dimensions
-	 * 
-	 * @param row
-	 *            The row number of the matrix
-	 * @param column
-	 *            The column number of the matrix
+	 * The constructor of the class Board. Creates the matrix of the given dimensions
+	 * @param row The row number of the matrix
+	 * @param column The column number of the matrix
 	 */
 	public Board(int row, int column, Engine engine) {
 		board = new int[row + 4][column];
@@ -78,6 +74,10 @@ public class Board {
 		return columnSize * pieces.Block.SIZE;
 	}
 
+	/**
+	 * This method gives the information of including at least a piece
+	 * @return true if it the board is empty; false otherwise
+	 */
 	public boolean isEmpty() {
 		return emptyness;
 	}
@@ -115,16 +115,18 @@ public class Board {
 		return true;
 	}
 
+	/**
+	 * This method provides the current JFrame creating this Board object.
+	 * @param playGUI
+	 */
 	public void setCurrentPlayGUI(PlayGUI playGUI) {
 		this.playGUI = playGUI;
 	}
 
 	/**
 	 * This method checks whether the right of the piece is empty or not.
-	 * 
-	 * @param locations
-	 *            The locations of the block as (x,y) in a 2D array
-	 * @return Returns true if the block can go further or false if vice versa
+	 * @param locations The locations of the block as (x,y) in a 2D array
+	 * @return Returns true if the block can go further; false otherwise
 	 */
 	public boolean checkCollisionsToGoRight(int[][] locations) {
 		for (int i = 0; i < locations.length; i++) {
@@ -142,10 +144,8 @@ public class Board {
 
 	/**
 	 * This method checks whether the left of the piece is empty or not.
-	 * 
-	 * @param locations
-	 *            The locations of the block as (x,y) in a 2D array
-	 * @return Returns true if the block can go further or false if vice versa
+	 * @param locations The locations of the block as (x,y) in a 2D array
+	 * @return Returns true if the block can go further; false otherwise
 	 */
 	public boolean checkCollisionsToGoLeft(int[][] locations) {
 		for (int i = 0; i < locations.length; i++) {
@@ -162,14 +162,10 @@ public class Board {
 	}
 
 	/**
-	 * This method checks whether the rotation of the piece causes any
-	 * confliction or not.
+	 * This method checks whether the rotation of the piece causes any confliction or not.
 	 * 
-	 * @param locations
-	 *            The locations of the block when it is rotated as (x,y) in a 2D
-	 *            array
-	 * @return "CONTINUE" -> No confliction, continue; "NOROTATE" -> Rotate is
-	 *         impossible; "FIX" -> move to an appropriate location, then rotate
+	 * @param locations The locations of the block when it is rotated as (x,y) in a 2D array
+	 * @return "CONTINUE" -> No confliction, continue; "NOROTATE" -> Rotate is impossible; "FIX" -> move to an appropriate location, then rotate
 	 */
 	public String checkCollisionsWhenRotating(int[][] locations) {
 		for (int i = 0; i < locations.length; i++)
@@ -193,7 +189,7 @@ public class Board {
 	/**
 	 * This method checks all of the rows of the matrix to determine whether a
 	 * line has been completed or not. If a line is determined as completed,
-	 * then the removeCompletedLine method is called to to remove the line
+	 * then the removeCompletedLine method is called to remove that line
 	 * completely.
 	 */
 	public void checkLinesForCompletion() {
@@ -222,11 +218,8 @@ public class Board {
 	}
 
 	/**
-	 * This method takes a row number and deletes that line completely and
-	 * shifts the upper lines to their one row below one by one.
-	 * 
-	 * @param deletedRow
-	 *            The row that will be deleted.
+	 * This method takes a row number and deletes that line completely and shifts the upper lines to their one row below one by one.
+	 * @param deletedRow The row that will be deleted.
 	 */
 	private void removeCompletedLine(int deletedRow) {
 		for (int i = deletedRow - 1; i >= 0; i--) {
@@ -239,7 +232,6 @@ public class Board {
 
 	/**
 	 * This method determines whether the game is over or not.
-	 * 
 	 * @return True if the game is over, false if the game can continue
 	 */
 	public boolean isGameOver() {
