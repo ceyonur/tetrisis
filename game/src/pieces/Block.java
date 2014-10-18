@@ -160,8 +160,8 @@ public class Block {
 		public void actionPerformed(ActionEvent e) {
 			// If color has an alpha value (opacity) different than 0, then it is decremented by one
 			// If it is already 0, the timer provoking this listener will be stopped
-			if (color.getAlpha() != 0)
-				color = new SColor(color.getRed(),color.getGreen(),color.getBlue(),color.getAlpha()-1);
+			if (color.getAlpha() >=3)
+				color = new SColor(color.getRed(),color.getGreen(),color.getBlue(),color.getAlpha()-3);
 			else
 				timerForFadeAway.stop();
 		}
