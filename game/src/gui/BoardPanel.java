@@ -70,7 +70,7 @@ public class BoardPanel extends JPanel {
 		// The first parameter is how often (in milliseconds) the timer
 		// should call us back.  50 milliseconds = 20 frames/second
 		timer = new Timer(speed, eventListener);
-		
+
 		fastUpdaterForFadeOut = new Timer(1,fastFadeOutUpdater);
 
 		timerForClearLine1 = new Timer(deletionSpeed,clearLineListener);
@@ -91,6 +91,9 @@ public class BoardPanel extends JPanel {
 		super.paint(g);
 		if (mode == true){
 			piece.paint(g);
+			for(int i=0;i<deletedBlocks.size(); i++){
+				deletedBlocks.get(i).paint(g);
+			}
 			for (int i=0; i<blocks.size(); i++){
 				blocks.get(i).paint(g);
 			}
@@ -292,14 +295,14 @@ public class BoardPanel extends JPanel {
 		public FastFadeOutUpdater(BoardPanel board){
 			callerBoard = board;
 		}
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			callerBoard.repaint();
 		}
-		
+
 	}
-	
+
 	class RestartActualTimerAgain implements ActionListener{
 		private BoardPanel callerPanel;
 
@@ -414,7 +417,7 @@ public class BoardPanel extends JPanel {
 
 					while (!cleanedCounters.isEmpty())
 						cleanedCounters.remove(0);
-					
+
 					fastUpdaterForFadeOut.stop();
 				}
 

@@ -425,7 +425,6 @@ public class PlayGUI extends JFrame {
 					clipBackground = AudioSystem.getClip();
 					String sound = sounds.remove(0);
 					AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(sound));
-					System.out.println(audioStream.getFrameLength());
 					clipBackground.open(audioStream);
 					FloatControl volume = (FloatControl) clipBackground.getControl(FloatControl.Type.MASTER_GAIN);
 					volume.setValue(-5.0f);
