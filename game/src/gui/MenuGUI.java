@@ -2,6 +2,7 @@ package gui;
 
 import settings.Settings;
 import sun.audio.*;
+import gui.PlayGUI.MusicLoopPlayerListener;
 import highscores.HighScores;
 
 import java.awt.BorderLayout;
@@ -12,10 +13,21 @@ import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.Window;
 import java.awt.event.*;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import javax.swing.*;
+import java.io.InputStream;
+import java.util.ArrayList;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.BooleanControl;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.*;
 import javax.swing.*;
 
 public class MenuGUI extends JPanel {
@@ -27,7 +39,7 @@ public class MenuGUI extends JPanel {
 	private AudioStream AS;
 	private AudioData AD;
 	private ContinuousAudioDataStream loop = null;
-	
+
 	private Color bgcolor = SColor.backgroundColor;;
 
 	private boolean mute = true;
@@ -66,8 +78,19 @@ public class MenuGUI extends JPanel {
 		this.add(buttonPanelContainer);
 		this.add(footerPanelContainer);
 
+		try {
+			AS = new AudioStream(new FileInputStream(
+					"assets/sounds/mainMenu.wav"));
+			AD = AS.getData();
+			loop = new ContinuousAudioDataStream(AD);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		setVisible(true);
-		playAudio(!mute);
+		playAudio(mute);
 	}
 
 	public JPanel createHeader() {
@@ -91,7 +114,8 @@ public class MenuGUI extends JPanel {
 		buttons.setLayout(new GridLayout(4, 1, 0, -5));
 		buttons.setBackground(SColor.backgroundColor);
 
-		final SButton newGame = new SButton("new game", SButton.MAIN_MENU_BUTTON);
+		final SButton newGame = new SButton("new game",
+				SButton.MAIN_MENU_BUTTON);
 		SButton settings = new SButton("settings", SButton.MAIN_MENU_BUTTON);
 		SButton highScores = new SButton("high scores",
 				SButton.MAIN_MENU_BUTTON);
@@ -104,21 +128,21 @@ public class MenuGUI extends JPanel {
 
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				playAudio(false);
 				gui.showPlay();
 			}
 		});
 
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//gui.set
 				gui.showSettings();
 			}
 		});
-		
+
 		highScores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				gui.showHighScores();
-			}	
+			}
 		});
 
 		exit.addActionListener(new ActionListener() {
@@ -134,13 +158,14 @@ public class MenuGUI extends JPanel {
 	private JPanel createFooter() {
 		JPanel footer = new JPanel();
 		footer.setBackground(bgcolor);
-		int type = mute ? SButton.SOUND_BUTTON_MUTE : SButton.SOUND_BUTTON_UNMUTE;
+		int type = mute ? SButton.SOUND_BUTTON_MUTE
+				: SButton.SOUND_BUTTON_UNMUTE;
 		final SButton musicButton = new SButton(SButton.getIcon(type), type);
 
 		musicButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mute = !mute;
-				playAudio(!mute);
+				playAudio(mute);
 				musicButton.changeState();
 			}
 		});
@@ -149,13 +174,17 @@ public class MenuGUI extends JPanel {
 		return footer;
 	}
 
-	private void playAudio(boolean status) {
+	public void playAudio(boolean status) {
+		if(status)
+			AP.start(loop);
+		else
+			AP.stop(loop);
 	}
-	
-	class PlayListeners implements ActionListener{
+
+	class PlayListeners implements ActionListener {
 		private MenuGUI callerMenuGUI;
-		
-		public PlayListeners(MenuGUI callerMenuGUI){
+
+		public PlayListeners(MenuGUI callerMenuGUI) {
 			this.callerMenuGUI = callerMenuGUI;
 		}
 
@@ -163,6 +192,6 @@ public class MenuGUI extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			gui.showPlay();
 		}
-		
+
 	}
 }

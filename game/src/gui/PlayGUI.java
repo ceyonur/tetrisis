@@ -272,8 +272,8 @@ public class PlayGUI extends JFrame {
 				Clip clip = AudioSystem.getClip();
 				audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
 				clip.open(audioStream);
-				FloatControl volume = (FloatControl) clipBackground.getControl(FloatControl.Type.MASTER_GAIN);
-			//	volume.setValue(-15.0f);
+				FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+				volume.setValue(-5.0f);
 				clip.start();
 				}
 		} catch (IOException e) {
