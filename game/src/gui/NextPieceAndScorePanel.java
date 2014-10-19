@@ -13,6 +13,7 @@ import pieces.Piece;
 public class NextPieceAndScorePanel extends JPanel {
 	private Engine callerEngine; // The Engine object generating this object
 	private PlayGUI playGUI; // The JFrame that contains this panel
+	private AudioPlayers audioPlayers;
 	private Piece nextPiece; // The next piece of the game (shown in this panel)
 	private int width; // The width of the panel
 	private int height; // The height of the panel
@@ -35,6 +36,10 @@ public class NextPieceAndScorePanel extends JPanel {
 	private int nextPieceAreaY; // The y-axis of the area containing the next piece of the game
 	private double pieceOldPositionX; // The x-axis of the first position of the piece which is positioned on the next piece area
 	private double pieceOldPositionY; // The y-axis of the first position of the piece which is positioned on the next piece area
+	
+	private boolean stateOfBackgroundMusic = true;
+	private boolean stateOfDotaEffects = true;
+	private boolean stateOfEffects = true;
 
 	/**
 	 * The constructor of the class. 
@@ -121,8 +126,33 @@ public class NextPieceAndScorePanel extends JPanel {
 		soundControlButtonsPanel.setBackground(SColor.backgroundColor);
 		
 		SButton allSoundsButton = new SButton(SButton.SOUND_BUTTON_UNMUTE);
+		allSoundsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				stateOfEffects = !stateOfEffects;
+				stateOfDotaEffects = stateOfEffects;
+				stateOfBackgroundMusic = stateOfEffects;
+				audioPlayers.disableOrEnableAllSounds(stateOfEffects);
+			}
+		});
+		
 		SButton musicButton = new SButton(SButton.SOUND_BUTTON_MUSIC_ON);
+		musicButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				stateOfBackgroundMusic = !stateOfBackgroundMusic;
+				audioPlayers.disableOrEnablePlayGUIBackgroundSound(stateOfBackgroundMusic);
+			}
+		});
+		
 		SButton dotaEffectsButton = new SButton(SButton.SOUND_BUTTON_EFFECTS_ON);
+		dotaEffectsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				stateOfDotaEffects = !stateOfDotaEffects;
+				audioPlayers.disableOrEnableDotaEffects(stateOfDotaEffects);
+			}
+		});
 		
 		soundControlButtonsPanel.add(allSoundsButton);
 		soundControlButtonsPanel.add(musicButton);
@@ -238,5 +268,9 @@ public class NextPieceAndScorePanel extends JPanel {
 	 */
 	public void setPlayGUI(PlayGUI play){
 		playGUI = play;
+	}
+	
+	public void setAudioPlayers(AudioPlayers audioPlayers){
+		this.audioPlayers = audioPlayers;
 	}
 }

@@ -77,6 +77,7 @@ public class PlayGUI extends JFrame {
 		engine.getBoardMatrix().setCurrentPlayGUI(this);
 		nextPiecePanel = engine.getNextPieceAndScorePanel();
 		nextPiecePanel.setPlayGUI(this);
+		nextPiecePanel.setAudioPlayers(audioPlayers);
 		// Put it in a scrollPane, (this makes a border)
 		JScrollPane gameBoard = new JScrollPane(board);
 		JScrollPane nextPieceAndScorePanel = new JScrollPane(nextPiecePanel);
@@ -110,7 +111,7 @@ public class PlayGUI extends JFrame {
 		setEnabled(false);
 		JFrame gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo(),this);
 		gameOverPanel.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-		audioPlayers.disablePlayGUIBackgroundSound();
+		audioPlayers.disableOrEnablePlayGUIBackgroundSound(false);
 		audioPlayers.playGameOver(true);
 		gameOverPanel.setLocationRelativeTo(null);
 		gameOverPanel.show();
@@ -141,7 +142,7 @@ public class PlayGUI extends JFrame {
 		engine.pause();
 		gui.setEnabled(true);
 		timerForCheckingGameOver.stop();
-		audioPlayers.disableAllSounds();
+		audioPlayers.disableOrEnableAllSounds(false);
 		engine = null;
 		gui.menuMusicEnabler();
 		dispose();
@@ -228,7 +229,7 @@ public class PlayGUI extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {					
 					gui.showPlay();					
-					audioPlayers.disableGameOverSound();					
+					audioPlayers.disableOrEnableGameOverSound(false);					
 					dispose();
 					callerPlayGUI.dispose();
 				}
@@ -243,7 +244,7 @@ public class PlayGUI extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					gui.setEnabled(true);
-					audioPlayers.disableGameOverSound();
+					audioPlayers.disableOrEnableGameOverSound(false);
 					gui.menuMusicEnabler();
 					dispose();
 					callerPlayGUI.closeFrame();

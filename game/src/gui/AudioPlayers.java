@@ -30,6 +30,9 @@ public class AudioPlayers {
 	private ArrayList<String> gameOverSounds;
 	private Clip clipBackground;
 
+	private boolean stateOfEffects = true;
+	private boolean stateOfDotaEffects = true;
+
 	public AudioPlayers() {
 		gameOverPlayerListener = new GameOverPlayerListener();
 		musicPlayerListener = new MusicLoopPlayerListener();
@@ -39,103 +42,105 @@ public class AudioPlayers {
 
 	public void playDotaEffects(boolean status, int counter,
 			boolean isTheFirstKill) {
-		String stringFile = " ";
-		int level = levelChoiceObject.getLevel();
+		if (stateOfDotaEffects){
+			String stringFile = " ";
+			int level = levelChoiceObject.getLevel();
 
-		if (isTheFirstKill) {
-			stringFile = "assets/sounds/firstBlood.wav";
-		} else {
-			if (counter == ONEKILL)
-				stringFile = "assets/sounds/oneKill.wav";
-			else if (counter == TWOKILL) {
-				stringFile = "assets/sounds/DoubleKill.wav";
-			} else if (counter == THREEKILL && effectSelector) {
-				stringFile = "assets/sounds/TripleKill.wav";
-			} else if (counter == THREEKILL && !effectSelector) {
-				stringFile = "assets/sounds/MonsterKill.wav";
-			} else if (counter == FOURKILL && effectSelector && level < 5) {
-				stringFile = "assets/sounds/Rampage.wav";
-			} else if (counter == FOURKILL && effectSelector) {
-				stringFile = "assets/sounds/GodLike.wav";
-			} else if (counter == FOURKILL && !effectSelector && level == 5) {
-				stringFile = "assets/sounds/Unstopable.wav";
+			if (isTheFirstKill) {
+				stringFile = "assets/sounds/firstBlood.wav";
+			} else {
+				if (counter == ONEKILL)
+					stringFile = "assets/sounds/oneKill.wav";
+				else if (counter == TWOKILL) {
+					stringFile = "assets/sounds/DoubleKill.wav";
+				} else if (counter == THREEKILL && effectSelector) {
+					stringFile = "assets/sounds/TripleKill.wav";
+				} else if (counter == THREEKILL && !effectSelector) {
+					stringFile = "assets/sounds/MonsterKill.wav";
+				} else if (counter == FOURKILL && effectSelector && level < 5) {
+					stringFile = "assets/sounds/Rampage.wav";
+				} else if (counter == FOURKILL && effectSelector) {
+					stringFile = "assets/sounds/GodLike.wav";
+				} else if (counter == FOURKILL && !effectSelector && level == 5) {
+					stringFile = "assets/sounds/Unstopable.wav";
+				}
+			}
+			AudioInputStream audioStream = null;
+			Clip clip = null;
+
+			try {
+				audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
+				AudioFormat format = audioStream.getFormat();
+				DataLine.Info info = new DataLine.Info(Clip.class, format);
+				clip = (Clip) AudioSystem.getLine(info);
+				effectSelector = !effectSelector;
+				clip.open(audioStream);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (UnsupportedAudioFileException e) {
+				e.printStackTrace();
+			} catch (LineUnavailableException e) {
+				e.printStackTrace();
+			}
+			if (status) {
+				clip.start();
+			} else {
+				if (clip != null)
+					clip.stop();
 			}
 		}
-		AudioInputStream audioStream = null;
-		Clip clip = null;
-
-		try {
-			audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
-			AudioFormat format = audioStream.getFormat();
-			DataLine.Info info = new DataLine.Info(Clip.class, format);
-			clip = (Clip) AudioSystem.getLine(info);
-			effectSelector = !effectSelector;
-			clip.open(audioStream);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		}
-		if (status) {
-			clip.start();
-		} else {
-			if (clip != null)
-				clip.stop();
-		}
-
 	}
 
 	public void playEffects(boolean status, int selector) {
-		String stringFile = " ";
-		switch (selector) {
-		case ROTATE:
-			stringFile = "assets/sounds/rotate.wav";
-			break;
-		case JUCKJUCK:
-			stringFile = "assets/sounds/oneKill.wav";
-			break;
-		case SITSOUND:
-			stringFile = "assets/sounds/lastMove.wav";
-			break;
-		}
-		AudioInputStream audioStream = null;
-		Clip clip = null;
-		try {
-			audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
-			AudioFormat format = audioStream.getFormat();
-			DataLine.Info info = new DataLine.Info(Clip.class, format);
-			clip = (Clip) AudioSystem.getLine(info);
-			clip.open(audioStream);
-			FloatControl volume = (FloatControl) clip
-					.getControl(FloatControl.Type.MASTER_GAIN);
+		if (stateOfEffects){
+			String stringFile = " ";
 			switch (selector) {
 			case ROTATE:
-				volume.setValue(-15.0f);
+				stringFile = "assets/sounds/rotate.wav";
 				break;
 			case JUCKJUCK:
-				volume.setValue(-5.0f);
+				stringFile = "assets/sounds/oneKill.wav";
 				break;
 			case SITSOUND:
-				volume.setValue(-10.0f);
+				stringFile = "assets/sounds/lastMove.wav";
 				break;
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
+			AudioInputStream audioStream = null;
+			Clip clip = null;
+			try {
+				audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
+				AudioFormat format = audioStream.getFormat();
+				DataLine.Info info = new DataLine.Info(Clip.class, format);
+				clip = (Clip) AudioSystem.getLine(info);
+				clip.open(audioStream);
+				FloatControl volume = (FloatControl) clip
+						.getControl(FloatControl.Type.MASTER_GAIN);
+				switch (selector) {
+				case ROTATE:
+					volume.setValue(-15.0f);
+					break;
+				case JUCKJUCK:
+					volume.setValue(-5.0f);
+					break;
+				case SITSOUND:
+					volume.setValue(-10.0f);
+					break;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (UnsupportedAudioFileException e) {
+				e.printStackTrace();
+			} catch (LineUnavailableException e) {
+				e.printStackTrace();
+			}
+			if (status) {
+				clip.start();
+			} else {
+				if (clip != null)
+					clip.stop();
+			}
 		}
-		if (status) {
-			clip.start();
-		} else {
-			if (clip != null)
-				clip.stop();
-		}
-
 	}
 
 	public void playPlayGUIBackground(boolean status) {
@@ -216,33 +221,40 @@ public class AudioPlayers {
 		}
 	}
 
-	public void disablePlayGUIBackgroundSound() {
-		if (clipBackground != null)
-			clipBackground.stop();
-		if (timerPlayGUIBackground.isRunning())
-			timerPlayGUIBackground.stop();
+	public void disableOrEnablePlayGUIBackgroundSound(boolean state) {
+		if (!state){
+			if (clipBackground != null)
+				clipBackground.stop();
+			if (timerPlayGUIBackground.isRunning())
+				timerPlayGUIBackground.stop();
+		} else {
+			playPlayGUIBackground(state);
+		}
 	}
 
-	public void disableGameOverSound() {
-		if (clipGameOver != null)
-			clipGameOver.stop();
-		if (timerGameOver.isRunning())
-			timerGameOver.stop();
+	public void disableOrEnableGameOverSound(boolean state) {
+		if (!state){
+			if (clipGameOver != null)
+				clipGameOver.stop();
+			if (timerGameOver.isRunning())
+				timerGameOver.stop();
+		} else {
+			playGameOver(state);
+		}
 	}
 
-	public void disableDotaEffects() {
-		playDotaEffects(false, TWOKILL, false);
+	public void disableOrEnableDotaEffects(boolean state) {
+		stateOfDotaEffects = state;
 	}
 
-	public void disableEffects() {
-		playEffects(false, SITSOUND);
+	public void disableOrEnableEffects(boolean state) {
+		stateOfEffects = state;
 	}
 
-	public void disableAllSounds() {
-		disablePlayGUIBackgroundSound();
-		disableGameOverSound();
-		disableDotaEffects();
-		disableEffects();
+	public void disableOrEnableAllSounds(boolean state) {
+		disableOrEnablePlayGUIBackgroundSound(state);
+		disableOrEnableDotaEffects(state);
+		disableOrEnableEffects(state);
 	}
 
 	public static final int ROTATE = 11;
