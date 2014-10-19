@@ -10,6 +10,9 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 
 import settings.LevelChoice;
 import game.Board;
@@ -123,15 +126,16 @@ public class PlayGUI extends JFrame {
 	}
 
 	public void showGameOver(){
-		JPanel gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo());
+		JFrame gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo());
+		gameOverPanel.show();
 		timer.stop();
 		clipBackground.stop();
 		//gameOverTimer.start();
 		playGameOver(true);
 		//clipGameOver.start();
-		setContentPane(gameOverPanel);
+		/*setContentPane(gameOverPanel);
 		repaint();
-		pack();
+		pack();*/
 	}
 
 	class GameOverListener implements ActionListener {
@@ -148,105 +152,112 @@ public class PlayGUI extends JFrame {
 		}
 	}
 
-	public class GameOverPanel extends JPanel {
-		private JTextField getName;
-		private JButton submit;
-
-		private JLabel gameOverLabel;
-
+	public class GameOverPanel extends JFrame {
+		
+		JPanel submissionContainer;
+		
 		public GameOverPanel(double score, int level) {
 			super();
 
-			setBackground(Color.WHITE);
-			setSize(width * 2, height);
+			getContentPane().setBackground(SColor.backgroundColor);
+			setPreferredSize(new Dimension(400,400));
+			setResizable(false);
+			setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 
-			String infoScore = "Score: " + Engine.round(score,2);
-			String infoLevel = "Level: " + level;
+			
+			JPanel headerContainer = new JPanel();
+			headerContainer.setBackground(SColor.backgroundColor);
+			JPanel infoContainer = new JPanel();
+			infoContainer.setBackground(SColor.backgroundColor);
+			submissionContainer = new JPanel();
+			submissionContainer.setBackground(SColor.backgroundColor);
+			JPanel buttonsContainer = new JPanel();
+			buttonsContainer.setBackground(SColor.backgroundColor);
 
-			setLayout(new GridLayout(4, 1));
+			SLabel gameOverLabel = new SLabel("game over!", SLabel.GAMEOVER_HEADER_LABEL);
+			headerContainer.add(gameOverLabel);
+			
+			String infoScore = "your score: " + Engine.round(score,2);
+			SLabel scoreLabel = new SLabel(infoScore, SLabel.GAMEOVER_INFO_LABEL);
+			infoContainer.add(scoreLabel);
+			
+			JPanel submissionPanel = new JPanel();
+			submissionPanel.setLayout(new BoxLayout(submissionPanel, BoxLayout.X_AXIS));
+			submissionPanel.setBackground(SColor.backgroundColor);
+			
+			SLabel nameLabel = new SLabel("enter your name to high scores:", SLabel.GAMEOVER_SUBMISSION_LABEL, SwingConstants.CENTER);
+			JTextField nameInput = new JTextField(10);
+			nameInput.setDocument(new JTextFieldCharacterLimit(10));
+			SButton nameSubmit = new SButton("submit", SButton.GAMEOVER_SUBMISSION_BUTTON);
+			nameSubmit.addActionListener(new SubmitHandler(nameInput, score));
+			
 
-			gameOverLabel = new JLabel("Game Over!!");
-			gameOverLabel.setHorizontalAlignment(JLabel.CENTER);
-			gameOverLabel.setFont(new Font(gameOverLabel.getFont().getFamily(),
-					gameOverLabel.getFont().getStyle(), 50));
-			add(gameOverLabel);
-
-			JPanel getNameForHighScoreTable = new JPanel();
-			getNameForHighScoreTable.setLayout(new GridLayout(1, 3));
-			getNameForHighScoreTable.setBackground(Color.WHITE);
-			JLabel name = new JLabel("Enter your name: ");
-			getNameForHighScoreTable.add(name);
-			getName = new JTextField();
-			getNameForHighScoreTable.add(getName);
-			submit = new JButton("Submit");
-			submit.addActionListener(new SubmitHandler(getName,score));
-			getNameForHighScoreTable.add(submit);
-			add(getNameForHighScoreTable);
-
+			submissionPanel.add(Box.createHorizontalStrut(50));
+			submissionPanel.add(nameInput);
+			submissionPanel.add(Box.createHorizontalStrut(10));
+			submissionPanel.add(nameSubmit);
+			submissionPanel.add(Box.createHorizontalStrut(50));
+			
+			submissionContainer.setLayout(new GridLayout(2,1,0,10));
+			submissionContainer.add(nameLabel);
+			submissionContainer.add(submissionPanel);
+			
+			buttonsContainer.add(addButtons());
+						
+			getContentPane().add(headerContainer);
+			getContentPane().add(Box.createVerticalStrut(30));
+			getContentPane().add(infoContainer);
+			getContentPane().add(Box.createVerticalStrut(30));
 			if (engine.isScoreHighEnough(score)) {
-				getNameForHighScoreTable.setVisible(true);
-			} else {
-				getNameForHighScoreTable.setVisible(false);
+				getContentPane().add(submissionContainer);
+				getContentPane().add(Box.createVerticalStrut(30));
 			}
-
-			JPanel info = new JPanel();
-			info.setLayout(new GridLayout(2, 1));
-			info.setBackground(Color.WHITE);
-			JLabel infoScoreLabel = new JLabel(infoScore);
-			infoScoreLabel.setHorizontalAlignment(JLabel.CENTER);
-			infoScoreLabel.setFont(new Font(infoScoreLabel.getFont()
-					.getFamily(), infoScoreLabel.getFont().getStyle(), 40));
-			info.add(infoScoreLabel);
-			JLabel infoLevelLabel = new JLabel(infoLevel);
-			infoLevelLabel.setHorizontalAlignment(JLabel.CENTER);
-			infoLevelLabel.setFont(new Font(infoLevelLabel.getFont()
-					.getFamily(), infoLevelLabel.getFont().getStyle(), 30));
-			info.add(infoLevelLabel);
-			add(info);
-
-			add(addButtons());
+			getContentPane().add(buttonsContainer);
+			
+			pack();
 		}
 
 		protected JPanel addButtons() {
 
 			JPanel buttons = new JPanel();
-			buttons.setLayout(new GridLayout(3, 1));
+			buttons.setLayout(new GridLayout(3, 1,0,-5));
+			buttons.setPreferredSize(new Dimension(240,120));
 			buttons.setBackground(Color.WHITE);
 
-			JButton button = new JButton("Restart Game");
-			button.setToolTipText("Restart the Tetris/Trisis game");
+			SButton restartButton = new SButton("restart", SButton.GAMEOVER_BUTTON);
+			restartButton.setToolTipText("Restart the Tetris/Trisis game");
 			// when this button is pushed it calls animationWindow.setMode(true)
-			button.addActionListener(new ActionListener() {
+			restartButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					gui.showPlay();
 					dispose();
 				}
 			});
-			buttons.add(button);
+			buttons.add(restartButton);
 
-			JButton button2 = new JButton("Return To Main Menu");
-			button2.setToolTipText("Back to the main menu");
+			SButton returnButton = new SButton("return to menu", SButton.GAMEOVER_BUTTON);
+			returnButton.setToolTipText("Back to the main menu");
 			// when this button is pushed it calls
 			// animationWindow.setMode(false)
-			button2.addActionListener(new ActionListener() {
+			returnButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					gui.setEnabled(true);
 					dispose();
 				}
 			});
-			buttons.add(button2);
+			buttons.add(returnButton);
 
-			JButton button3 = new JButton("Quit");
-			button3.setToolTipText("Quit the program");
-			button3.addActionListener(new ActionListener() {
+			SButton exitButton = new SButton("exit game", SButton.GAMEOVER_BUTTON);
+			exitButton.setToolTipText("Quit the program");
+			exitButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					System.exit(0);
 				}
 			});
-			buttons.add(button3);
+			buttons.add(exitButton);
 
 			return buttons;
 
@@ -263,13 +274,24 @@ public class PlayGUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JButton callerButton = (JButton) e.getSource();
+				SButton button = (SButton) e.getSource();
+				/*
 				callerButton.setText("Submitted");
 				callerButton.setEnabled(false);
+				*/
 				String name = nameField.getText();
 				nameField.setEnabled(false);
+				button.setEnabled(false);
+				
+				
 				Player newPlayer = new Player(name, Engine.round(score, 2));
 				gui.addPlayerToHighScoreList(newPlayer);
+				
+				((SLabel) submissionContainer.getComponent(0)).setText("your score is summitted.");
+				submissionContainer.remove(nameField);
+				submissionContainer.remove(button);
+				submissionContainer.repaint();
+				repaint();
 			}
 		}
 	}
@@ -501,4 +523,21 @@ public class PlayGUI extends JFrame {
 				}
 		}
 	}
+	
+	class JTextFieldCharacterLimit extends PlainDocument {
+		  private int limit;
+
+		  JTextFieldCharacterLimit(int limit) {
+		   super();
+		   this.limit = limit;
+		   }
+
+		  public void insertString( int offset, String  str, AttributeSet attr ) throws BadLocationException {
+		    if (str == null) return;
+
+		    if ((getLength() + str.length()) <= limit) {
+		      super.insertString(offset, str, attr);
+		    }
+		  }
+		}
 }

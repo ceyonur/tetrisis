@@ -100,6 +100,18 @@ public class SLabel extends JLabel {
 				f = 48F;
 				this.setForeground(Color.white);
 				break;
+			case GAMEOVER_HEADER_LABEL:
+				f = 64F;
+				this.setForeground(Color.white);
+				break;
+			case GAMEOVER_INFO_LABEL:
+				f = 48F;
+				this.setForeground(Color.white);
+				break;
+			case GAMEOVER_SUBMISSION_LABEL:
+				f = 24F;
+				this.setForeground(Color.white);
+				break;				
 			default:
 				f = 48F;
 				break;
@@ -120,5 +132,8 @@ public class SLabel extends JLabel {
 	public static final int SIDE_PANEL_LINES = 42;
 	public static final int SIDE_PANEL_SCORE = 43;
 	public static final int SIDE_PANEL_LEVEL = 44;
+	public static final int GAMEOVER_HEADER_LABEL = 50;
+	public static final int GAMEOVER_INFO_LABEL = 51;
+	public static final int GAMEOVER_SUBMISSION_LABEL = 52;
 
 }

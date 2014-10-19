@@ -122,8 +122,24 @@ public class SButton extends JButton {
 				this.setBackground(color);
 				this.setBorder(BorderFactory.createLineBorder(Color.white, 5));
 				this.setForeground(Color.white);
-				this.setPreferredSize(new Dimension(120,30));
-				this.setMinimumSize(new Dimension(120,30));
+				this.setPreferredSize(new Dimension(120,50));
+				this.setMinimumSize(new Dimension(120,50));
+				break;
+			case GAMEOVER_BUTTON:
+				f = 30F;
+				this.setBackground(color);
+				this.setBorder(BorderFactory.createLineBorder(Color.white, 5));
+				this.setForeground(Color.white);
+				this.setPreferredSize(new Dimension(100,40));
+				this.setMinimumSize(new Dimension(100,40));
+				break;
+			case GAMEOVER_SUBMISSION_BUTTON:
+				f = 24F;
+				this.setBackground(color);
+				this.setBorder(BorderFactory.createLineBorder(Color.white, 5));
+				this.setForeground(Color.white);
+				this.setPreferredSize(new Dimension(120,25));
+				this.setMinimumSize(new Dimension(120,25));
 				break;
 			case SOUND_BUTTON_MUTE:
 				this.setPreferredSize(new Dimension(80,40));
@@ -161,6 +177,8 @@ public class SButton extends JButton {
 	public static final int SETTINGS_BUTTON = 2;
 	public static final int HIGHSCORES_BUTTON = 3;
 	public static final int GAME_BUTTON = 4;
+	public static final int GAMEOVER_BUTTON = 5;
+	public static final int GAMEOVER_SUBMISSION_BUTTON = 6;
 	public static final int SOUND_BUTTON_UNMUTE = 11;
 	public static final int SOUND_BUTTON_MUTE = -11;
 	public static final int SOUND_BUTTON_MUSIC_ON = 12;
