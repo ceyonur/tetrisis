@@ -75,7 +75,7 @@ public class Engine {
 	 */
 	public void createBoardAndNextPiecePanel(Settings settings){
 		boardMatrix = new Board(settings.getRow(), settings.getColumn(), this);
-		nextPiecePanel = new NextPieceAndScorePanel(getBoardColumnLength() , getBoardRowLength());
+		nextPiecePanel = new NextPieceAndScorePanel(getBoardColumnLength() , getBoardRowLength(), this);
 		nextPiecePanel.setLevel(levelNo);
 		boardPanel = new BoardPanel(keys, speedInMilliseconds, this, boardMatrix, nextPiecePanel);
 	}
@@ -86,7 +86,7 @@ public class Engine {
 	public void play(){
 		// First, update the logical board if a new piece has been placed to make it noticeable by the next pieces to prevent collisions
 		if (currentPiece !=null){
-			boardMatrix.updateBoard(currentPiece.getLocationOnMatrix(), currentPiece.getColorAsInteger());
+			boardMatrix.updateBoard(currentPiece.getLocationOnMatrix());
 		}
 
 		// If the game is not over, the next piece becomes the current piece and a new next piece is set.
@@ -215,15 +215,30 @@ public class Engine {
 	}
 	
 	/**
-	 * This method ensures the mode of the game board is turned off
+	 * This method ensures the mode of the game board is turned OFF
 	 */
-	public void shutDown(){
+	public void pause(){
 		boardPanel.setMode(false);
 	}
 	
 	public AudioPlayers getAudioPlayers(){
 		return audioPlayers;
 	}
+	/**
+	 * This method returns whether the game is paused or not
+	 * @return true if the game is paused; false otherwise
+	 */
+	public boolean isPaused(){
+		return boardPanel.getMode();
+	}
+	
+	/**
+	 * This method ensures the mode of the game board is turned ON
+	 */
+	public void unpause(){
+		boardPanel.setMode(true);
+	}
+	
 	/**
 	 * This static method takes a double and set its decimal places to the given number
 	 * @param value The double whose decimal places will be set

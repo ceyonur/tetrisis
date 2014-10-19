@@ -18,6 +18,7 @@ public class BoardPanel extends JPanel {
 	private ClearLineListener clearLineListener;
 	private RestartActualTimerAgain restartActualTimerAgain;
 	private FastFadeOutUpdater fastFadeOutUpdater;
+	
 	private Timer timer;
 	private Timer timerForClearLine1;
 	private Timer timerForClearLine2;
@@ -25,6 +26,7 @@ public class BoardPanel extends JPanel {
 	private Timer timerForClearLine4;
 	private Timer fastUpdaterForFadeOut;
 	private Timer timerForActivationTheActualTimerAgain;
+	
 	private boolean mode;
 	private Piece piece;
 	private KeyConfigure keys;
@@ -38,7 +40,6 @@ public class BoardPanel extends JPanel {
 	private JLabel paused;
 
 	private PlayGUI playGUI;
-
 
 	public static int deletionSpeed = 75; //ms
 

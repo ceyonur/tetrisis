@@ -40,10 +40,11 @@ public class STetriminos extends Tetriminos{
 	 * @return The box covering to the piece's area
 	 */
 	public Rectangle boundingBox() {
+		// Since the total volume of the piece (think as matrix) is equal for ZERO and ONEHUNDREDANDEIGHTY degrees
 		if (getRotationLevel() == rotationLevel.ZERO || getRotationLevel() == rotationLevel.ONEHUNDREDANDEIGHTY){
 			boundingBoxWidth = 3;
 			boundingBoxHeight = 2;
-		} else {
+		} else { // Since the total volume of the piece (think as matrix) is equal for NINETY and TWOHUNDREDANDSEVENTY degrees
 			boundingBoxWidth = 2;
 			boundingBoxHeight = 3;
 		}

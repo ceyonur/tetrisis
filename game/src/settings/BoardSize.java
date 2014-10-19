@@ -17,8 +17,8 @@ public class BoardSize implements Serializable{
 	/** The large. */
 	private boolean large;
 	
-	private int rowSize = 15;
-	private int columnSize = 10;
+	private int rowSize = 15; // default row size
+	private int columnSize = 10; // default column size
 
 	/**
 	 * Default constructor for the BoardSize class. Sets the choice to medium.

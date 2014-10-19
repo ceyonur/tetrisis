@@ -13,16 +13,33 @@ import settings.PieceChoice;
  * @author bedirhancaldir
  */
 public abstract class Piece {
-	protected final static Color defaultColor = Color.BLACK; // The default color of a piece
+	// The abstract methods
+	protected abstract void assembleBlocks(); // The abstract method to assemble the blocks in a specific way by each Piece type
+	public abstract void move(int x, int y); // To move the whole piece. Since the blocks aren't implemented in here, this must be abstract
+	public abstract void moveABlockDown(); // To move the whole piece down for a block size
+	public abstract void moveABlockRight(); // To move the whole piece right for a block size
+	public abstract void moveABlockLeft(); // To move the whole piece left for a block size
+	protected abstract void rotateWholePiece(); // To rotate the whole piece. Since the blocks aren't implemented in here, this must be abstract
+	public abstract void rotate(); // The method used in each tetriminos/triminos to rotate the piece
+	public abstract void paint(Graphics g); // To paint the whole piece. Since the blocks aren't implemented in here, this must be abstract
+	public abstract Rectangle boundingBox(); // To obtain the rectangle circling the piece.
+	protected abstract void adjustTheLocation(); // To adjust the location after the rotation
+	public abstract int[][] getLocationOnMatrix(); // Returns the values getX/size and getY/size
+	public abstract int[][] cloneRotateAndGetLocationOnMatrix(); // To handle the conflictions while rotating
+	public abstract ArrayList<Block> getBlocks(); // Returns the blocks as an ArrayList
+	public abstract void moveToAppropriatePositionToRotate(int maximumColumn); // To rotate, sometimes the piece must be located a block right or left
+	protected abstract void setBlockList(ArrayList<Block> blocks); // To set the block list to the given special list
+	//-----
 	
+	protected final static Color defaultColor = Color.BLACK; // The default color of a piece
 	private int upperLeftCornerX; // The x-position of the upper-left corner of the whole piece
 	private int upperLeftCornerY; // The y-position of the upper-left corner of the whole piece
 	private Color color; // The color of the piece
 	protected static enum rotationLevel {ZERO, NINETY, ONEHUNDREDANDEIGHTY, TWOHUNDREDANDSEVENTY}; // To indicate four rotation levels of a piece
 	private rotationLevel currentRotationLevel; // The current rotation level
 	
-	protected int boundingBoxWidth;
-	protected int boundingBoxHeight;
+	protected int boundingBoxWidth; // The bounding box width of the piece
+	protected int boundingBoxHeight; // The bounding box width of the piece
 	
 	private Block anchorBlock; // This is the anchor block that the piece rotates around (depends on the rotation level)
 	
@@ -110,32 +127,6 @@ public abstract class Piece {
 	}
 	
 	/**
-	 * This method returns the color of the piece as integer
-	 * (1: BLUE, 2: CYAN. 3: DARK_GRAY, 4: GREEN, 5: MAGENTA, 6: ORANGE, 7: PINK, 8: RED, 9: YELLOW)
-	 * @return The color of the piece as integer
-	 */
-	public int getColorAsInteger(){
-		if (getColor() == Color.BLUE)
-			return 1;
-		else if (getColor() == Color.CYAN)
-			return 2;
-		else if (getColor() == Color.DARK_GRAY)
-			return 3;
-		else if (getColor() == Color.GREEN)
-			return 4;
-		else if (getColor() == Color.MAGENTA)
-			return 5;
-		else if (getColor() == Color.ORANGE)
-			return 6;
-		else if (getColor() == Color.PINK)
-			return 7;
-		else if (getColor() == Color.RED)
-			return 8;
-		else
-			return 9;
-	}
-	
-	/**
 	 * This method returns the current anchor block of the piece
 	 * @return The current anchor block of the piece according to the its current rotation level
 	 */
@@ -151,43 +142,43 @@ public abstract class Piece {
 		return currentRotationLevel;
 	}
 	
+	/**
+	 * This method checks whether the Piece instance is a Tetriminos or not
+	 * @return true if the piece is Tetriminos; false otherwise
+	 */
 	public boolean isTetriminos(){
 		return this.getClass().getName() == Tetriminos.class.getName();
 	}
+	
+	/**
+	 * This method checks whether the Piece instance is a Triminps or not
+	 * @return true if the piece is Triminps; false otherwise
+	 */
 	public boolean isTriminos(){
 		return this.getClass().getName() == Triminos.class.getName();
 	}
 	
-	protected abstract void assembleBlocks(); // The abstract method to assemble the blocks in a specific way by each Piece type
-	public abstract void move(int x, int y); // To move the whole piece. Since the blocks aren't implemented in here, this must be abstract
-	public abstract void moveABlockDown(); // To move the whole piece down for a block size
-	public abstract void moveABlockRight(); // To move the whole piece right for a block size
-	public abstract void moveABlockLeft(); // To move the whole piece left for a block size
-	protected abstract void rotateWholePiece(); // To rotate the whole piece. Since the blocks aren't implemented in here, this must be abstract
-	public abstract void rotate(); // The method used in each tetriminos/triminos to rotate the piece
-	public abstract void paint(Graphics g); // To paint the whole piece. Since the blocks aren't implemented in here, this must be abstract
-	public abstract Rectangle boundingBox(); // To obtain the rectangle circling the piece.
-	protected abstract void adjustTheLocation(); // To adjust the location after the rotation
-	public abstract int[][] getLocationOnMatrix(); // Returns the values getX/size and getY/size
-	public abstract int[][] cloneRotateAndGetLocationOnMatrix(); // To handle the conflictions while rotating
-	public abstract ArrayList<Block> getBlocks(); // Returns the blocks as an ArrayList
-	public abstract void moveToAppropriatePositionToRotate(int maximumColumn); // To rotate, sometimes the piece must be located a block right or left
-	protected abstract void setBlockList(ArrayList<Block> blocks); // To set the block list to the given special list
-	
+	/**
+	 * This method creates a random piece with random color
+	 * @param pieceChoice The piece choice which has been set from the settings
+	 * @param xRange The maximum x value of the screen in which the piece is going to be put
+	 * @return A random Piece object; it can be Tetriminos or Triminos
+	 */
 	public static Piece getRandomPiece(PieceChoice pieceChoice, int xRange) {
-		Random rgen = new Random(System.currentTimeMillis());
+		Random rgen = new Random(System.currentTimeMillis()); // Random generator
 
-		Color randomColor = SColor.getRandomPieceColor();
+		Color randomColor = SColor.getRandomPieceColor(); // Random color generated by SColor class
 		
 		Piece randomPiece = null;
 		int randomNumberForPiece = 0;
 		if (pieceChoice.hasBoth())
-			randomNumberForPiece = rgen.nextInt(10) + 1;
+			randomNumberForPiece = rgen.nextInt(10) + 1; // The piece can be both Tetriminos and Triminos (10 pieces in total (from 1 to 10))
 		else if (pieceChoice.hasTetriminos())
-			randomNumberForPiece = rgen.nextInt(7) + 1;
+			randomNumberForPiece = rgen.nextInt(7) + 1; // The piece can be only Tetriminos (10 pieces in total (from 1 to 7))
 		else if (pieceChoice.hasTriminos())
-			randomNumberForPiece = rgen.nextInt(3) + 8;
+			randomNumberForPiece = rgen.nextInt(3) + 8; // The piece can be only Triminos (3 pieces in total (8, 9 and 10))
 
+		// According to the selected random integer, the piece is chosen with the random color generated above
 		switch (randomNumberForPiece){
 		case 1: randomPiece = new ZTetriminos(0,0,randomColor); break;
 		case 2: randomPiece = new STetriminos(0,0,randomColor); break;
@@ -201,7 +192,8 @@ public abstract class Piece {
 		default: randomPiece = new RTriminos(0,0,randomColor); break;
 		}
 
-		int appearX = ((int) (xRange - randomPiece.boundingBox().width)/2);
+		// Location adjustments of the piece to make it appear at the upper center of the game board
+		int appearX = ((int) (xRange - randomPiece.boundingBox().getWidth())/2);
 		while (appearX % randomPiece.getBlocks().get(1).getBlockSize() != 0)
 			++appearX;
 

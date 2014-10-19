@@ -19,11 +19,7 @@ public abstract class Tetriminos extends Piece{
 	 */
 	public Tetriminos(int x, int y, Color color) {
 		super(x, y, color);
-
-		blocks = new ArrayList<Block>();
-		for (int i=0; i<NUMBER_OF_PIECES; i++){
-			blocks.add(new Block(x, y, color));
-		}
+		initializeBlocks(x, y, color);
 	}
 
 	/**
@@ -33,6 +29,19 @@ public abstract class Tetriminos extends Piece{
 		this(0,0,defaultColor);
 	}
 
+	/**
+	 * This method initializes the blocks of the Tetriminos piece
+	 * @param x The x-position of the upper-left corner of the whole shape
+	 * @param y The y-position of the upper-left corner of the whole shape
+	 * @param color The color of the shape
+	 */
+	private void initializeBlocks(int x, int y, Color color){
+		blocks = new ArrayList<Block>();
+		for (int i=0; i<NUMBER_OF_PIECES; i++){
+			blocks.add(new Block(x, y, color));
+		}
+	}
+	
 	/**
 	 * This method moves the whole piece according to the given x and y.
 	 */
@@ -60,6 +69,14 @@ public abstract class Tetriminos extends Piece{
 	public void moveABlockRight(){
 		move(blocks.get(0).getBlockSize(), 0);
 	}
+	
+	/**
+	 * This method moves the whole piece a block size left
+	 */
+	@Override
+	public void moveABlockLeft(){
+		move(-1 * blocks.get(0).getBlockSize(), 0);
+	}
 
 	/**
 	 * This method sets the blocks of the piece to the given special blocks
@@ -71,15 +88,7 @@ public abstract class Tetriminos extends Piece{
 			this.blocks.get(i).setLocation(blocks.get(i).getX(), blocks.get(i).getY());
 		}
 	}
-
-	/**
-	 * This method moves the whole piece a block size left
-	 */
-	@Override
-	public void moveABlockLeft(){
-		move(-1 * blocks.get(0).getBlockSize(), 0);
-	}
-
+	
 	/**
 	 * This method returns the block whose order in the list is given. The classes extend this abstract class,
 	 * which are Tetriminos pieces, should be able to reach them to obtain their specific shape.
@@ -109,8 +118,8 @@ public abstract class Tetriminos extends Piece{
 	 */
 	@Override
 	protected void rotateWholePiece(){
-		int minXForBoundingBox = 10000;
-		int minYForBoundingBox = 10000;
+		int minXForBoundingBox = 10000; // To take the minX easily
+		int minYForBoundingBox = 10000; // To take the minY easily
 
 		for (int i=0; i<NUMBER_OF_PIECES; i++){
 			int anchorX = getAnchorBlock().getX();
@@ -170,8 +179,8 @@ public abstract class Tetriminos extends Piece{
 	@Override
 	public void moveToAppropriatePositionToRotate(int maximumColumn){
 		if (blocks.get(0).getX() / blocks.get(0).getBlockSize() < 4)
-			moveABlockRight();
+			moveABlockRight(); // If the block is too close to the left wall
 		else if (blocks.get(0).getX() / blocks.get(0).getBlockSize() > maximumColumn - 3)
-			moveABlockLeft();
+			moveABlockLeft(); // If the block is too close to the right wall
 	}
 }
