@@ -40,6 +40,7 @@ public class OTetriminos extends Tetriminos{
 	 * @return The box covering to the piece's area
 	 */
 	public Rectangle boundingBox() {
+		// Since the total volume of the piece (think as matrix) is equal for any degrees
 		boundingBoxWidth = 2;
 		boundingBoxHeight = 2;
 		

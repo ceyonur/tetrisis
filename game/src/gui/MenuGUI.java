@@ -2,7 +2,7 @@ package gui;
 
 import settings.Settings;
 import sun.audio.*;
-import gui.PlayGUI.MusicLoopPlayerListener;
+
 import highscores.HighScores;
 
 import java.awt.BorderLayout;

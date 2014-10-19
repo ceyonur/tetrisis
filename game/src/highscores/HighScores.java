@@ -137,7 +137,7 @@ public class HighScores implements Serializable {
 	public boolean isScoreHighEnough(double score){
 		if (playerList.size() >= 5){
 			for (int i=0; i<playerList.size(); i++){
-				if ((int) score >= (int) playerList.get(i).getScore()){
+				if ((int) score > (int) playerList.get(i).getScore()){
 					return true;
 				}
 			}

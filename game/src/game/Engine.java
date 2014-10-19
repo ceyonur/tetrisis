@@ -21,6 +21,7 @@ public class Engine {
 	private NextPieceAndScorePanel nextPiecePanel; // The next piece panel (the right one)
 	private HighScores highScores; // The HighScores object to update it when necessary
 	private double score = 0; // The current score of the game - initially 0
+	private AudioPlayers audioPlayers;
 
 	/**
 	 * The constructor of the Engine class. Creates the board and takes the settings (if nothing changed, default ones will be used)
@@ -65,6 +66,7 @@ public class Engine {
 		keys = settings.getKeyConfigure();
 		pieceChoice = settings.getPieceChoice();
 		currentPiece = null;
+		audioPlayers = new AudioPlayers();
 	}
 	
 	/**
@@ -73,7 +75,7 @@ public class Engine {
 	 */
 	public void createBoardAndNextPiecePanel(Settings settings){
 		boardMatrix = new Board(settings.getRow(), settings.getColumn(), this);
-		nextPiecePanel = new NextPieceAndScorePanel(getBoardColumnLength() , getBoardRowLength());
+		nextPiecePanel = new NextPieceAndScorePanel(getBoardColumnLength() , getBoardRowLength(), this);
 		nextPiecePanel.setLevel(levelNo);
 		boardPanel = new BoardPanel(keys, speedInMilliseconds, this, boardMatrix, nextPiecePanel);
 	}
@@ -84,7 +86,7 @@ public class Engine {
 	public void play(){
 		// First, update the logical board if a new piece has been placed to make it noticeable by the next pieces to prevent collisions
 		if (currentPiece !=null){
-			boardMatrix.updateBoard(currentPiece.getLocationOnMatrix(), currentPiece.getColorAsInteger());
+			boardMatrix.updateBoard(currentPiece.getLocationOnMatrix());
 		}
 
 		// If the game is not over, the next piece becomes the current piece and a new next piece is set.
@@ -213,10 +215,28 @@ public class Engine {
 	}
 	
 	/**
-	 * This method ensures the mode of the game board is turned off
+	 * This method ensures the mode of the game board is turned OFF
 	 */
-	public void shutDown(){
+	public void pause(){
 		boardPanel.setMode(false);
+	}
+	
+	public AudioPlayers getAudioPlayers(){
+		return audioPlayers;
+	}
+	/**
+	 * This method returns whether the game is paused or not
+	 * @return true if the game is paused; false otherwise
+	 */
+	public boolean isPaused(){
+		return boardPanel.getMode();
+	}
+	
+	/**
+	 * This method ensures the mode of the game board is turned ON
+	 */
+	public void unpause(){
+		boardPanel.setMode(true);
 	}
 	
 	/**

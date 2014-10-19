@@ -19,11 +19,7 @@ public abstract class Triminos extends Piece{
 	 */
 	public Triminos(int x, int y, Color color) {
 		super(x, y, color);
-
-		blocks = new ArrayList<Block>();
-		for (int i=0; i<NUMBER_OF_PIECES; i++){
-			blocks.add(new Block(x, y, color));
-		}
+		initializeBlocks(x, y, color);
 	}
 
 	/**
@@ -31,6 +27,19 @@ public abstract class Triminos extends Piece{
 	 */
 	public Triminos(){
 		this(0,0,defaultColor);
+	}
+	
+	/**
+	 * This method initializes the blocks of the Tetriminos piece
+	 * @param x The x-position of the upper-left corner of the whole shape
+	 * @param y The y-position of the upper-left corner of the whole shape
+	 * @param color The color of the shape
+	 */
+	private void initializeBlocks(int x, int y, Color color){
+		blocks = new ArrayList<Block>();
+		for (int i=0; i<NUMBER_OF_PIECES; i++){
+			blocks.add(new Block(x, y, color));
+		}
 	}
 	
 	/**
@@ -109,8 +118,8 @@ public abstract class Triminos extends Piece{
 	 */
 	@Override
 	protected void rotateWholePiece(){
-		int minXForBoundingBox = 10000;
-		int minYForBoundingBox = 10000;
+		int minXForBoundingBox = 10000; // To take the minX easily
+		int minYForBoundingBox = 10000; // To take the minY easily
 
 		for (int i=0; i<NUMBER_OF_PIECES; i++){
 			int anchorX = getAnchorBlock().getX();
@@ -128,7 +137,6 @@ public abstract class Triminos extends Piece{
 				int differenceBetweenYCoordinates = currentBlockY - anchorY;
 				int differenceLevelY = differenceBetweenYCoordinates / blockSize;
 
-
 				blocks.get(i).move( -1 * (differenceLevelX + differenceLevelY) * blockSize , (differenceLevelX - differenceLevelY) * blockSize);
 			}
 
@@ -145,6 +153,7 @@ public abstract class Triminos extends Piece{
 	
 	/**
 	 * This method returns the locations of the blocks of the piece
+	 *  @return The locations of the blocks of the piece as 2D matrix
 	 */
 	@Override
 	public int[][] getLocationOnMatrix(){
@@ -170,8 +179,8 @@ public abstract class Triminos extends Piece{
 	@Override
 	public void moveToAppropriatePositionToRotate(int maximumColumn){
 		if (blocks.get(0).getX() / blocks.get(0).getBlockSize() < 3)
-			moveABlockRight();
+			moveABlockRight(); // If the block is too close to the left wall
 		else if (blocks.get(0).getX() / blocks.get(0).getBlockSize() > maximumColumn - 3)
-			moveABlockLeft();
+			moveABlockLeft(); // If the block is too close to the right wall
 	}
 }

@@ -3,12 +3,16 @@ package gui;
 import game.Engine;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
 import pieces.Piece;
 
 public class NextPieceAndScorePanel extends JPanel {
+	private Engine callerEngine; // The Engine object generating this object
+	private PlayGUI playGUI; // The JFrame that contains this panel
 	private Piece nextPiece; // The next piece of the game (shown in this panel)
 	private int width; // The width of the panel
 	private int height; // The height of the panel
@@ -37,12 +41,13 @@ public class NextPieceAndScorePanel extends JPanel {
 	 * @param width The width of the panel
 	 * @param height The height of the panel
 	 */
-	public NextPieceAndScorePanel(int width, int height){
+	public NextPieceAndScorePanel(int width, int height, Engine engine){
 		super();
 		setBackground(SColor.sidePanelColor);
 		this.width = width;
 		this.height = height;
 		setSize(width, height);
+		callerEngine = engine;
 		
 		initializeNextPieceAreaValues();
 		
@@ -86,7 +91,23 @@ public class NextPieceAndScorePanel extends JPanel {
 		gameControlButtonsPanel.setBackground(SColor.backgroundColor);
 		
 		SButton pauseButton = new SButton("pause", SButton.GAME_BUTTON);
+		pauseButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (callerEngine.isPaused())
+						callerEngine.pause();
+					else
+						callerEngine.unpause();
+				}
+			});
+		
 		SButton quitButton = new SButton("quit", SButton.GAME_BUTTON);
+		quitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playGUI.closeFrame();
+			}
+		});
 		
 		gameControlButtonsPanel.add(pauseButton);
 		gameControlButtonsPanel.add(quitButton);
@@ -209,5 +230,13 @@ public class NextPieceAndScorePanel extends JPanel {
 	public void increaseDeletedLineNo(){
 		deletedLineNo++;
 		setDeletedLine();
+	}
+	
+	/**
+	 * This method provides the JFrame that contains this panel itself
+	 * @param play The JFrame containing this panel
+	 */
+	public void setPlayGUI(PlayGUI play){
+		playGUI = play;
 	}
 }

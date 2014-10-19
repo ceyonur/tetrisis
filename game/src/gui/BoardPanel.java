@@ -18,6 +18,7 @@ public class BoardPanel extends JPanel {
 	private ClearLineListener clearLineListener;
 	private RestartActualTimerAgain restartActualTimerAgain;
 	private FastFadeOutUpdater fastFadeOutUpdater;
+	
 	private Timer timer;
 	private Timer timerForClearLine1;
 	private Timer timerForClearLine2;
@@ -25,6 +26,7 @@ public class BoardPanel extends JPanel {
 	private Timer timerForClearLine4;
 	private Timer fastUpdaterForFadeOut;
 	private Timer timerForActivationTheActualTimerAgain;
+	
 	private boolean mode;
 	private Piece piece;
 	private KeyConfigure keys;
@@ -33,11 +35,11 @@ public class BoardPanel extends JPanel {
 	private ArrayList<Block> deletedBlocks;
 	private game.Board boardMatrix;
 	private NextPieceAndScorePanel nextPiecePanel;
+	private AudioPlayers audioPlayers;
 
 	private JLabel paused;
 
 	private PlayGUI playGUI;
-
 
 	public static int deletionSpeed = 75; //ms
 
@@ -50,6 +52,7 @@ public class BoardPanel extends JPanel {
 		this.keys = keys;
 		this.boardMatrix = boardMatrix;
 		callerEngine = engine;
+		audioPlayers = engine.getAudioPlayers();
 		blocks = new ArrayList<Block>();
 		deletedBlocks = new ArrayList<Block>();
 
@@ -229,14 +232,14 @@ public class BoardPanel extends JPanel {
 						currentCase = boardMatrix.checkCollisionsWhenRotating(piece.cloneRotateAndGetLocationOnMatrix());
 					}
 					piece.rotate();
-					playGUI.playRotate(true);
+					audioPlayers.playEffects(true, AudioPlayers.ROTATE);
 				}
 			} else if (keynum == keys.getDown()){
 				if (boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix()))
 					piece.moveABlockDown();
 				else{
+					audioPlayers.playEffects(true, AudioPlayers.SITSOUND);
 					callerEngine.play();
-					playGUI.playSitSound(true);
 				}
 			} else if (keynum == keys.getPause()){
 				if (getMode())
@@ -263,8 +266,8 @@ public class BoardPanel extends JPanel {
 			if (boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix()))
 				piece.moveABlockDown();
 			else{
+				audioPlayers.playEffects(true, AudioPlayers.SITSOUND);
 				callerEngine.play();
-				playGUI.playSitSound(true);
 			}
 			Rectangle all = new Rectangle(0,0,getWidth(),getHeight());
 			repaintPanel(oldPos);

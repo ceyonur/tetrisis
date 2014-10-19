@@ -39,8 +39,7 @@ public class Block {
 	public Block(int x, int y, Color color){
 		setLocation(x,y);
 		setColor(color);
-		fadeOutBlockListener = new FadeOutTheBlockListener();
-		timerForFadeAway = new Timer(1,fadeOutBlockListener);
+		setFadeOutListenerAndTimer();
 	}
 	
 	/**
@@ -68,6 +67,14 @@ public class Block {
 	 */
 	public void fadeOut(){
 		timerForFadeAway.start();
+	}
+	
+	/**
+	 * This method initializes the fade out listener and the timer for that listener
+	 */
+	private void setFadeOutListenerAndTimer(){
+		fadeOutBlockListener = new FadeOutTheBlockListener();
+		timerForFadeAway = new Timer(1,fadeOutBlockListener);
 	}
 
 	/**
@@ -160,7 +167,6 @@ public class Block {
 		public void actionPerformed(ActionEvent e) {
 			// If color has an alpha value (opacity) different than 0, then it is decremented by one
 			// If it is already 0, the timer provoking this listener will be stopped
-
 			
 			int changeLevel;
 			
