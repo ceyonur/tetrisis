@@ -19,11 +19,11 @@ public class KeyConfigure implements Serializable {
 	 */
 	public KeyConfigure() {
 		map = new HashMap<String, Integer>();
-		setLeft(KeyEvent.VK_LEFT);
-		setRight(KeyEvent.VK_RIGHT);
-		setDown(KeyEvent.VK_DOWN);
-		setRotate(KeyEvent.VK_UP);
-		setPause(KeyEvent.VK_SPACE);
+		setLeft(KeyEvent.VK_LEFT); // Default left button (left arrow key)
+		setRight(KeyEvent.VK_RIGHT); // Default right button (right arrow key)
+		setDown(KeyEvent.VK_DOWN); // Default speedUp button (down arrow key)
+		setRotate(KeyEvent.VK_UP); // Default rotate button (up arrow key)
+		setPause(KeyEvent.VK_SPACE); // Default pause button (space)
 	}
 
 	/**

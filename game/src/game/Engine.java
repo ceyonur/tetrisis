@@ -84,7 +84,7 @@ public class Engine {
 	public void play(){
 		// First, update the logical board if a new piece has been placed to make it noticeable by the next pieces to prevent collisions
 		if (currentPiece !=null){
-			boardMatrix.updateBoard(currentPiece.getLocationOnMatrix(), currentPiece.getColorAsInteger());
+			boardMatrix.updateBoard(currentPiece.getLocationOnMatrix());
 		}
 
 		// If the game is not over, the next piece becomes the current piece and a new next piece is set.

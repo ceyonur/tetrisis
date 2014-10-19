@@ -27,12 +27,15 @@ public class Board {
 	 * @param column The column number of the matrix
 	 */
 	public Board(int row, int column, Engine engine) {
+		initializeBoard(row, column, engine);
+	}
+	
+	private void initializeBoard(int row, int column, Engine engine){
 		board = new int[row + 4][column];
 		rowSize = row;
-		actualRowSize = rowSize + 4;
+		actualRowSize = rowSize + 4; // +4 is becaue that there are actually 4 more rows to make the pieces coming from the above of the top wall
 		columnSize = column;
 		emptyness = true;
-
 		callerEngine = engine;
 	}
 
@@ -83,24 +86,28 @@ public class Board {
 	}
 
 	/**
-	 * This method updates the board matrix with the given piece's location and
-	 * color Colors -> 1: BLUE, 2: CYAN. 3: DARK_GRAY, 4: GREEN, 5: MAGENTA, 6:
-	 * ORANGE, 7: PINK, 8: RED, 9: YELLOW
+	 * This method updates the board matrix at the given piece's location with 1
 	 */
-	public void updateBoard(int[][] locations, int color) {
-		if (emptyness)
+	public void updateBoard(int[][] locations) {
+		if (emptyness) // If the emptyness is true, it must be converted to false since a piece has been put
 			emptyness = false;
 		for (int i = 0; i < locations.length; i++) {
-			board[locations[i][1] + 4][locations[i][0]] = color;
+			board[locations[i][1] + 4][locations[i][0]] = 1; // The given locations for the piece's blocks is set as 1 (not empty; filled)
 		}
-		checkLinesForCompletion();
+		checkLinesForCompletion(); // After the update, the checking of the completed lines must be done
+	}
+	
+	/**
+	 * This method provides the current JFrame creating this Board object.
+	 * @param playGUI
+	 */
+	public void setCurrentPlayGUI(PlayGUI playGUI) {
+		this.playGUI = playGUI;
 	}
 
 	/**
 	 * This method checks whether the below of the piece is empty or not.
-	 * 
-	 * @param locations
-	 *            The locations of the block as (x,y) in a 2D array
+	 * @param locations The locations of the block as (x,y) in a 2D array
 	 * @return Returns true if the block can go further or false if vice versa
 	 */
 	public boolean checkCollisionsToGoBelow(int[][] locations) {
@@ -113,14 +120,6 @@ public class Board {
 			}
 		}
 		return true;
-	}
-
-	/**
-	 * This method provides the current JFrame creating this Board object.
-	 * @param playGUI
-	 */
-	public void setCurrentPlayGUI(PlayGUI playGUI) {
-		this.playGUI = playGUI;
 	}
 
 	/**
@@ -163,7 +162,6 @@ public class Board {
 
 	/**
 	 * This method checks whether the rotation of the piece causes any confliction or not.
-	 * 
 	 * @param locations The locations of the block when it is rotated as (x,y) in a 2D array
 	 * @return "CONTINUE" -> No confliction, continue; "NOROTATE" -> Rotate is impossible; "FIX" -> move to an appropriate location, then rotate
 	 */

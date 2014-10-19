@@ -39,8 +39,7 @@ public class Block {
 	public Block(int x, int y, Color color){
 		setLocation(x,y);
 		setColor(color);
-		fadeOutBlockListener = new FadeOutTheBlockListener();
-		timerForFadeAway = new Timer(1,fadeOutBlockListener);
+		setFadeOutListenerAndTimer();
 	}
 	
 	/**
@@ -68,6 +67,14 @@ public class Block {
 	 */
 	public void fadeOut(){
 		timerForFadeAway.start();
+	}
+	
+	/**
+	 * This method initializes the fade out listener and the timer for that listener
+	 */
+	private void setFadeOutListenerAndTimer(){
+		fadeOutBlockListener = new FadeOutTheBlockListener();
+		timerForFadeAway = new Timer(1,fadeOutBlockListener);
 	}
 
 	/**
