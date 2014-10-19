@@ -211,6 +211,10 @@ public class Board {
 			audioPlayers.playEffects(true, AudioPlayers.JUCKJUCK);
 			audioPlayers.playDotaEffects(true, deletedLineCounter, firstKill);
 			
+			if (deletedLineCounter == 4){
+				playGUI.shakeWindow();
+			}
+			
 			if(firstKill){
 				firstKill = false;
 			}

@@ -1,7 +1,6 @@
 package gui;
 
 import javax.swing.*;
-
 import javax.swing.border.BevelBorder;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -23,29 +22,46 @@ public class PlayGUI extends JFrame {
 	private JPanel realPane;
 	private JPanel generalPane;
 	private Timer timerForCheckingGameOver;
+	private Timer timerForShakingWindow;
 	private int width;
 	private int height;
 	private GUI gui;
 
 	private AudioPlayers audioPlayers;
-
+	int shakeCounter = 0;
 
 	public PlayGUI(GUI ui){
 
 		super();
 		this.gui = ui;
-		
-		
+
+
 		gameOverListener = new GameOverListener();
 
-		
+
 		timerForCheckingGameOver = new Timer(500, gameOverListener);
+		timerForShakingWindow = new Timer(1, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (shakeCounter != 30){
+					shakeCounter++;
+					if (shakeCounter % 2 == 1){
+						setLocation((int) getLocation().getX() + 10, (int) getLocation().getY());
+					} else {
+						setLocation((int) getLocation().getX() - 10, (int) getLocation().getY());
+					}
+				} else {
+					setLocation((int) getLocation().getX() - 5, (int) getLocation().getY());
+					timerForShakingWindow.stop();
+					shakeCounter = 0;
+				}
+			}
+		});
 
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-
 				closeFrame();
-		    }
+			}
 		});
 	}
 
@@ -71,7 +87,7 @@ public class PlayGUI extends JFrame {
 		nextPieceAndScorePanel.setBorder(BorderFactory
 				.createTitledBorder(BorderFactory.createBevelBorder(
 						BevelBorder.RAISED, Color.GRAY, Color.DARK_GRAY)));
-		*/
+		 */
 		realPane = new JPanel();
 		realPane.setLayout(new GridLayout(1, 2));
 		realPane.add(gameBoard);
@@ -86,7 +102,7 @@ public class PlayGUI extends JFrame {
 
 		width = engine.getBoardColumnLength();
 		height = engine.getBoardRowLength();
-		
+
 		pack();
 	}
 
@@ -102,6 +118,11 @@ public class PlayGUI extends JFrame {
 		pack();
 	}
 
+	public void shakeWindow(){
+		setLocation((int) getLocation().getX() + 5, (int) getLocation().getY());
+		timerForShakingWindow.start();
+	}
+
 	class GameOverListener implements ActionListener {
 
 		public GameOverListener() {
@@ -115,7 +136,7 @@ public class PlayGUI extends JFrame {
 			}
 		}
 	}
-	
+
 	public void closeFrame(){
 		engine.pause();
 		gui.setEnabled(true);
@@ -127,10 +148,10 @@ public class PlayGUI extends JFrame {
 	}
 
 	public class GameOverPanel extends JFrame {
-		
+
 		JPanel submissionContainer;
 		PlayGUI callerPlayGUI;
-		
+
 		public GameOverPanel(double score, int level, PlayGUI callerPlayGUI) {
 			super();
 
@@ -140,7 +161,7 @@ public class PlayGUI extends JFrame {
 			setResizable(false);
 			setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 
-			
+
 			JPanel headerContainer = new JPanel();
 			headerContainer.setBackground(SColor.backgroundColor);
 			JPanel infoContainer = new JPanel();
@@ -152,34 +173,34 @@ public class PlayGUI extends JFrame {
 
 			SLabel gameOverLabel = new SLabel("game over!", SLabel.GAMEOVER_HEADER_LABEL);
 			headerContainer.add(gameOverLabel);
-			
+
 			String infoScore = "your score: " + Engine.round(score,2);
 			SLabel scoreLabel = new SLabel(infoScore, SLabel.GAMEOVER_INFO_LABEL);
 			infoContainer.add(scoreLabel);
-			
+
 			JPanel submissionPanel = new JPanel();
 			submissionPanel.setLayout(new BoxLayout(submissionPanel, BoxLayout.X_AXIS));
 			submissionPanel.setBackground(SColor.backgroundColor);
-			
+
 			SLabel nameLabel = new SLabel("enter your name to high scores:", SLabel.GAMEOVER_SUBMISSION_LABEL, SwingConstants.CENTER);
 			JTextField nameInput = new JTextField(10);
 			nameInput.setDocument(new JTextFieldCharacterLimit(10));
 			SButton nameSubmit = new SButton("submit", SButton.GAMEOVER_SUBMISSION_BUTTON);
 			nameSubmit.addActionListener(new SubmitHandler(nameInput, score));
-			
+
 
 			submissionPanel.add(Box.createHorizontalStrut(50));
 			submissionPanel.add(nameInput);
 			submissionPanel.add(Box.createHorizontalStrut(10));
 			submissionPanel.add(nameSubmit);
 			submissionPanel.add(Box.createHorizontalStrut(50));
-			
+
 			submissionContainer.setLayout(new GridLayout(2,1,0,10));
 			submissionContainer.add(nameLabel);
 			submissionContainer.add(submissionPanel);
-			
+
 			buttonsContainer.add(addButtons());
-						
+
 			getContentPane().add(headerContainer);
 			getContentPane().add(Box.createVerticalStrut(30));
 			getContentPane().add(infoContainer);
@@ -189,7 +210,7 @@ public class PlayGUI extends JFrame {
 				getContentPane().add(Box.createVerticalStrut(30));
 			}
 			getContentPane().add(buttonsContainer);
-			
+
 			pack();
 		}
 
@@ -243,31 +264,31 @@ public class PlayGUI extends JFrame {
 			return buttons;
 
 		}
-		
+
 		class SubmitHandler implements ActionListener{
 			private JTextField nameField;
 			private double score;
-			
+
 			public SubmitHandler(JTextField name, double score){
 				nameField = name;
 				this.score = score;
 			}
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SButton button = (SButton) e.getSource();
 				/*
 				callerButton.setText("Submitted");
 				callerButton.setEnabled(false);
-				*/
+				 */
 				String name = nameField.getText();
 				nameField.setEnabled(false);
 				button.setEnabled(false);
-				
-				
+
+
 				Player newPlayer = new Player(name, Engine.round(score, 2));
 				gui.addPlayerToHighScoreList(newPlayer);
-				
+
 				((SLabel) submissionContainer.getComponent(0)).setText("your score is summitted.");
 				submissionContainer.remove(nameField);
 				submissionContainer.remove(button);
@@ -276,21 +297,22 @@ public class PlayGUI extends JFrame {
 			}
 		}
 	}
-	
+
 	class JTextFieldCharacterLimit extends PlainDocument {
-		  private int limit;
+		private int limit;
 
-		  JTextFieldCharacterLimit(int limit) {
-		   super();
-		   this.limit = limit;
-		   }
-
-		  public void insertString( int offset, String  str, AttributeSet attr ) throws BadLocationException {
-		    if (str == null) return;
-
-		    if ((getLength() + str.length()) <= limit) {
-		      super.insertString(offset, str, attr);
-		    }
-		  }
+		JTextFieldCharacterLimit(int limit) {
+			super();
+			this.limit = limit;
 		}
+
+		public void insertString( int offset, String  str, AttributeSet attr ) throws BadLocationException {
+			if (str == null) return;
+
+			if ((getLength() + str.length()) <= limit) {
+				super.insertString(offset, str, attr);
+			}
+		}
+	}
+	
 }
