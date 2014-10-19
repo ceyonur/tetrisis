@@ -33,6 +33,7 @@ public class BoardPanel extends JPanel {
 	private ArrayList<Block> deletedBlocks;
 	private game.Board boardMatrix;
 	private NextPieceAndScorePanel nextPiecePanel;
+	private AudioPlayers audioPlayers;
 
 	private JLabel paused;
 
@@ -50,6 +51,7 @@ public class BoardPanel extends JPanel {
 		this.keys = keys;
 		this.boardMatrix = boardMatrix;
 		callerEngine = engine;
+		audioPlayers = engine.getAudioPlayers();
 		blocks = new ArrayList<Block>();
 		deletedBlocks = new ArrayList<Block>();
 
@@ -229,14 +231,14 @@ public class BoardPanel extends JPanel {
 						currentCase = boardMatrix.checkCollisionsWhenRotating(piece.cloneRotateAndGetLocationOnMatrix());
 					}
 					piece.rotate();
-					playGUI.playRotate(true);
+					audioPlayers.playEffects(true, AudioPlayers.ROTATE);
 				}
 			} else if (keynum == keys.getDown()){
 				if (boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix()))
 					piece.moveABlockDown();
 				else{
+					audioPlayers.playEffects(true, AudioPlayers.SITSOUND);
 					callerEngine.play();
-					playGUI.playSitSound(true);
 				}
 			} else if (keynum == keys.getPause()){
 				if (getMode())
@@ -263,8 +265,8 @@ public class BoardPanel extends JPanel {
 			if (boardMatrix.checkCollisionsToGoBelow(piece.getLocationOnMatrix()))
 				piece.moveABlockDown();
 			else{
+				audioPlayers.playEffects(true, AudioPlayers.SITSOUND);
 				callerEngine.play();
-				playGUI.playSitSound(true);
 			}
 			Rectangle all = new Rectangle(0,0,getWidth(),getHeight());
 			repaintPanel(oldPos);

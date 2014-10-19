@@ -21,6 +21,7 @@ public class Engine {
 	private NextPieceAndScorePanel nextPiecePanel; // The next piece panel (the right one)
 	private HighScores highScores; // The HighScores object to update it when necessary
 	private double score = 0; // The current score of the game - initially 0
+	private AudioPlayers audioPlayers;
 
 	/**
 	 * The constructor of the Engine class. Creates the board and takes the settings (if nothing changed, default ones will be used)
@@ -65,6 +66,7 @@ public class Engine {
 		keys = settings.getKeyConfigure();
 		pieceChoice = settings.getPieceChoice();
 		currentPiece = null;
+		audioPlayers = new AudioPlayers();
 	}
 	
 	/**
@@ -219,6 +221,9 @@ public class Engine {
 		boardPanel.setMode(false);
 	}
 	
+	public AudioPlayers getAudioPlayers(){
+		return audioPlayers;
+	}
 	/**
 	 * This static method takes a double and set its decimal places to the given number
 	 * @param value The double whose decimal places will be set

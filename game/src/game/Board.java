@@ -1,7 +1,7 @@
 package game;
 
+import gui.AudioPlayers;
 import gui.PlayGUI;
-
 import gui.BoardPanel;
 
 /**
@@ -20,6 +20,7 @@ public class Board {
 	private Engine callerEngine; // The Engine object generating this Board object
 	private PlayGUI playGUI; // The PlayGUI frame object generating this Board object
 	private boolean firstKill = true; // FirstBlood indicator
+	private AudioPlayers audioPlayers;
 
 	/**
 	 * The constructor of the class Board. Creates the matrix of the given dimensions
@@ -34,6 +35,7 @@ public class Board {
 		emptyness = true;
 
 		callerEngine = engine;
+		audioPlayers = engine.getAudioPlayers();
 	}
 
 	/**
@@ -208,13 +210,12 @@ public class Board {
 		}
 		if (deletedLineCounter != 0) {
 			callerEngine.increaseScore(deletedLineCounter);
-			playGUI.playAudio2(true);
+			audioPlayers.playEffects(true, AudioPlayers.JUCKJUCK);
+			audioPlayers.playDotaEffects(true, deletedLineCounter, firstKill);
+			
 			if(firstKill){
-				playGUI.playAudioFirstBlood(true);
 				firstKill = false;
 			}
-			else
-				playGUI.playAudio(true, deletedLineCounter);
 		}
 	}
 
