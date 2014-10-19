@@ -27,26 +27,9 @@ public class Engine {
 	 * @param settings The settings of the game (can be default)
 	 */
 	public Engine(Settings settings){
-		if (settings.getBoardSizeChoice().isLarge()){
-			Block.setSize(25);
-		} else if (settings.getBoardSizeChoice().isMedium()){
-			Block.setSize(30);
-		} else {
-			Block.setSize(35);
-		}
-		boardMatrix = new Board(settings.getRow(), settings.getColumn(), this);
-		levelNo = settings.getLevelChoice().getLevel();
-		speedInMilliseconds = (int) (1000 * settings.getLevelChoice().getSpeed());
-		keys = settings.getKeyConfigure();
-		pieceChoice = settings.getPieceChoice();
-
-		currentPiece = null;
-
-		nextPiecePanel = new NextPieceAndScorePanel(getBoardColumnLength() , getBoardRowLength());
-		nextPiecePanel.setLevel(levelNo);
-		
-		boardPanel = new BoardPanel(keys, speedInMilliseconds, this, boardMatrix, nextPiecePanel);
-
+		setBlockSize(settings);
+		setSettingsFields(settings);
+		createBoardAndNextPiecePanel(settings);
 		play();
 	}
 
@@ -57,15 +40,54 @@ public class Engine {
 	public Engine(){
 		this(new Settings());
 	}
+	
+	/**
+	 * This method sets the block size at the beginning of the engine generation
+	 * @param settings The settings used to create engine
+	 */
+	private void setBlockSize(Settings settings){
+		if (settings.getBoardSizeChoice().isLarge()){
+			Block.setSize(25);
+		} else if (settings.getBoardSizeChoice().isMedium()){
+			Block.setSize(30);
+		} else {
+			Block.setSize(35);
+		}
+	}
+	
+	/**
+	 * This method sets the fields coming from the settings
+	 * @param settings The settings used to create engine
+	 */
+	public void setSettingsFields(Settings settings){
+		levelNo = settings.getLevelChoice().getLevel();
+		speedInMilliseconds = (int) (1000 * settings.getLevelChoice().getSpeed());
+		keys = settings.getKeyConfigure();
+		pieceChoice = settings.getPieceChoice();
+		currentPiece = null;
+	}
+	
+	/**
+	 * This method creates the logical board, and the GUI panels (BoardPanel and NextPiecePanel)
+	 * @param settings The settings used to create engine
+	 */
+	public void createBoardAndNextPiecePanel(Settings settings){
+		boardMatrix = new Board(settings.getRow(), settings.getColumn(), this);
+		nextPiecePanel = new NextPieceAndScorePanel(getBoardColumnLength() , getBoardRowLength());
+		nextPiecePanel.setLevel(levelNo);
+		boardPanel = new BoardPanel(keys, speedInMilliseconds, this, boardMatrix, nextPiecePanel);
+	}
 
 	/**
 	 * This is the main piece generating method of the game. It sets both the current piece and the next piece.
 	 */
 	public void play(){
+		// First, update the logical board if a new piece has been placed to make it noticeable by the next pieces to prevent collisions
 		if (currentPiece !=null){
 			boardMatrix.updateBoard(currentPiece.getLocationOnMatrix(), currentPiece.getColorAsInteger());
 		}
 
+		// If the game is not over, the next piece becomes the current piece and a new next piece is set.
 		if (!isGameOver()){
 			if (boardMatrix.isEmpty()){
 				currentPiece = Piece.getRandomPiece(pieceChoice, getBoardColumnLength());
@@ -74,12 +96,16 @@ public class Engine {
 			}
 			Piece randomPiece = Piece.getRandomPiece(pieceChoice, getBoardColumnLength());
 			nextPiecePanel.setPiece(randomPiece);
+			// Since the board has 4 invisible rows and the piece found at there cannot be seen, 
+			// the current piece must be located to the first visible row.
+			// To make it standard, the current piece has been placed just above the first visible row.
 			while (currentPiece.getY() * -1 > currentPiece.boundingBox().getHeight())
 				currentPiece.moveABlockDown();
 			boardPanel.addPiece(currentPiece);
 		} else {
 			boardPanel.setMode(false);
 		}
+		// A new piece creation may mean a score change, so the score panel must be refreshed
 		nextPiecePanel.setCurrentScore(score);  // The score written in the next piece panel must always be renewed
 	}
 

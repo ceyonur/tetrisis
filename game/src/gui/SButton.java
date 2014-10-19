@@ -122,6 +122,7 @@ public class SButton extends JButton {
 				this.setBackground(color);
 				this.setBorder(BorderFactory.createLineBorder(Color.white, 5));
 				this.setForeground(Color.white);
+				this.setPreferredSize(new Dimension(120,30));
 				this.setMinimumSize(new Dimension(120,30));
 				break;
 			case SOUND_BUTTON_MUTE:

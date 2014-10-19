@@ -17,7 +17,7 @@ public class Board {
 	private int columnSize; // The field holding the column size of the board
 	private boolean emptyness; // True if the board is empty
 
-	private Engine callerEngine;
+	private Engine callerEngine; // The Engine object generating this Board object
 	private PlayGUI playGUI; // The PlayGUI frame object generating this Board object
 	private boolean firstKill = true; // FirstBlood indicator
 
