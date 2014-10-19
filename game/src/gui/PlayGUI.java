@@ -129,6 +129,7 @@ public class PlayGUI extends JFrame {
 		timerForCheckingGameOver.stop();
 		audioPlayers.disableAllSounds();
 		engine = null;
+		gui.menuMusicEnabler();
 		dispose();
 	}
 

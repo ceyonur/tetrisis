@@ -27,7 +27,6 @@ public class GUI extends JFrame {
 		settings = new Settings();
 		highscores = new HighScores();
 		size = new Dimension(570, 690);
-		menuGUI = new MenuGUI(this);
 
 		setSize(size);
 		showMenu();
@@ -74,5 +73,9 @@ public class GUI extends JFrame {
 	public void addPlayerToHighScoreList(Player player){
 		highscores.add(player);
 		highscores.saveHighScores();
+	}
+	
+	public void menuMusicEnabler(){
+		menuGUI.menuMusicEnabler();
 	}
 }

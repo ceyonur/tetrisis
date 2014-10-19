@@ -122,7 +122,6 @@ public class AudioPlayers {
 				volume.setValue(-10.0f);
 				break;
 			}
-			clip.start();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
