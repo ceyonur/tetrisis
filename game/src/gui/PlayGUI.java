@@ -90,7 +90,7 @@ public class PlayGUI extends JFrame {
 
 	public void showGameOver(){
 		setEnabled(false);
-		JFrame gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo());
+		JFrame gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo(),this);
 		audioPlayers.disablePlayGUIBackgroundSound();
 		audioPlayers.playGameOver(true);
 		gameOverPanel.show();
@@ -125,10 +125,12 @@ public class PlayGUI extends JFrame {
 	public class GameOverPanel extends JFrame {
 		
 		JPanel submissionContainer;
+		PlayGUI callerPlayGUI;
 		
-		public GameOverPanel(double score, int level) {
+		public GameOverPanel(double score, int level, PlayGUI callerPlayGUI) {
 			super();
 
+			this.callerPlayGUI = callerPlayGUI;
 			getContentPane().setBackground(SColor.backgroundColor);
 			setPreferredSize(new Dimension(400,400));
 			setResizable(false);
@@ -216,7 +218,9 @@ public class PlayGUI extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					gui.setEnabled(true);
 					audioPlayers.disableGameOverSound();
+					gui.menuMusicEnabler();
 					dispose();
+					callerPlayGUI.closeFrame();
 				}
 			});
 			buttons.add(returnButton);
