@@ -120,13 +120,15 @@ public class HighScoresGUI extends JFrame {
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setBackground(bgcolor);
-		buttonsPanel.setLayout(new GridLayout());
-		buttonsPanel.setPreferredSize(new Dimension(150,50));
-		buttonsPanel.setMaximumSize(new Dimension(150,50));
+		buttonsPanel.setLayout(new GridLayout(1,3,15,0));
+		buttonsPanel.setPreferredSize(new Dimension(300,50));
+		buttonsPanel.setMaximumSize(new Dimension(300,50));
 		
 		final SButton closeButton = new SButton("close", SButton.SETTINGS_BUTTON);
+		final SButton resetButton = new SButton("reset", SButton.SETTINGS_BUTTON);
 		
 		buttonsPanel.add(closeButton);
+		buttonsPanel.add(resetButton);
 		
 		buttonsPanelContainer.add(buttonsPanel);
 		
@@ -134,6 +136,19 @@ public class HighScoresGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {	
 				gui.setEnabled(true);
 				dispose();
+			}
+		});
+		
+		resetButton.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				highScoresObject.resetHighScores();				
+				for (int i = 0; i < 5; i++) {
+					for (int j = 0; j < 3; j++) {
+						labels[i][j].setText(" - ");
+					}
+				}
 			}
 		});
 		

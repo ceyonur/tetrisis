@@ -47,9 +47,9 @@ public class Engine {
 	 * @param settings The settings used to create engine
 	 */
 	private void setBlockSize(Settings settings){
-		if (settings.getBoardSizeChoice().isLarge()){
+		if (settings.isBoardLarge()){
 			Block.setSize(25);
-		} else if (settings.getBoardSizeChoice().isMedium()){
+		} else if (settings.isBoardMedium()){
 			Block.setSize(30);
 		} else {
 			Block.setSize(35);
@@ -61,10 +61,10 @@ public class Engine {
 	 * @param settings The settings used to create engine
 	 */
 	public void setSettingsFields(Settings settings){
-		levelNo = settings.getLevelChoice().getLevel();
-		speedInMilliseconds = (int) (1000 * settings.getLevelChoice().getSpeed());
-		keys = settings.getKeyConfigure();
-		pieceChoice = settings.getPieceChoice();
+		levelNo = settings.getLevel();
+		speedInMilliseconds = (int) (1000 * settings.getSpeed());
+		keys = settings.getKeyConfigureObject();
+		pieceChoice = settings.getPieceChoiceObject();
 		currentPiece = null;
 		audioPlayers = new AudioPlayers();
 	}

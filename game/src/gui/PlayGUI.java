@@ -109,6 +109,7 @@ public class PlayGUI extends JFrame {
 	public void showGameOver(){
 		setEnabled(false);
 		JFrame gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo(),this);
+		gameOverPanel.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 		audioPlayers.disablePlayGUIBackgroundSound();
 		audioPlayers.playGameOver(true);
 		gameOverPanel.setLocationRelativeTo(null);
@@ -225,10 +226,11 @@ public class PlayGUI extends JFrame {
 			// when this button is pushed it calls animationWindow.setMode(true)
 			restartButton.addActionListener(new ActionListener() {
 				@Override
-				public void actionPerformed(ActionEvent e) {
-					gui.showPlay();
-					audioPlayers.disableGameOverSound();
+				public void actionPerformed(ActionEvent e) {					
+					gui.showPlay();					
+					audioPlayers.disableGameOverSound();					
 					dispose();
+					callerPlayGUI.dispose();
 				}
 			});
 			buttons.add(restartButton);

@@ -59,10 +59,10 @@ public class SettingsGUI extends JFrame {
 		getContentPane().setBackground(bgcolor);
 		
 		settingsObject= settings;
-		boardSizeObject = settingsObject.getBoardSizeChoice();
-		keyConfigureObject = settingsObject.getKeyConfigure();
-		levelChoiceObject = settingsObject.getLevelChoice();
-		pieceChoiceObject = settingsObject.getPieceChoice();
+		boardSizeObject = settingsObject.getBoardSizeChoiceObject();
+		keyConfigureObject = settingsObject.getKeyConfigureObject();
+		levelChoiceObject = settingsObject.getLevelChoiceObject();
+		pieceChoiceObject = settingsObject.getPieceChoiceObject();
 		keyMap = keyConfigureObject.getMap();
 		
 		JPanel headerPanelContainer = new JPanel();
@@ -537,7 +537,7 @@ public class SettingsGUI extends JFrame {
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (keyMap.containsValue(0)) {
-					save.disable();
+					save.disable();					
 				} else {
 					save.enable();
 					keyConfigureObject.setMap(keyMap);
