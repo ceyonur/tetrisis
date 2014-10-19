@@ -89,7 +89,7 @@ public class PlayGUI extends JFrame {
 	}
 
 	public void showGameOver(){
-
+		setEnabled(false);
 		JFrame gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo());
 		audioPlayers.disablePlayGUIBackgroundSound();
 		audioPlayers.playGameOver(true);
@@ -118,6 +118,7 @@ public class PlayGUI extends JFrame {
 		timerForCheckingGameOver.stop();
 		audioPlayers.disableAllSounds();
 		engine = null;
+		gui.menuMusicEnabler();
 		dispose();
 	}
 

@@ -1,8 +1,6 @@
 package gui;
 
 import settings.Settings;
-import sun.audio.*;
-
 import highscores.HighScores;
 
 import java.awt.BorderLayout;
@@ -20,14 +18,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.*;
 import javax.swing.*;
 
 public class MenuGUI extends JPanel {
@@ -35,10 +34,7 @@ public class MenuGUI extends JPanel {
 	private GUI gui;
 
 	private JPanel settingsGui;
-	private AudioPlayer AP = AudioPlayer.player;
-	private AudioStream AS;
-	private AudioData AD;
-	private ContinuousAudioDataStream loop = null;
+	private Clip clip;
 
 	private Color bgcolor = SColor.backgroundColor;;
 
@@ -78,19 +74,9 @@ public class MenuGUI extends JPanel {
 		this.add(buttonPanelContainer);
 		this.add(footerPanelContainer);
 
-		try {
-			AS = new AudioStream(new FileInputStream(
-					"assets/sounds/mainMenu.wav"));
-			AD = AS.getData();
-			loop = new ContinuousAudioDataStream(AD);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 		setVisible(true);
 		playAudio(mute);
+		startAudio(clip);
 	}
 
 	public JPanel createHeader() {
@@ -128,7 +114,7 @@ public class MenuGUI extends JPanel {
 
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				playAudio(false);
+				stopAudio(clip);
 				gui.showPlay();
 			}
 		});
@@ -165,7 +151,10 @@ public class MenuGUI extends JPanel {
 		musicButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mute = !mute;
-				playAudio(mute);
+				if (mute)
+					startAudio(clip);
+				else
+					stopAudio(clip);
 				musicButton.changeState();
 			}
 		});
@@ -174,11 +163,48 @@ public class MenuGUI extends JPanel {
 		return footer;
 	}
 
-	public void playAudio(boolean status) {
-		if(status)
-			AP.start(loop);
+	public void menuMusicEnabler() {
+		if (!mute)
+			stopAudio(clip);
 		else
-			AP.stop(loop);
+			startAudio(clip);
+	}
+
+	public void stopAudio(Clip clip) {
+		if (clip != null) {
+			clip.stop();
+		}
+	}
+
+	public void startAudio(Clip clip) {
+		clip.start();
+		clip.loop(clip.LOOP_CONTINUOUSLY);
+	}
+
+	public void playAudio(boolean status) {
+		String stringFile = "assets/sounds/mainMenu.wav";
+		AudioInputStream audioStream = null;
+		clip = null;
+
+		try {
+			audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
+			AudioFormat format = audioStream.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, format);
+			clip = (Clip) AudioSystem.getLine(info);
+			clip.open(audioStream);
+			FloatControl volume = (FloatControl) clip
+					.getControl(FloatControl.Type.MASTER_GAIN);
+			volume.setValue(-5.0f);
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	class PlayListeners implements ActionListener {
