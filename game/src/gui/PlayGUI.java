@@ -191,7 +191,7 @@ public class PlayGUI extends JFrame {
 			JPanel buttons = new JPanel();
 			buttons.setLayout(new GridLayout(3, 1,0,-5));
 			buttons.setPreferredSize(new Dimension(240,120));
-			buttons.setBackground(Color.WHITE);
+			buttons.setBackground(SColor.backgroundColor);
 
 			SButton restartButton = new SButton("restart", SButton.GAMEOVER_BUTTON);
 			restartButton.setToolTipText("Restart the Tetris/Trisis game");
