@@ -253,4 +253,11 @@ public class Engine {
 	    long tmp = Math.round(value);
 	    return (double) tmp / factor;
 	}
+	
+	/**
+	 * This method ensures that the keyboard focus is on the game panel which contains the actal action
+	 */
+	public void giveTheKeyboardFocusToGameBoard(){
+		boardPanel.requestFocus();
+	}
 }

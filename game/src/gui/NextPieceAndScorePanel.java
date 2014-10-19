@@ -129,10 +129,33 @@ public class NextPieceAndScorePanel extends JPanel {
 		allSoundsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				SButton callerButton = (SButton) e.getSource();
+				callerButton.changeState();
 				stateOfEffects = !stateOfEffects;
-				stateOfDotaEffects = stateOfEffects;
-				stateOfBackgroundMusic = stateOfEffects;
+				SButton dotaButton = (SButton) ((JPanel) ((JPanel) buttonsPanel.getComponent(1)).getComponent(0)).getComponent(2);
+				SButton musicButton = (SButton) ((JPanel) ((JPanel) buttonsPanel.getComponent(1)).getComponent(0)).getComponent(1);
+				if (stateOfDotaEffects != stateOfEffects){
+					dotaButton.changeState();
+					stateOfDotaEffects = stateOfEffects;
+				}
+				
+				if (stateOfBackgroundMusic != stateOfEffects){
+					musicButton.changeState();
+					stateOfBackgroundMusic = stateOfEffects;
+				}
+				
+				if (!stateOfEffects)
+					dotaButton.setEnabled(false);
+				else
+					dotaButton.setEnabled(true);
+				
+				if (!stateOfEffects)
+					musicButton.setEnabled(false);
+				else
+					musicButton.setEnabled(true);
+				
 				audioPlayers.disableOrEnableAllSounds(stateOfEffects);
+				callerEngine.giveTheKeyboardFocusToGameBoard();
 			}
 		});
 		
@@ -140,8 +163,11 @@ public class NextPieceAndScorePanel extends JPanel {
 		musicButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				SButton callerButton = (SButton) e.getSource();
+				callerButton.changeState();
 				stateOfBackgroundMusic = !stateOfBackgroundMusic;
 				audioPlayers.disableOrEnablePlayGUIBackgroundSound(stateOfBackgroundMusic);
+				callerEngine.giveTheKeyboardFocusToGameBoard();
 			}
 		});
 		
@@ -149,8 +175,11 @@ public class NextPieceAndScorePanel extends JPanel {
 		dotaEffectsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				SButton callerButton = (SButton) e.getSource();
+				callerButton.changeState();
 				stateOfDotaEffects = !stateOfDotaEffects;
 				audioPlayers.disableOrEnableDotaEffects(stateOfDotaEffects);
+				callerEngine.giveTheKeyboardFocusToGameBoard();
 			}
 		});
 		
