@@ -93,7 +93,7 @@ public class PlayGUI extends JFrame {
 		JFrame gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo());
 		audioPlayers.disablePlayGUIBackgroundSound();
 		audioPlayers.playGameOver(true);
-		setContentPane(gameOverPanel);
+		gameOverPanel.show();
 		repaint();
 		pack();
 	}
