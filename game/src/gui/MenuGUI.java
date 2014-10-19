@@ -43,6 +43,7 @@ public class MenuGUI extends JPanel {
 	public MenuGUI(GUI ui) {
 		super();
 		gui = ui;
+		
 
 		setSize(gui.size);
 		this.setBackground(bgcolor);
@@ -78,6 +79,7 @@ public class MenuGUI extends JPanel {
 		playAudio(mute);
 		startAudio(clip);
 	}
+
 
 	public JPanel createHeader() {
 		JPanel header = new JPanel();

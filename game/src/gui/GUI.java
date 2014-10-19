@@ -39,6 +39,7 @@ public class GUI extends JFrame {
 	public static void main(String[] args) {
 		GUI gui = new GUI();
 		gui.show();
+		gui.setLocationRelativeTo(null);
 
 	}
 	
@@ -55,18 +56,21 @@ public class GUI extends JFrame {
 		PlayGUI pgui = new PlayGUI(this);
 		pgui.setEngine(Game.getEngine(settings));
 		setEnabled(false);
+		pgui.setLocationRelativeTo(null);
 		pgui.show();
 	}
 
 	public void showSettings() {
 		settingsGUI = new SettingsGUI(this, settings);
 		setEnabled(false);
+		settingsGUI.setLocationRelativeTo(null);
 		settingsGUI.show();
 	}
 
 	public void showHighScores() {
 		highscoresGUI = new HighScoresGUI(this, highscores);
 		setEnabled(false);
+		highscoresGUI.setLocationRelativeTo(null);
 		highscoresGUI.show();
 	}
 	

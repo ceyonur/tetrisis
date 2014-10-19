@@ -34,6 +34,8 @@ public class PlayGUI extends JFrame {
 
 		super();
 		this.gui = ui;
+		
+		
 		gameOverListener = new GameOverListener();
 
 		
@@ -93,6 +95,7 @@ public class PlayGUI extends JFrame {
 		JFrame gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo(),this);
 		audioPlayers.disablePlayGUIBackgroundSound();
 		audioPlayers.playGameOver(true);
+		gameOverPanel.setLocationRelativeTo(null);
 		gameOverPanel.show();
 		repaint();
 		pack();
