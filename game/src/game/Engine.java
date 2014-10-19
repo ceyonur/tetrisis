@@ -73,7 +73,7 @@ public class Engine {
 	 */
 	public void createBoardAndNextPiecePanel(Settings settings){
 		boardMatrix = new Board(settings.getRow(), settings.getColumn(), this);
-		nextPiecePanel = new NextPieceAndScorePanel(getBoardColumnLength() , getBoardRowLength());
+		nextPiecePanel = new NextPieceAndScorePanel(getBoardColumnLength() , getBoardRowLength(), this);
 		nextPiecePanel.setLevel(levelNo);
 		boardPanel = new BoardPanel(keys, speedInMilliseconds, this, boardMatrix, nextPiecePanel);
 	}
@@ -213,10 +213,25 @@ public class Engine {
 	}
 	
 	/**
-	 * This method ensures the mode of the game board is turned off
+	 * This method ensures the mode of the game board is turned OFF
 	 */
-	public void shutDown(){
+	public void pause(){
 		boardPanel.setMode(false);
+	}
+	
+	/**
+	 * This method returns whether the game is paused or not
+	 * @return true if the game is paused; false otherwise
+	 */
+	public boolean isPaused(){
+		return boardPanel.getMode();
+	}
+	
+	/**
+	 * This method ensures the mode of the game board is turned ON
+	 */
+	public void unpause(){
+		boardPanel.setMode(true);
 	}
 	
 	/**

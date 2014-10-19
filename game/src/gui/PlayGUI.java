@@ -70,16 +70,7 @@ public class PlayGUI extends JFrame {
 		
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				engine.shutDown();
-				gui.setEnabled(true);
-				timerForCheckingGameOver.stop();
-				timer.stop();
-				gameOverTimer.stop();
-				clipBackground.stop();
-				if (clipGameOver != null)
-					clipGameOver.stop();
-				engine = null;
-				dispose();
+				closeFrame();
 		    }
 		});
 	}
@@ -93,6 +84,7 @@ public class PlayGUI extends JFrame {
 		board.setCurrentPlayGUI(this);
 		engine.getBoardMatrix().setCurrentPlayGUI(this);
 		nextPiecePanel = engine.getNextPieceAndScorePanel();
+		nextPiecePanel.setPlayGUI(this);
 		// Put it in a scrollPane, (this makes a border)
 		JScrollPane gameBoard = new JScrollPane(board);
 		JScrollPane nextPieceAndScorePanel = new JScrollPane(nextPiecePanel);
@@ -146,6 +138,19 @@ public class PlayGUI extends JFrame {
 				showGameOver();
 			}
 		}
+	}
+	
+	public void closeFrame(){
+		engine.pause();
+		gui.setEnabled(true);
+		timerForCheckingGameOver.stop();
+		timer.stop();
+		gameOverTimer.stop();
+		clipBackground.stop();
+		if (clipGameOver != null)
+			clipGameOver.stop();
+		engine = null;
+		dispose();
 	}
 
 	public class GameOverPanel extends JPanel {
@@ -220,6 +225,7 @@ public class PlayGUI extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					gui.showPlay();
+					clipGameOver.stop();
 					dispose();
 				}
 			});
@@ -233,6 +239,7 @@ public class PlayGUI extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					gui.setEnabled(true);
+					clipGameOver.stop();
 					dispose();
 				}
 			});
