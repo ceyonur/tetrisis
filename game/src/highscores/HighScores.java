@@ -145,4 +145,9 @@ public class HighScores implements Serializable {
 		} else
 			return true;
 	}
+	
+	public void resetHighScores(){
+		playerList.clear();
+		saveHighScores();
+	}
 }

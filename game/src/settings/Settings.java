@@ -21,16 +21,16 @@ import java.util.HashMap;
 public class Settings implements Serializable{
 
 	/** The size. */
-	private BoardSize boardSizeChoice;
+	private BoardSize boardSizeChoiceObject;
 
 	/** The key. */
-	private KeyConfigure keyConfig;
+	private KeyConfigure keyConfigObject;
 
 	/** The level. */
-	private LevelChoice levelChoice;
+	private LevelChoice levelChoiceObject;
 
 	/** The piece. */
-	private PieceChoice pieceChoice;
+	private PieceChoice pieceChoiceObject;
 
 	/**
 	 * Default constructor for the Settings class.
@@ -39,10 +39,10 @@ public class Settings implements Serializable{
 	 */
 
 	public Settings() {
-		boardSizeChoice = new BoardSize();
-		keyConfig = new KeyConfigure();
-		levelChoice = new LevelChoice();
-		pieceChoice = new PieceChoice();
+		boardSizeChoiceObject = new BoardSize();
+		keyConfigObject = new KeyConfigure();
+		levelChoiceObject = new LevelChoice();
+		pieceChoiceObject = new PieceChoice();
 		loadSettings();
 	}
 
@@ -51,8 +51,8 @@ public class Settings implements Serializable{
 	 *
 	 * @return the size
 	 */
-	public BoardSize getBoardSizeChoice() {
-		return boardSizeChoice;
+	public BoardSize getBoardSizeChoiceObject() {
+		return boardSizeChoiceObject;
 	}
 
 	/**
@@ -60,8 +60,8 @@ public class Settings implements Serializable{
 	 *
 	 * @param size the new size
 	 */
-	public void setBoardSizeChoice(BoardSize size) {
-		this.boardSizeChoice = size;
+	public void setBoardSizeChoiceObject(BoardSize size) {
+		this.boardSizeChoiceObject = size;
 	}
 
 	/**
@@ -69,8 +69,8 @@ public class Settings implements Serializable{
 	 *
 	 * @return the key
 	 */
-	public KeyConfigure getKeyConfigure() {
-		return keyConfig;
+	public KeyConfigure getKeyConfigureObject() {
+		return keyConfigObject;
 	}
 
 	/**
@@ -78,8 +78,8 @@ public class Settings implements Serializable{
 	 *
 	 * @param key the new key
 	 */
-	public void setKeyConfigure(KeyConfigure key) {
-		this.keyConfig = key;
+	public void setKeyConfigureObject(KeyConfigure key) {
+		this.keyConfigObject = key;
 	}
 
 	/**
@@ -87,8 +87,8 @@ public class Settings implements Serializable{
 	 *
 	 * @return the level
 	 */
-	public LevelChoice getLevelChoice() {
-		return levelChoice;
+	public LevelChoice getLevelChoiceObject() {
+		return levelChoiceObject;
 	}
 
 	/**
@@ -96,8 +96,8 @@ public class Settings implements Serializable{
 	 *
 	 * @param level the new level
 	 */
-	public void setLevelChoice(LevelChoice level) {
-		this.levelChoice = level;
+	public void setLevelChoiceObject(LevelChoice level) {
+		this.levelChoiceObject = level;
 	}
 
 	/**
@@ -105,8 +105,8 @@ public class Settings implements Serializable{
 	 *
 	 * @return the piece
 	 */
-	public PieceChoice getPieceChoice() {
-		return pieceChoice;
+	public PieceChoice getPieceChoiceObject() {
+		return pieceChoiceObject;
 	}
 
 	/**
@@ -114,8 +114,8 @@ public class Settings implements Serializable{
 	 *
 	 * @param piece the new piece
 	 */
-	public void setPieceChoice(PieceChoice piece) {
-		this.pieceChoice = piece;
+	public void setPieceChoiceObject(PieceChoice piece) {
+		this.pieceChoiceObject = piece;
 	}
 
 	/**
@@ -123,15 +123,15 @@ public class Settings implements Serializable{
 	 *
 	 * @return true, if is small
 	 */
-	public boolean isSmall() {
-		return boardSizeChoice.isSmall();
+	public boolean isBoardSmall() {
+		return boardSizeChoiceObject.isSmall();
 	}
 
 	/**
 	 * Sets the size to small.
 	 */
-	public void setSmall() {
-		boardSizeChoice.setSmall();
+	public void setBoardSmall() {
+		boardSizeChoiceObject.setSmall();
 	}
 
 	/**
@@ -139,15 +139,15 @@ public class Settings implements Serializable{
 	 *
 	 * @return true, if the size is medium
 	 */
-	public boolean isMedium() {
-		return boardSizeChoice.isMedium();
+	public boolean isBoardMedium() {
+		return boardSizeChoiceObject.isMedium();
 	}
 
 	/**
 	 * Sets the size to medium.
 	 */
-	public void setMedium() {
-		boardSizeChoice.setMedium();
+	public void setBoardMedium() {
+		boardSizeChoiceObject.setMedium();
 	}
 
 	/**
@@ -155,15 +155,15 @@ public class Settings implements Serializable{
 	 *
 	 * @return true, if the size is large
 	 */
-	public boolean isLarge() {
-		return boardSizeChoice.isLarge();
+	public boolean isBoardLarge() {
+		return boardSizeChoiceObject.isLarge();
 	}
 
 	/**
 	 * Sets the size to large.
 	 */
-	public void setLarge() {
-		boardSizeChoice.setLarge();
+	public void setBoardLarge() {
+		boardSizeChoiceObject.setLarge();
 	}
 
 	/**
@@ -172,7 +172,7 @@ public class Settings implements Serializable{
 	 * @return The row size
 	 */
 	public int getRow() {
-		return boardSizeChoice.getRow();
+		return boardSizeChoiceObject.getRow();
 	}
 
 	/**
@@ -181,7 +181,7 @@ public class Settings implements Serializable{
 	 * @return The column size
 	 */
 	public int getColumn() {
-		return boardSizeChoice.getColumn();
+		return boardSizeChoiceObject.getColumn();
 	}
 
 	/**
@@ -190,7 +190,7 @@ public class Settings implements Serializable{
 	 * @return the size choice
 	 */
 	public String getSizeChoice(){
-		return boardSizeChoice.getChoice();
+		return boardSizeChoiceObject.getChoice();
 
 	}
 
@@ -199,8 +199,8 @@ public class Settings implements Serializable{
 	 *
 	 * @return the left
 	 */
-	public int getLeft() {
-		return keyConfig.getLeft();
+	public int getLeftKey() {
+		return keyConfigObject.getLeft();
 	}
 
 	/**
@@ -209,8 +209,8 @@ public class Settings implements Serializable{
 	 * @param left The new key for function Left. It checks whether this key is already used;
 	 * if it is used, then the key is removed from last location.   
 	 */
-	public void setLeft(int left) {	
-		keyConfig.setLeft(left);
+	public void setLeftKey(int left) {	
+		keyConfigObject.setLeft(left);
 
 	}
 
@@ -219,8 +219,8 @@ public class Settings implements Serializable{
 	 *
 	 * @return The key of function Right.
 	 */
-	public int getRight() {
-		return keyConfig.getRight();
+	public int getRightKey() {
+		return keyConfigObject.getRight();
 	}
 
 	/**
@@ -229,8 +229,8 @@ public class Settings implements Serializable{
 	 * @param right The new key for function Right. It checks whether this key is already used;
 	 * if it is used, then the key is removed from last location. 
 	 */
-	public void setRight(int right) {	
-		keyConfig.setRight(right);
+	public void setRightKey(int right) {	
+		keyConfigObject.setRight(right);
 
 	}
 
@@ -239,8 +239,8 @@ public class Settings implements Serializable{
 	 *
 	 * @return The key of function Down.
 	 */
-	public int getDown() {
-		return keyConfig.getDown();
+	public int getDownKey() {
+		return keyConfigObject.getDown();
 	}
 
 	/**
@@ -249,8 +249,8 @@ public class Settings implements Serializable{
 	 * @param down The new key for function Down. It checks whether this key is already used;
 	 * if it is used, then the key is removed from last location. 
 	 */
-	public void setDown(int down) {		
-		keyConfig.setDown(down);
+	public void setDownKey(int down) {		
+		keyConfigObject.setDown(down);
 
 	}
 
@@ -259,8 +259,8 @@ public class Settings implements Serializable{
 	 *
 	 * @return The key of function Rotate.
 	 */
-	public int getRotate() {
-		return keyConfig.getRotate();
+	public int getRotateKey() {
+		return keyConfigObject.getRotate();
 	}
 
 	/**
@@ -269,8 +269,8 @@ public class Settings implements Serializable{
 	 * @param rotate The new key for function Rotate. It checks whether this key is already used;
 	 * if it is used, then the key is removed from last location. 
 	 */
-	public void setRotate(int rotate) {	
-		keyConfig.setRotate(rotate);
+	public void setRotateKey(int rotate) {	
+		keyConfigObject.setRotate(rotate);
 
 	}
 
@@ -279,8 +279,8 @@ public class Settings implements Serializable{
 	 *
 	 * @return The key of function Pause. 
 	 */
-	public int getPause() {
-		return keyConfig.getPause();
+	public int getPauseKey() {
+		return keyConfigObject.getPause();
 	}
 
 	/**
@@ -289,8 +289,8 @@ public class Settings implements Serializable{
 	 * @param pause The new key for function Pause. It checks whether this key is already used;
 	 * if it is used, then the key is removed from last location. 
 	 */
-	public void setPause(int pause){ 	
-		keyConfig.setPause(pause);
+	public void setPauseKey(int pause){ 	
+		keyConfigObject.setPause(pause);
 
 	}
 
@@ -299,8 +299,8 @@ public class Settings implements Serializable{
 	 *
 	 * @return the map
 	 */
-	public HashMap<String, Integer> getMap(){
-		return keyConfig.getMap();
+	public HashMap<String, Integer> getKeyConfigMap(){
+		return keyConfigObject.getMap();
 	}
 
 	/**
@@ -308,8 +308,8 @@ public class Settings implements Serializable{
 	 *
 	 * @param map the map
 	 */
-	public void setMap(HashMap<String, Integer> map){
-		keyConfig.setMap(map);
+	public void setKeyConfigMap(HashMap<String, Integer> map){
+		keyConfigObject.setMap(map);
 	}
 
 
@@ -319,7 +319,7 @@ public class Settings implements Serializable{
 	 * @return The level
 	 */
 	public Integer getLevel(){
-		return levelChoice.getLevel();
+		return levelChoiceObject.getLevel();
 	}
 
 	/**
@@ -328,7 +328,7 @@ public class Settings implements Serializable{
 	 * @param level The new level
 	 */
 	public void setLevel(Integer level){
-		this.levelChoice.setLevel(level);
+		this.levelChoiceObject.setLevel(level);
 	}
 
 	/**
@@ -337,7 +337,7 @@ public class Settings implements Serializable{
 	 * @return The speed
 	 */
 	public Double getSpeed(){
-		return levelChoice.getSpeed();
+		return levelChoiceObject.getSpeed();
 	}
 
 	/**
@@ -346,7 +346,7 @@ public class Settings implements Serializable{
 	 * @param choice the new tetriminos boolean
 	 */
 	public void setTetriminos(boolean choice) {
-		pieceChoice.setTetriminos(choice);
+		pieceChoiceObject.setTetriminos(choice);
 	}
 
 	/**
@@ -355,7 +355,7 @@ public class Settings implements Serializable{
 	 * @param choice the new triminos boolean
 	 */
 	public void setTriminos(boolean choice) {
-		pieceChoice.setTriminos(choice);
+		pieceChoiceObject.setTriminos(choice);
 	}
 
 
@@ -365,7 +365,7 @@ public class Settings implements Serializable{
 	 * @return true, if successful
 	 */
 	public boolean hasTriminos(){
-		return pieceChoice.hasTriminos();
+		return pieceChoiceObject.hasTriminos();
 	}
 
 	/**
@@ -374,7 +374,7 @@ public class Settings implements Serializable{
 	 * @return true, if successful
 	 */
 	public boolean hasTetriminos(){
-		return pieceChoice.hasTetriminos();
+		return pieceChoiceObject.hasTetriminos();
 	}
 
 	/**
@@ -382,8 +382,8 @@ public class Settings implements Serializable{
 	 *
 	 * @return true, if successful
 	 */
-	public boolean hasBoth(){
-		return pieceChoice.hasBoth();
+	public boolean hasBothPieces(){
+		return pieceChoiceObject.hasBoth();
 	}
 
 	/**
@@ -391,8 +391,8 @@ public class Settings implements Serializable{
 	 *
 	 * @param bool the new both
 	 */
-	public void setBoth(boolean bool){
-		pieceChoice.setBoth();
+	public void setBothPieces(boolean bool){
+		pieceChoiceObject.setBoth();
 	}
 
 	/**
@@ -400,8 +400,8 @@ public class Settings implements Serializable{
 	 *
 	 * @return the choice
 	 */
-	public String getChoice(){
-		return pieceChoice.getChoice();
+	public String getPieceChoice(){
+		return pieceChoiceObject.getChoice();
 
 	}
 
@@ -432,10 +432,10 @@ public class Settings implements Serializable{
 			ObjectInputStream ois = new ObjectInputStream(fin);
 			Settings settings = (Settings) ois.readObject();
 			ois.close();
-			this.setBoardSizeChoice(settings.getBoardSizeChoice());
-			this.setKeyConfigure(settings.getKeyConfigure());
-			this.setLevelChoice(settings.getLevelChoice());
-			this.setPieceChoice(settings.getPieceChoice());	
+			this.setBoardSizeChoiceObject(settings.getBoardSizeChoiceObject());
+			this.setKeyConfigureObject(settings.getKeyConfigureObject());
+			this.setLevelChoiceObject(settings.getLevelChoiceObject());
+			this.setPieceChoiceObject(settings.getPieceChoiceObject());	
 		}catch(Exception ex){
 			try {
 				FileOutputStream fout = new FileOutputStream("Settings.ser");

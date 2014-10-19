@@ -84,7 +84,7 @@ public class MenuGUI extends JPanel {
 	public JPanel createHeader() {
 		JPanel header = new JPanel();
 
-		SLabel openit = new SLabel("OpenIT proudly presents",
+		SLabel openit = new SLabel("openIT proudly presents",
 				SLabel.MAIN_MENU_AUTHOR);
 		SLabel title = new SLabel("tetris/triris game", SLabel.MAIN_MENU_TITLE);
 		SLabel subtitle = new SLabel("a COMP 302 Project",
