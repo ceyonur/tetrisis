@@ -37,7 +37,7 @@ public class BoardPanel extends JPanel {
 	private NextPieceAndScorePanel nextPiecePanel;
 	private AudioPlayers audioPlayers;
 
-	private JLabel paused;
+	private SLabel paused;
 
 	private PlayGUI playGUI;
 
@@ -66,8 +66,7 @@ public class BoardPanel extends JPanel {
 		restartActualTimerAgain = new RestartActualTimerAgain(this);
 		fastFadeOutUpdater = new FastFadeOutUpdater(this);
 
-		paused = new JLabel("Game is paused!");
-		paused.setFont(new Font(paused.getFont().getFamily(), paused.getFont().getStyle(), 20));
+		paused = new SLabel("pause", SLabel.PANEL_PAUSE_LABEL);
 		add(paused);
 
 		// The first parameter is how often (in milliseconds) the timer
@@ -101,10 +100,12 @@ public class BoardPanel extends JPanel {
 				blocks.get(i).paint(g);
 			}
 			paused.setVisible(false);
+			setBackground(SColor.boardColor);
 		} else {
 			if (!callerEngine.isGameOver()){
 				paused.setLocation(paused.getX(), (getHeight() - paused.getHeight()) / 2);
 				paused.setVisible(true);
+				setBackground(SColor.boardPauseColor);
 			}
 		}
 	}
