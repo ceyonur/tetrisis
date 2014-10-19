@@ -42,7 +42,7 @@ public class MenuGUI extends JPanel {
 
 	private Color bgcolor = SColor.backgroundColor;;
 
-	private boolean mute = false;
+	private boolean mute = true;
 
 	public MenuGUI(GUI ui) {
 		super();
