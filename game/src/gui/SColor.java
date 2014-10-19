@@ -11,6 +11,7 @@ public class SColor extends Color {
 	public static SColor boardColor = new SColor(236, 240, 241);
 	public static SColor boardPauseColor = new SColor(52, 73, 94);
 	public static SColor sidePanelColor = new SColor(41,128,185);
+	public static SColor buttonColor = new SColor(52, 152, 219);
 	
 	
 	public static SColor getRandomPieceColor() {

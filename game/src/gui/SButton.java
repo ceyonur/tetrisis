@@ -73,16 +73,16 @@ public class SButton extends JButton {
 			filename += "unmute.png" ;
 			break;
 		case SOUND_BUTTON_MUSIC_ON:
-			filename += "musicon.png" ;
+			filename += "music_on.png" ;
 			break;
 		case SOUND_BUTTON_MUSIC_OFF:
-			filename += "musicoff.png" ;
+			filename += "music_off.png" ;
 			break;
 		case SOUND_BUTTON_EFFECTS_ON:
-			filename += "effectson.png" ;
+			filename += "effects_on.png" ;
 			break;
 		case SOUND_BUTTON_EFFECTS_OFF:
-			filename += "effectsoff.png" ;
+			filename += "effects_off.png" ;
 			break;
 		default:
 			filename = "";
@@ -93,7 +93,7 @@ public class SButton extends JButton {
 	private void setType(int t) {
 		this.type = t;
 		float f = 24F;
-		Color color = new SColor(52, 152, 219);
+		Color color = SColor.buttonColor;
 		switch (type) {
 			case MAIN_MENU_BUTTON:
 				f = 52F;
@@ -142,27 +142,39 @@ public class SButton extends JButton {
 				this.setMinimumSize(new Dimension(120,25));
 				break;
 			case SOUND_BUTTON_MUTE:
-				this.setPreferredSize(new Dimension(80,40));
+				this.setBorder(BorderFactory.createLineBorder(Color.white, 3));
+				this.setBackground(color);
+				this.setPreferredSize(new Dimension(40,40));
 				this.setIcon(type);
 				break;
 			case SOUND_BUTTON_UNMUTE:
-				this.setPreferredSize(new Dimension(80,40));
+				this.setBorder(BorderFactory.createLineBorder(Color.white, 3));
+				this.setBackground(color);
+				this.setPreferredSize(new Dimension(40,40));
 				this.setIcon(type);
 				break;
 			case SOUND_BUTTON_MUSIC_ON:
-				this.setPreferredSize(new Dimension(80,40));
+				this.setBorder(BorderFactory.createLineBorder(Color.white, 3));
+				this.setBackground(color);
+				this.setPreferredSize(new Dimension(40,40));
 				this.setIcon(type);
 				break;
 			case SOUND_BUTTON_MUSIC_OFF:
-				this.setPreferredSize(new Dimension(80,40));
+				this.setBorder(BorderFactory.createLineBorder(Color.white, 3));
+				this.setBackground(color);
+				this.setPreferredSize(new Dimension(40,40));
 				this.setIcon(type);
 				break;
 			case SOUND_BUTTON_EFFECTS_ON:
-				this.setPreferredSize(new Dimension(80,40));
+				this.setBorder(BorderFactory.createLineBorder(Color.white, 3));
+				this.setBackground(color);
+				this.setPreferredSize(new Dimension(40,40));
 				this.setIcon(type);
 				break;
 			case SOUND_BUTTON_EFFECTS_OFF:
-				this.setPreferredSize(new Dimension(80,40));
+				this.setBorder(BorderFactory.createLineBorder(Color.white, 3));
+				this.setBackground(color);
+				this.setPreferredSize(new Dimension(40,40));
 				this.setIcon(type);
 				break;
 			default:
