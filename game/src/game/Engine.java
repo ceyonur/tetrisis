@@ -80,6 +80,7 @@ public class Engine {
 		} else {
 			boardPanel.setMode(false);
 		}
+		nextPiecePanel.setCurrentScore(score);  // The score written in the next piece panel must always be renewed
 	}
 
 	/**

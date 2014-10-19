@@ -160,11 +160,20 @@ public class Block {
 		public void actionPerformed(ActionEvent e) {
 			// If color has an alpha value (opacity) different than 0, then it is decremented by one
 			// If it is already 0, the timer provoking this listener will be stopped
-			if (color.getAlpha() >=3)
-				color = new SColor(color.getRed(),color.getGreen(),color.getBlue(),color.getAlpha()-3);
+
+			
+			int changeLevel;
+			
+			// The changeLevel of the alpha differs from OS to OS to make it sensible
+			if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0)
+				changeLevel = 5;
+			else
+				changeLevel = 1;
+			
+			if (color.getAlpha() >= changeLevel)
+				color = new SColor(color.getRed(),color.getGreen(),color.getBlue(),color.getAlpha() - changeLevel);
 			else
 				timerForFadeAway.stop();
 		}
-		
 	}
 }

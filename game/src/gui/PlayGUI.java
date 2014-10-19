@@ -1,8 +1,10 @@
 package gui;
 
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -10,10 +12,6 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
 import settings.LevelChoice;
-import sun.audio.AudioData;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-import sun.audio.ContinuousAudioDataStream;
 import game.Board;
 import game.Engine;
 import highscores.Player;
@@ -41,12 +39,17 @@ public class PlayGUI extends JFrame {
 	private boolean effectSelector = true;
 	
 	private Timer timer; 
+	private Timer gameOverTimer;
 	
 	private MusicLoopPlayerListener musicPlayerListener;
+	private Clip clipGameOver = null;
+	private GameOverPlayerListener gameOverPlayerListener;
 	
 	private boolean mute = true;
-	private AudioInputStream audioStream;
+//	private AudioInputStream audioStream;
+//	private AudioInputStream gameOverStream;
 	private ArrayList<String> sounds;
+	private ArrayList<String> gameOverSounds;
 	private Clip clipBackground;
 
 
@@ -55,10 +58,13 @@ public class PlayGUI extends JFrame {
 		super();
 		this.gui = ui;
 		gameOverListener = new GameOverListener();
+		gameOverPlayerListener = new GameOverPlayerListener();
+		
 		timerForCheckingGameOver = new Timer(500, gameOverListener);
 		
 		musicPlayerListener = new MusicLoopPlayerListener();
 		timer= new Timer(5000, musicPlayerListener);
+		gameOverTimer = new Timer(13503, gameOverPlayerListener);
 		
 		playBackground(!mute);
 		
@@ -68,7 +74,10 @@ public class PlayGUI extends JFrame {
 				gui.setEnabled(true);
 				timerForCheckingGameOver.stop();
 				timer.stop();
+				gameOverTimer.stop();
 				clipBackground.stop();
+				if (clipGameOver != null)
+					clipGameOver.stop();
 				engine = null;
 				dispose();
 		    }
@@ -117,6 +126,9 @@ public class PlayGUI extends JFrame {
 		JPanel gameOverPanel = new GameOverPanel(engine.getScore(), engine.getLevelNo());
 		timer.stop();
 		clipBackground.stop();
+		//gameOverTimer.start();
+		playGameOver(true);
+		//clipGameOver.start();
 		setContentPane(gameOverPanel);
 		repaint();
 		pack();
@@ -269,8 +281,10 @@ public class PlayGUI extends JFrame {
 
 		try {
 			if (status){
-				Clip clip = AudioSystem.getClip();
 				audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
+				AudioFormat format =  audioStream.getFormat();
+				DataLine.Info info = new DataLine.Info(Clip.class, format);
+				Clip clip = (Clip)AudioSystem.getLine(info);
 				clip.open(audioStream);
 				FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 				volume.setValue(-5.0f);
@@ -283,11 +297,6 @@ public class PlayGUI extends JFrame {
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
 		}
-
-		// play the audio clip with the audioplayer class
-		if (status)
-			AudioPlayer.player.start(audioStream);
-
 	}
 
 	public void playAudio(boolean status, int counter) {
@@ -314,8 +323,10 @@ public class PlayGUI extends JFrame {
 
 		try {
 			if (status){
-				Clip clip = AudioSystem.getClip();
 				audioStream = AudioSystem.getAudioInputStream(new File(gongFile));
+				AudioFormat format =  audioStream.getFormat();
+				DataLine.Info info = new DataLine.Info(Clip.class, format);
+				Clip clip = (Clip)AudioSystem.getLine(info);
 				if(effectSelector)
 					effectSelector = false;
 				else
@@ -342,8 +353,10 @@ public class PlayGUI extends JFrame {
 
 		try {
 			if (status){
-				Clip clip = AudioSystem.getClip();
 				audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
+				AudioFormat format =  audioStream.getFormat();
+				DataLine.Info info = new DataLine.Info(Clip.class, format);
+				Clip clip = (Clip)AudioSystem.getLine(info);
 				clip.open(audioStream);
 				FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 				volume.setValue(-10.0f);
@@ -366,8 +379,14 @@ public class PlayGUI extends JFrame {
 
 		try {
 			if (status){
-				Clip clipRotate = AudioSystem.getClip();
+			
+				
+				
+				//Clip clipRotate = AudioSystem.getClip();
 				audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
+				AudioFormat format =  audioStream.getFormat();
+				DataLine.Info info = new DataLine.Info(Clip.class, format);
+				Clip clipRotate = (Clip)AudioSystem.getLine(info);
 				clipRotate.open(audioStream);
 				FloatControl volume = (FloatControl) clipRotate.getControl(FloatControl.Type.MASTER_GAIN);
 				volume.setValue(-15.0f);
@@ -381,6 +400,16 @@ public class PlayGUI extends JFrame {
 			e.printStackTrace();
 		}
 	}
+	
+	public void playGameOver(boolean status){
+		gameOverSounds = new ArrayList<String>();
+			gameOverSounds.add("assets/sounds/gameOver/1.wav");
+			gameOverSounds.add("assets/sounds/gameOver/2.wav");
+
+		gameOverTimer.setInitialDelay(0);
+		gameOverTimer.start();
+		
+	}
 
 	public void playAudioFirstBlood(boolean status) {
 		String stringFile = "assets/sounds/firstBlood.wav";
@@ -389,8 +418,10 @@ public class PlayGUI extends JFrame {
 
 		try {
 			if (status){
-			Clip clipFirstBlood = AudioSystem.getClip();
-			audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
+				audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
+				AudioFormat format =  audioStream.getFormat();
+				DataLine.Info info = new DataLine.Info(Clip.class, format);
+				Clip clipFirstBlood = (Clip)AudioSystem.getLine(info);
 			clipFirstBlood.open(audioStream);
 			clipFirstBlood.start();
 			}
@@ -410,7 +441,7 @@ public class PlayGUI extends JFrame {
 		for (int i = 0; i < 29; i++) {
 			sounds.add("assets/sounds/backGround/" + (i + 1) + ".wav");
 		}
-		audioStream = null;
+		//audioStream = null;
 		timer.setInitialDelay(0);
 		timer.start();
 	}
@@ -420,16 +451,46 @@ public class PlayGUI extends JFrame {
 		
 		
 		public void actionPerformed(ActionEvent e) {
+			AudioInputStream audioStream = null;
 			
 				 try {
-					clipBackground = AudioSystem.getClip();
+				//	clipBackground = AudioSystem.getClip();
 					String sound = sounds.remove(0);
-					AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(sound));
+				//	AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(sound));
+					audioStream = AudioSystem.getAudioInputStream(new File(sound));
+					AudioFormat format =  audioStream.getFormat();
+					DataLine.Info info = new DataLine.Info(Clip.class, format);
+					clipBackground = (Clip)AudioSystem.getLine(info);
 					clipBackground.open(audioStream);
 					FloatControl volume = (FloatControl) clipBackground.getControl(FloatControl.Type.MASTER_GAIN);
 					volume.setValue(-5.0f);
 					clipBackground.start();
 					sounds.add(sound);
+					
+				} catch (LineUnavailableException e0) {
+					e0.printStackTrace();
+				} catch (UnsupportedAudioFileException e1) {
+					e1.printStackTrace();
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				}
+		}
+	}
+	class GameOverPlayerListener implements  ActionListener{
+		public GameOverPlayerListener(){ }
+		
+		
+		public void actionPerformed(ActionEvent e) {
+			
+				 try {
+					 clipGameOver = AudioSystem.getClip();
+					String sound = gameOverSounds.remove(0);
+					AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(sound));
+					clipGameOver.open(audioStream);
+					FloatControl volume = (FloatControl) clipGameOver.getControl(FloatControl.Type.MASTER_GAIN);
+					volume.setValue(-10.0f);
+					clipGameOver.start();
+					gameOverSounds.add(sound);
 					
 				} catch (LineUnavailableException e0) {
 					e0.printStackTrace();
