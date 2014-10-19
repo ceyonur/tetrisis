@@ -84,6 +84,10 @@ public class SLabel extends JLabel {
 				f = 24F;
 				this.setForeground(Color.white);
 				break;
+			case PANEL_PAUSE_LABEL:
+				f = 64F;
+				this.setForeground(Color.white);
+				break;
 			case SIDE_PANEL_NEXT:
 				f = 32F;
 				this.setForeground(Color.white);
@@ -128,6 +132,7 @@ public class SLabel extends JLabel {
 	public static final int HIGHSCORES_HEADER_LABEL = 30;
 	public static final int HIGHSCORES_NUMBER_LABEL = 31;
 	public static final int HIGHSCORES_CONTENT_LABEL = 32;
+	public static final int PANEL_PAUSE_LABEL = 40;
 	public static final int SIDE_PANEL_NEXT = 41;
 	public static final int SIDE_PANEL_LINES = 42;
 	public static final int SIDE_PANEL_SCORE = 43;
