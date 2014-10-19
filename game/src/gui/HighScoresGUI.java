@@ -168,7 +168,7 @@ public class HighScoresGUI extends JFrame {
 	private void fillFields(int a) {
 		for (int i = 0; i < a; i++) {
 			labels[i][0].setText(highScoresObject.getPlayer(i + 1).getName());
-			labels[i][1].setText((Integer.toString((int) highScoresObject
+			labels[i][1].setText((Double.toString( highScoresObject
 					.getPlayer(i + 1).getScore())));
 			labels[i][2].setText(dateFormat.format(highScoresObject.getPlayer(
 					i + 1).getDate()));
