@@ -1,28 +1,11 @@
 package gui;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
-
-import settings.LevelChoice;
-import game.Board;
 import game.Engine;
 import highscores.Player;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 
 public class PlayGUI extends JFrame {
 	protected Engine engine;
@@ -37,8 +20,6 @@ public class PlayGUI extends JFrame {
 	private GUI gui;
 
 	private AudioPlayers audioPlayers;
-
-	private Clip clipBackground;
 
 
 	public PlayGUI(GUI ui){
