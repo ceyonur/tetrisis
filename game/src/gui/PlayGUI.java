@@ -158,7 +158,7 @@ public class PlayGUI extends JFrame {
 
 			this.callerPlayGUI = callerPlayGUI;
 			getContentPane().setBackground(SColor.backgroundColor);
-			setPreferredSize(new Dimension(400,400));
+			setPreferredSize(new Dimension(400,450));
 			setResizable(false);
 			setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 

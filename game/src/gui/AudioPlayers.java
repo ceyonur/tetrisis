@@ -45,6 +45,7 @@ public class AudioPlayers {
 		if (stateOfDotaEffects){
 			String stringFile = " ";
 			int level = levelChoiceObject.getLevel();
+			System.out.println(levelChoiceObject.getLevel());
 
 			if (isTheFirstKill) {
 				stringFile = "assets/sounds/firstBlood.wav";
@@ -223,8 +224,10 @@ public class AudioPlayers {
 
 	public void disableOrEnablePlayGUIBackgroundSound(boolean state) {
 		if (!state){
-			if (clipBackground != null)
+			if (clipBackground != null){
 				clipBackground.stop();
+				
+			}
 			if (timerPlayGUIBackground.isRunning())
 				timerPlayGUIBackground.stop();
 		} else {
