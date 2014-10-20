@@ -29,38 +29,54 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
+/**
+ * 
+ * @author ogunoz atilberk
+ *
+ */
 public class MenuGUI extends JPanel {
 
+	/**
+	 * Fields
+	 */
 	private GUI gui;
-
 	private JPanel settingsGui;
 	private Clip clip;
-
-	private Color bgcolor = SColor.backgroundColor;;
-
 	private boolean mute = true;
 
-	public MenuGUI(GUI ui) {
+	/**
+	 * Constructor
+	 * @param GUI
+	 */
+	public MenuGUI(GUI gui) {
 		super();
-		gui = ui;
+		this.gui = gui;
 		
-
 		setSize(gui.size);
-		this.setBackground(bgcolor);
-
+		setBackground(SColor.backgroundColor);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+		createAndAddContainers();
+
+		this.setVisible(true);
+		playAudio(mute);
+		startAudio(clip);
+	}
+	
+	/**
+	 * Creates containers for header, buttons and footer sections
+	 */
+	private void createAndAddContainers() {
 		JPanel headerPanelContainer = new JPanel();
-		headerPanelContainer.setBackground(bgcolor);
-
+		headerPanelContainer.setBackground(SColor.backgroundColor);
 		JPanel buttonPanelContainer = new JPanel();
-		buttonPanelContainer.setBackground(bgcolor);
+		buttonPanelContainer.setBackground(SColor.backgroundColor);
 		JPanel footerPanelContainer = new JPanel();
-		footerPanelContainer.setBackground(bgcolor);
+		footerPanelContainer.setBackground(SColor.backgroundColor);
 
-		headerPanelContainer.setLayout(new BoxLayout(headerPanelContainer,
-				BoxLayout.Y_AXIS));
 		JPanel headerPanel = createHeader();
+		headerPanelContainer.setLayout(new BoxLayout(headerPanelContainer,
+				BoxLayout.Y_AXIS));		
 		headerPanelContainer.add(Box.createVerticalStrut(80));
 		headerPanelContainer.add(headerPanel);
 		headerPanelContainer.add(Box.createVerticalStrut(50));
@@ -71,17 +87,16 @@ public class MenuGUI extends JPanel {
 		JPanel footerPanel = createFooter();
 		footerPanelContainer.add(footerPanel);
 
-		this.add(headerPanelContainer);
-		this.add(buttonPanelContainer);
-		this.add(footerPanelContainer);
-
-		setVisible(true);
-		playAudio(mute);
-		startAudio(clip);
+		add(headerPanelContainer);
+		add(buttonPanelContainer);
+		add(footerPanelContainer);
 	}
 
-
-	public JPanel createHeader() {
+	/**
+	 * Creates container for header
+	 * @return header panel
+	 */
+	private JPanel createHeader() {
 		JPanel header = new JPanel();
 
 		SLabel openit = new SLabel("openIT proudly presents",
@@ -93,27 +108,31 @@ public class MenuGUI extends JPanel {
 		header.add(title);
 		header.add(subtitle);
 
-		header.setBackground(bgcolor);
+		header.setBackground(SColor.backgroundColor);
 		return header;
 	}
 
+	/**
+	 * Creates container for menu buttons
+	 * @return buttons panel
+	 */
 	private JPanel createMenuButtons() {
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new GridLayout(4, 1, 0, -5));
 		buttons.setBackground(SColor.backgroundColor);
 
-		final SButton newGame = new SButton("new game",
-				SButton.MAIN_MENU_BUTTON);
-		SButton settings = new SButton("settings", SButton.MAIN_MENU_BUTTON);
-		SButton highScores = new SButton("high scores",
-				SButton.MAIN_MENU_BUTTON);
-		SButton exit = new SButton("exit", SButton.MAIN_MENU_BUTTON);
+		final SButton newGame = new SButton("new game", SButton.MAIN_MENU_BUTTON);
+		final SButton settings = new SButton("settings", SButton.MAIN_MENU_BUTTON);
+		final SButton highScores = new SButton("high scores",	SButton.MAIN_MENU_BUTTON);
+		final SButton exit = new SButton("exit", SButton.MAIN_MENU_BUTTON);
 
 		buttons.add(newGame);
 		buttons.add(settings);
 		buttons.add(highScores);
 		buttons.add(exit);
 
+		
+		// add listeners to buttons
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				stopAudio(clip);
@@ -143,46 +162,65 @@ public class MenuGUI extends JPanel {
 		return buttons;
 	}
 
+	/**
+	 * Creates container for footer
+	 * @return footer panel
+	 */
 	private JPanel createFooter() {
 		JPanel footer = new JPanel();
-		footer.setBackground(bgcolor);
-		int type = mute ? SButton.SOUND_BUTTON_MUTE
+		footer.setBackground(SColor.backgroundColor);
+		
+		int buttonType = mute ? SButton.SOUND_BUTTON_MUTE
 				: SButton.SOUND_BUTTON_UNMUTE;
-		final SButton musicButton = new SButton(SButton.getIcon(type), type);
+		final SButton musicButton = new SButton(buttonType);
 
+		footer.add(musicButton);
+		
+		//add listeners to button
 		musicButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mute = !mute;
-				if (mute)
-					startAudio(clip);
-				else
-					stopAudio(clip);
+				menuMusicEnabler();
 				musicButton.changeState();
 			}
 		});
 
-		footer.add(musicButton);
 		return footer;
 	}
 
-	public void menuMusicEnabler() {
+	/**
+	 * Enables or disables menu music
+	 */
+	protected void menuMusicEnabler() {
 		if (!mute)
 			stopAudio(clip);
 		else
 			startAudio(clip);
 	}
 
+	/**
+	 * Stops the clip
+	 * @param clip
+	 */
 	public void stopAudio(Clip clip) {
 		if (clip != null) {
 			clip.stop();
 		}
 	}
 
+	/**
+	 * Starts the clip
+	 * @param clip
+	 */
 	public void startAudio(Clip clip) {
 		clip.start();
 		clip.loop(clip.LOOP_CONTINUOUSLY);
 	}
 
+	/**
+	 * Plays the main menu music
+	 * @param status
+	 */
 	public void playAudio(boolean status) {
 		String stringFile = "assets/sounds/mainMenu.wav";
 		AudioInputStream audioStream = null;
@@ -197,29 +235,8 @@ public class MenuGUI extends JPanel {
 			FloatControl volume = (FloatControl) clip
 					.getControl(FloatControl.Type.MASTER_GAIN);
 			volume.setValue(-5.0f);
-		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	class PlayListeners implements ActionListener {
-		private MenuGUI callerMenuGUI;
-
-		public PlayListeners(MenuGUI callerMenuGUI) {
-			this.callerMenuGUI = callerMenuGUI;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			gui.showPlay();
-		}
-
 	}
 }
