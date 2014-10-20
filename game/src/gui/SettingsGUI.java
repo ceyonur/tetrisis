@@ -2,42 +2,11 @@ package gui;
 
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-
-import settings.*;
-
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.HashMap;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
-import settings.BoardSize;
-import settings.KeyConfigure;
-import settings.LevelChoice;
-import settings.PieceChoice;
-import settings.Settings;
+import javax.swing.*;
+import settings.*;
 
 public class SettingsGUI extends JFrame {
 	
@@ -288,7 +257,6 @@ public class SettingsGUI extends JFrame {
 		leftField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
 				leftField.setText(null);				
 				if (keyMap.containsValue(e.getKeyCode())) {
 					for (String key : keyMap.keySet()) {
@@ -320,7 +288,6 @@ public class SettingsGUI extends JFrame {
 		rightField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
 				rightField.setText(null);				
 				if (keyMap.containsValue(e.getKeyCode())) {
 					for (String key : keyMap.keySet()) {
@@ -353,7 +320,6 @@ public class SettingsGUI extends JFrame {
 		rotateField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
 				rotateField.setText(null);				
 				if (keyMap.containsValue(e.getKeyCode())) {
 					for (String key : keyMap.keySet()) {
@@ -387,7 +353,6 @@ public class SettingsGUI extends JFrame {
 		downField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
 				downField.setText(null);				
 				if (keyMap.containsValue(e.getKeyCode())) {
 					for (String key : keyMap.keySet()) {
@@ -422,7 +387,6 @@ public class SettingsGUI extends JFrame {
 		pauseField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
 				pauseField.setText(null);				
 				if (keyMap.containsValue(e.getKeyCode())) {
 					for (String key : keyMap.keySet()) {
@@ -537,9 +501,9 @@ public class SettingsGUI extends JFrame {
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (keyMap.containsValue(0)) {
-					save.disable();					
+					save.setEnabled(false);					
 				} else {
-					save.enable();
+					save.setEnabled(true);
 					keyConfigureObject.setMap(keyMap);
 
 					pieceChoiceObject.setTetriminos(tetra.isSelected());

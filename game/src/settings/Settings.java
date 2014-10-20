@@ -1,15 +1,10 @@
 package settings;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+
+import java.io.*;
+
 import java.util.HashMap;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Settings. This class holds other elements of settings package,
  * and provides a direct access to getters and setters.
@@ -438,10 +433,8 @@ public class Settings implements Serializable{
 				FileOutputStream fout = new FileOutputStream("Settings.ser");
 				fout.close();
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}		   
 		}

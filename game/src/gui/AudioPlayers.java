@@ -1,19 +1,10 @@
 package gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
+import java.awt.event.*;
+import java.io.*;
 import java.util.ArrayList;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 import javax.swing.Timer;
 
 import settings.LevelChoice;
@@ -21,7 +12,7 @@ import settings.LevelChoice;
 public class AudioPlayers {
 	private Timer timerPlayGUIBackground;
 	private Timer timerGameOver;
-	private LevelChoice levelChoiceObject = new LevelChoice();
+	private LevelChoice levelChoiceObject;
 	private boolean effectSelector = true;
 	private MusicLoopPlayerListener musicPlayerListener;
 	private Clip clipGameOver = null;
@@ -38,6 +29,10 @@ public class AudioPlayers {
 		musicPlayerListener = new MusicLoopPlayerListener();
 		timerPlayGUIBackground = new Timer(5000, musicPlayerListener);
 		timerGameOver = new Timer(13503, gameOverPlayerListener);
+	}
+	
+	public void setLevelChoice(LevelChoice levelChoice){
+		levelChoiceObject = levelChoice;
 	}
 
 	public void playDotaEffects(boolean status, int counter,

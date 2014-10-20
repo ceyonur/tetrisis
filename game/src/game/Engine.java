@@ -1,12 +1,9 @@
 package game;
 
 import gui.*;
-import highscores.HighScores;
-import highscores.Player;
+import highscores.*;
 
-import java.awt.Color;
 import java.io.FileNotFoundException;
-import java.util.Random;
 
 import pieces.*;
 import settings.*;
@@ -69,6 +66,7 @@ public class Engine {
 		pieceChoice = settings.getPieceChoiceObject();
 		currentPiece = null;
 		audioPlayers = new AudioPlayers();
+		audioPlayers.setLevelChoice(settings.getLevelChoiceObject());
 		this.highscores = highscores;
 	}
 	

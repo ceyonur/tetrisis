@@ -3,9 +3,10 @@ package pieces;
 import gui.SColor;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.Timer;
+
+import java.awt.event.*;
+
+import javax.swing.*;
 
 /**
  * This class is the building stone of all of the pieces (both Tetriminoses and Triminoses).

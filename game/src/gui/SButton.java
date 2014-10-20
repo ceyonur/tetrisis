@@ -1,19 +1,9 @@
 package gui;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.Action;
-import javax.swing.Icon;
+import javax.swing.*;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.awt.*;
+import java.io.*;
 
 /**
  * The class generates modified buttons for GUI
