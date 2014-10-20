@@ -1,6 +1,7 @@
 package game;
 
 import gui.*;
+import highscores.HighScores;
 import settings.Settings;
 
 public class Game{
@@ -8,7 +9,7 @@ public class Game{
 		
 		GUI frame = new GUI();
 		
-		// the following code realizes the top level application window
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	
 	}
@@ -18,7 +19,7 @@ public class Game{
 	 * @param settings The settings to generate the Engine object
 	 * @return The generated Engine object
 	 */
-	public static Engine getEngine(Settings settings){
-		return new Engine(settings);
+	public static Engine getEngine(Settings settings, HighScores highscores){
+		return new Engine(settings, highscores);
 	}
 }
