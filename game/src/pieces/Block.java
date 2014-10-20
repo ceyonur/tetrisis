@@ -164,10 +164,10 @@ public class Block {
 			int changeLevel;
 			
 			// The changeLevel of the alpha differs from OS to OS to make it sensible
-			if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0)
-				changeLevel = 5;
-			else
+			if (System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0)
 				changeLevel = 1;
+			else
+				changeLevel = 5;
 			
 			if (color.getAlpha() >= changeLevel)
 				color = new SColor(color.getRed(),color.getGreen(),color.getBlue(),color.getAlpha() - changeLevel);
