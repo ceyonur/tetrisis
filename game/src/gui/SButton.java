@@ -15,11 +15,28 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * The class generates modified buttons for GUI
+ * @author atilberk
+ *
+ */
 public class SButton extends JButton {
 
+	/**
+	 * Font field for the label
+	 */
 	private Font font;
+	/**
+	 * Type field of the label
+	 */
 	private int type;
 
+	/**
+	 * Constructor
+	 * Creates a button with given string of given type
+	 * @param text
+	 * @param type
+	 */
 	public SButton(String text, int type) {
 		super(text);
 		loadFont();
@@ -27,12 +44,23 @@ public class SButton extends JButton {
 		this.setType(type);
 	}
 	
-	SButton(int type) {
+	/**
+	 * Constructor
+	 * Creates a button of given type
+	 * @param type
+	 */
+	public SButton(int type) {
 		super();
 		loadFont();
 		setType(type);
 	}
 	
+	/**
+	 * Constructor
+	 * Creates a button with given icon image of given type
+	 * @param icon image
+	 * @param type
+	 */
 	public SButton(Icon icon, int type) {
 		super(icon);
 		loadFont();
@@ -40,6 +68,9 @@ public class SButton extends JButton {
 		this.setType(type);
 	}
 	
+	/**
+	 * Sets the font field from the source, sets font to Helvetica if file reading process fails.
+	 */
 	private void loadFont() {
 		try {
 			font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream("assets/fonts/forced_square.ttf"));
@@ -49,21 +80,30 @@ public class SButton extends JButton {
 		}
 	}
 
-	public void setText(String text) {
-		super.setText(text);
-	}
-
+	/**
+	 * Changes the state of iconic, dual state buttons.
+	 * Does nothing on other types of buttons.
+	 */
 	public void changeState() {
 		if (Math.abs(type) > 10) {
 			setType(type * -1);
 		}
 	}
 	
-	public void setIcon(int type) {
+	/**
+	 * Sets the icon of the button to the corresponding icon for the given type.
+	 * @param type
+	 */
+	private void setIcon(int type) {
 		super.setIcon(getIcon(type));
 	}
 	
-	public static Icon getIcon(int type) {
+	/**
+	 * Returns the icon of the button corresponding to the given type
+	 * @param type
+	 * @return icon image
+	 */
+	private static Icon getIcon(int type) {
 		String filename = "assets/images/";
 		switch (type) {
 		case SOUND_BUTTON_MUTE:
@@ -90,6 +130,10 @@ public class SButton extends JButton {
 		return new ImageIcon(filename);
 	}
 	
+	/**
+	 * Sets the type of the label
+	 * @param type
+	 */
 	private void setType(int t) {
 		this.type = t;
 		float f = 24F;
@@ -185,6 +229,9 @@ public class SButton extends JButton {
 		this.setFont(font);
 	}
 	
+	/**
+	 * Type values of SLabel
+	 */	
 	public static final int MAIN_MENU_BUTTON = 1;
 	public static final int SETTINGS_BUTTON = 2;
 	public static final int HIGHSCORES_BUTTON = 3;
