@@ -1,12 +1,9 @@
 package gui;
 
-import game.Engine;
-import game.Game;
+import game.*;
 import highscores.HighScores;
-import highscores.Player;
 
 import java.awt.*;
-import java.awt.event.*;
 
 import javax.swing.*;
 

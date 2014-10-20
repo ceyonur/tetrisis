@@ -1,12 +1,9 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.io.FileInputStream;
 
-import javax.swing.Action;
-import javax.swing.Icon;
-import javax.swing.JCheckBox;
+import javax.swing.*;
 
 public class SCheckBox extends JCheckBox {
 	

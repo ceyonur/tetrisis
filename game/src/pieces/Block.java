@@ -3,17 +3,9 @@ package pieces;
 import gui.SColor;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.event.*;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.*;
 
 /**
  * This class is the building stone of all of the pieces (both Tetriminoses and Triminoses).
