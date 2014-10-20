@@ -48,8 +48,8 @@ public class SRadioButton extends JRadioButton {
 	private void setType(int type) {
 		float f;
 		switch (type) {
-			case 21:
-				f = 18F;
+			case SETTINGS_RADIO:
+				f = 17F;
 				this.setForeground(Color.white);
 				break;
 			default:
