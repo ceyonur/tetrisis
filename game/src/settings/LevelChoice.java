@@ -14,9 +14,9 @@ public class LevelChoice implements Serializable{
 	public final String levelLabels[] = {
 			"grandma",
 			"rookie",
-			"normalna",
-			"rampage",
-			"god mod"
+			"normal",
+			"expert",
+			"god mode"
 	};
 	
 	/**
