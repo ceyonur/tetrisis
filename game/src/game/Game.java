@@ -8,7 +8,7 @@ public class Game{
 		
 		GUI frame = new GUI();
 		
-		// the following code realizes the top level application window
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	
 	}
