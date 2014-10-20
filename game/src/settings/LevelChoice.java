@@ -10,6 +10,14 @@ public class LevelChoice implements Serializable{
 	
 	/** The level field. */
 	private Integer level;
+	public final int numLevels = 5;
+	public final String levelLabels[] = {
+			"grandma",
+			"rookie",
+			"normalna",
+			"rampage",
+			"god mod"
+	};
 	
 	/**
 	 * Constructor for the LevelChoice class. Takes an Integer.
@@ -24,7 +32,7 @@ public class LevelChoice implements Serializable{
 	 * Default constructor for the LevelChoice class. Sets the level to 1.
 	 */
 	public LevelChoice(){
-		this(5);
+		this(1);
 	}
 	
 	/**
@@ -42,7 +50,7 @@ public class LevelChoice implements Serializable{
 	 * @param level The new level
 	 */
 	public void setLevel(Integer level){
-		if(1<= level && level <= 5){
+		if(1<= level && level <= numLevels){
 			this.level = level;			
 		}
 		else{

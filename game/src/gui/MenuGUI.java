@@ -30,7 +30,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
 /**
- * 
+ * Creates GUI for Menu
  * @author ogunoz atilberk
  *
  */
@@ -40,7 +40,6 @@ public class MenuGUI extends JPanel {
 	 * Fields
 	 */
 	private GUI gui;
-	private JPanel settingsGui;
 	private Clip clip;
 	private boolean mute = true;
 
