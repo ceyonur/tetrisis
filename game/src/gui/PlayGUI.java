@@ -288,7 +288,7 @@ public class PlayGUI extends JFrame {
 
 
 				Player newPlayer = new Player(name, Engine.round(score, 2));
-				gui.addPlayerToHighScoreList(newPlayer);
+				engine.addPlayerToHighScoreList(newPlayer);
 
 				((SLabel) submissionContainer.getComponent(0)).setText("your score is summitted.");
 				submissionContainer.remove(nameField);
