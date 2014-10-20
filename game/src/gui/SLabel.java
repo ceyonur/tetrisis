@@ -9,22 +9,49 @@ import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 
+/**
+ * The class generates modified labels for GUI
+ * @author atilberk
+ */
 public class SLabel extends JLabel {
 
+	/**
+	 * Font field for the label
+	 */
 	private Font font;
+	/**
+	 * Type field of the label
+	 */
+	private int type;
 	
+	/**
+	 * Constructor
+	 * Creates an empty label.
+	 */
 	public SLabel(){
 		super();
 	}
 	
+	/**
+	 * Constructor
+	 * Creates a label with given type.
+	 */
 	public SLabel(int type){
 		this("", type);
 	}
 	
+	/**
+	 * Constructor
+	 * Creates a label of given type with empty string and horizontal alignment
+	 */
 	public SLabel(int type, int horizontalAlignment){
 		this("", type, horizontalAlignment);
 	}
 	
+	/**
+	 * Constructor
+	 * Creates a label with given text of given type.
+	 */
 	public SLabel(String text, int type) {
 		super(text);
 		this.loadFont();
@@ -32,6 +59,10 @@ public class SLabel extends JLabel {
 		this.setType(type);
 	}
 	
+	/**
+	 * Constructor
+	 * Creates a label with given text of given type with horizontal alignment.
+	 */
 	public SLabel(String text, int type, int horizontalAlignment) {
 		super(text, horizontalAlignment);
 		this.loadFont();
@@ -39,6 +70,9 @@ public class SLabel extends JLabel {
 		this.setType(type);
 	}
 	
+	/**
+	 * Loads the font, if fails loads Helvetica as default
+	 */
 	private void loadFont() {
 		try {
 			font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream("assets/fonts/forced_square.ttf"));
@@ -48,9 +82,14 @@ public class SLabel extends JLabel {
 		}
 	}
 
-	private void setType(int type) {
+	/**
+	 * Sets the type of the label
+	 * @param type
+	 */
+	private void setType(int t) {
+		this.type = t;
 		float f;
-		switch (type) {
+		switch (t) {
 			case MAIN_MENU_TITLE:
 				f = 64F;
 				this.setForeground(Color.white);
@@ -124,6 +163,9 @@ public class SLabel extends JLabel {
 		this.setFont(font);
 	}
 	
+	/**
+	 * Type values of SLabel
+	 */	
 	public static final int MAIN_MENU_TITLE = 10;
 	public static final int MAIN_MENU_AUTHOR = 11;
 	public static final int SETTINGS_LABEL = 20;

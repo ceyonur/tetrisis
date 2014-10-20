@@ -148,7 +148,7 @@ public class MenuGUI extends JPanel {
 		footer.setBackground(bgcolor);
 		int type = mute ? SButton.SOUND_BUTTON_MUTE
 				: SButton.SOUND_BUTTON_UNMUTE;
-		final SButton musicButton = new SButton(SButton.getIcon(type), type);
+		final SButton musicButton = new SButton(type);
 
 		musicButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
