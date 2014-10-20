@@ -209,7 +209,9 @@ public class Board {
 		if (deletedLineCounter != 0) {
 			callerEngine.increaseScore(deletedLineCounter);
 			audioPlayers.playEffects(true, AudioPlayers.JUCKJUCK);
-			audioPlayers.playDotaEffects(true, deletedLineCounter, firstKill);
+			audioPlayers.playDotaEffects(true, deletedLineCounter);
+			audioPlayers.playFirstBloodWithDotaEffects(true, deletedLineCounter, firstKill);
+			
 			
 			if (deletedLineCounter == 4){
 				playGUI.shakeWindow();

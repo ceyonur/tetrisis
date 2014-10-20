@@ -18,7 +18,15 @@ import javax.swing.Timer;
 
 import settings.LevelChoice;
 
+/**
+ * 
+ * @author ogunoz
+ * 
+ */
 public class AudioPlayers {
+	/**
+	 * Fields
+	 */
 	private Timer timerPlayGUIBackground;
 	private Timer timerGameOver;
 	private LevelChoice levelChoiceObject = new LevelChoice();
@@ -29,27 +37,68 @@ public class AudioPlayers {
 	private ArrayList<String> sounds;
 	private ArrayList<String> gameOverSounds;
 	private Clip clipBackground;
-
 	private boolean stateOfEffects = true;
 	private boolean stateOfDotaEffects = true;
+	private boolean stateOfFirstBlood = true;
 
+	/**
+	 * Constructor
+	 * 
+	 */
 	public AudioPlayers() {
 		gameOverPlayerListener = new GameOverPlayerListener();
 		musicPlayerListener = new MusicLoopPlayerListener();
 		timerPlayGUIBackground = new Timer(5000, musicPlayerListener);
 		timerGameOver = new Timer(13503, gameOverPlayerListener);
 	}
+	/**
+	 * Arranging firstBlood wav files and select the correct one
+	 * @param boolean, int, boolean
+	 */
+	public void playFirstBloodWithDotaEffects(boolean status, int counter, boolean isTheFirstKill){
+		String stringFile = "assets/sounds/firstBlooddd.wav";
+		if(counter == 1)
+		stringFile = "assets/sounds/firstBlood.wav";
+		else
+			stringFile ="assets/sounds/firstBlooddd.wav";
+		
+		AudioInputStream audioStream = null;
+		Clip clip = null;
 
-	public void playDotaEffects(boolean status, int counter,
-			boolean isTheFirstKill) {
-		if (stateOfDotaEffects){
-			String stringFile = " ";
+		try {
+			audioStream = AudioSystem.getAudioInputStream(new File(
+					stringFile));
+			AudioFormat format = audioStream.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, format);
+			clip = (Clip) AudioSystem.getLine(info);
+			effectSelector = !effectSelector;
+			clip.open(audioStream);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
+		if (stateOfFirstBlood && isTheFirstKill) {
+			clip.start();
+		} else {
+			if (clip != null)
+				clip.stop();
+		}
+	}
+
+	/**
+	 * Arranging dota effects wav files and select the correct one
+	 * @param boolean, int, boolean
+	 */
+	public void playDotaEffects(boolean status, int counter
+			) {
+		String stringFile = "assets/sounds/oneKill.wav";
+		if (stateOfDotaEffects) {
 			int level = levelChoiceObject.getLevel();
-			System.out.println(levelChoiceObject.getLevel());
 
-			if (isTheFirstKill) {
-				stringFile = "assets/sounds/firstBlood.wav";
-			} else {
 				if (counter == ONEKILL)
 					stringFile = "assets/sounds/oneKill.wav";
 				else if (counter == TWOKILL) {
@@ -70,7 +119,8 @@ public class AudioPlayers {
 			Clip clip = null;
 
 			try {
-				audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
+				audioStream = AudioSystem.getAudioInputStream(new File(
+						stringFile));
 				AudioFormat format = audioStream.getFormat();
 				DataLine.Info info = new DataLine.Info(Clip.class, format);
 				clip = (Clip) AudioSystem.getLine(info);
@@ -91,10 +141,13 @@ public class AudioPlayers {
 					clip.stop();
 			}
 		}
-	}
 
+	/**
+	 * Arranging tetris effects wav files and select the correct one
+	 * @param boolean, int
+	 */
 	public void playEffects(boolean status, int selector) {
-		if (stateOfEffects){
+		if (stateOfEffects) {
 			String stringFile = " ";
 			switch (selector) {
 			case ROTATE:
@@ -110,7 +163,8 @@ public class AudioPlayers {
 			AudioInputStream audioStream = null;
 			Clip clip = null;
 			try {
-				audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
+				audioStream = AudioSystem.getAudioInputStream(new File(
+						stringFile));
 				AudioFormat format = audioStream.getFormat();
 				DataLine.Info info = new DataLine.Info(Clip.class, format);
 				clip = (Clip) AudioSystem.getLine(info);
@@ -144,6 +198,11 @@ public class AudioPlayers {
 		}
 	}
 
+	/**
+	 * Arranging background wav files and select the correct file according to
+	 * timer
+	 * @param boolean
+	 */
 	public void playPlayGUIBackground(boolean status) {
 
 		sounds = new ArrayList<String>();
@@ -154,10 +213,24 @@ public class AudioPlayers {
 		timerPlayGUIBackground.start();
 	}
 
+	/**
+	 * 
+	 * @author ogunoz
+	 * 
+	 */
 	class MusicLoopPlayerListener implements ActionListener {
+		/**
+		 * Constructor
+		 * 
+		 */
 		public MusicLoopPlayerListener() {
 		}
 
+		/**
+		 * Opening background wav files according to timer's actionListener
+		 * timer
+		 * @param ActionEvent
+		 */
 		public void actionPerformed(ActionEvent e) {
 			AudioInputStream audioStream = null;
 
@@ -184,6 +257,11 @@ public class AudioPlayers {
 		}
 	}
 
+	/**
+	 * Arranging gameover wav files and select the correct file according to
+	 * timer
+	 * @param boolean
+	 */
 	public void playGameOver(boolean status) {
 		gameOverSounds = new ArrayList<String>();
 		gameOverSounds.add("assets/sounds/gameOver/1.wav");
@@ -194,10 +272,25 @@ public class AudioPlayers {
 
 	}
 
+	/**
+	 * 
+	 * @author ogunoz
+	 * 
+	 */
 	class GameOverPlayerListener implements ActionListener {
+		/**
+		 * Constructor
+		 * 
+		 */
 		public GameOverPlayerListener() {
 		}
 
+		/**
+		 * Opening background wav files according to timer's actionListener
+		 * timer
+		 * 
+		 * @param ActionEvent
+		 */
 		public void actionPerformed(ActionEvent e) {
 
 			try {
@@ -222,11 +315,17 @@ public class AudioPlayers {
 		}
 	}
 
+	/**
+	 * Decide enable or disable background sound according to boolean state
+	 * 
+	 * @param boolean
+	 * 
+	 */
 	public void disableOrEnablePlayGUIBackgroundSound(boolean state) {
-		if (!state){
-			if (clipBackground != null){
+		if (!state) {
+			if (clipBackground != null) {
 				clipBackground.stop();
-				
+
 			}
 			if (timerPlayGUIBackground.isRunning())
 				timerPlayGUIBackground.stop();
@@ -235,8 +334,14 @@ public class AudioPlayers {
 		}
 	}
 
+	/**
+	 * Decide enable or disable gameover sound according to boolean state
+	 * 
+	 * @param boolean
+	 * 
+	 */
 	public void disableOrEnableGameOverSound(boolean state) {
-		if (!state){
+		if (!state) {
 			if (clipGameOver != null)
 				clipGameOver.stop();
 			if (timerGameOver.isRunning())
@@ -246,18 +351,32 @@ public class AudioPlayers {
 		}
 	}
 
+	/**
+	 * Decide enable or disable dota effects sounds according to boolean state
+	 * 
+	 * @param boolean
+	 * 
+	 */
 	public void disableOrEnableDotaEffects(boolean state) {
 		stateOfDotaEffects = state;
+		stateOfFirstBlood = state;
 	}
 
 	public void disableOrEnableEffects(boolean state) {
 		stateOfEffects = state;
 	}
 
+	/**
+	 * Decide enable or disable all sounds according to boolean state
+	 * 
+	 * @param boolean
+	 * 
+	 */
 	public void disableOrEnableAllSounds(boolean state) {
 		disableOrEnablePlayGUIBackgroundSound(state);
 		disableOrEnableDotaEffects(state);
 		disableOrEnableEffects(state);
+		
 	}
 
 	public static final int ROTATE = 11;
