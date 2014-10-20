@@ -135,7 +135,7 @@ public class AudioPlayers {
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
 		}
-		if (status) {
+		if (status && counter != ONEKILL) {
 			clip.start();
 		} else {
 			if (clip != null)
