@@ -2,6 +2,7 @@ package game;
 
 import gui.*;
 import highscores.HighScores;
+import highscores.Player;
 
 import java.awt.Color;
 import java.io.FileNotFoundException;
@@ -22,14 +23,15 @@ public class Engine {
 	private HighScores highScores; // The HighScores object to update it when necessary
 	private double score = 0; // The current score of the game - initially 0
 	private AudioPlayers audioPlayers;
+	private HighScores highscores; 
 
 	/**
 	 * The constructor of the Engine class. Creates the board and takes the settings (if nothing changed, default ones will be used)
 	 * @param settings The settings of the game (can be default)
 	 */
-	public Engine(Settings settings){
+	public Engine(Settings settings, HighScores highscores){
 		setBlockSize(settings);
-		setSettingsFields(settings);
+		setSettingsFields(settings, highscores);
 		createBoardAndNextPiecePanel(settings);
 		play();
 	}
@@ -39,7 +41,7 @@ public class Engine {
 	 * @throws FileNotFoundException 
 	 */
 	public Engine(){
-		this(new Settings());
+		this(new Settings(), new HighScores());
 	}
 	
 	/**
@@ -60,13 +62,14 @@ public class Engine {
 	 * This method sets the fields coming from the settings
 	 * @param settings The settings used to create engine
 	 */
-	public void setSettingsFields(Settings settings){
+	public void setSettingsFields(Settings settings, HighScores highscores){
 		levelNo = settings.getLevel();
 		speedInMilliseconds = (int) (1000 * settings.getSpeed());
 		keys = settings.getKeyConfigureObject();
 		pieceChoice = settings.getPieceChoiceObject();
 		currentPiece = null;
 		audioPlayers = new AudioPlayers();
+		this.highscores = highscores;
 	}
 	
 	/**
@@ -253,6 +256,16 @@ public class Engine {
 	    long tmp = Math.round(value);
 	    return (double) tmp / factor;
 	}
+	
+	/**
+	 * This method adds the given player to the high scores list
+	 * @param player The player that will be added to the high scores list
+	 */
+	public void addPlayerToHighScoreList(Player player){
+		highscores.add(player);
+		highscores.saveHighScores();
+	}
+	
 	
 	/**
 	 * This method ensures that the keyboard focus is on the game panel which contains the actal action
