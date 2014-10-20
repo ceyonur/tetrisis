@@ -50,7 +50,7 @@ public class LevelChoice implements Serializable{
 	 * @param level The new level
 	 */
 	public void setLevel(Integer level){
-		if(1<= level && level <= numLevels){
+		if((1 <= level) && (level <= numLevels)){
 			this.level = level;			
 		}
 		else{

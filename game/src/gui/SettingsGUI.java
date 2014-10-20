@@ -192,7 +192,7 @@ public class SettingsGUI extends JFrame {
 		}
 
 		int chosenLevel = levelChoiceObject.getLevel();
-		levels[chosenLevel].setSelected(true);
+		levels[chosenLevel-1].setSelected(true);
 		
 		levelPanel.add(levelLabel, BorderLayout.NORTH);
 		levelPanel.add(levelOptions, BorderLayout.CENTER);
@@ -384,7 +384,7 @@ public class SettingsGUI extends JFrame {
 
 					for (int i = 0; i < levelChoiceObject.numLevels; i++) {
 						if (levels[i].isSelected())
-							levelChoiceObject.setLevel(i);
+							levelChoiceObject.setLevel(i+1);
 					}
 
 					if(small.isSelected())
