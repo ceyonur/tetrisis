@@ -14,11 +14,15 @@ import highscores.Player;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * This is the JFrame extension class generated when new game button is pressed
+ * @author bedirhancaldir
+ */
 public class PlayGUI extends JFrame {
-	protected Engine engine;
-	private BoardPanel board;
-	private NextPieceAndScorePanel nextPiecePanel;
-	private GameOverListener gameOverListener;
+	protected Engine engine; // The caller engine object
+	private BoardPanel board; // One of the sibling panels contained by this JFrame; board panel GUI
+	private NextPieceAndScorePanel nextPiecePanel; // Other sibling panel contained by this JFrame; next piece and score panel GUI
+	private GameOverListener gameOverListener; 
 	private JPanel realPane;
 	private JPanel generalPane;
 	private Timer timerForCheckingGameOver;
