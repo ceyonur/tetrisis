@@ -1,38 +1,15 @@
 package gui;
 
-import settings.Settings;
-import highscores.HighScores;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Rectangle;
-import java.awt.Window;
+import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
+import java.io.*;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.BooleanControl;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 import javax.swing.*;
 
 /**
  * Creates GUI for Menu
  * @author ogunoz atilberk
- *
  */
 public class MenuGUI extends JPanel {
 
@@ -169,7 +146,7 @@ public class MenuGUI extends JPanel {
 		JPanel footer = new JPanel();
 		footer.setBackground(SColor.backgroundColor);
 		
-		int buttonType = mute ? SButton.SOUND_BUTTON_MUTE
+		int buttonType = !mute ? SButton.SOUND_BUTTON_MUTE
 				: SButton.SOUND_BUTTON_UNMUTE;
 		final SButton musicButton = new SButton(buttonType);
 

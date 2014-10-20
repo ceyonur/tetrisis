@@ -4,10 +4,10 @@ import game.Engine;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 import javax.swing.*;
+import javax.swing.Timer;
 
 import pieces.*;
 import settings.KeyConfigure;
@@ -121,6 +121,16 @@ public class BoardPanel extends JPanel {
 				paused.setLocation(paused.getX(), (getHeight() - paused.getHeight()) / 2);
 				paused.setVisible(true);
 				setBackground(SColor.boardPauseColor);
+			} else {
+				piece.paint(g);
+				for(int i=0;i<deletedBlocks.size(); i++){
+					deletedBlocks.get(i).paint(g);
+				}
+				for (int i=0; i<blocks.size(); i++){
+					blocks.get(i).paint(g);
+				}
+				paused.setVisible(false);
+				setBackground(SColor.boardColor);
 			}
 		}
 	}

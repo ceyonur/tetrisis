@@ -3,8 +3,7 @@ package pieces;
 import gui.SColor;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 import settings.PieceChoice;
 

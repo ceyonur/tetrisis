@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import java.io.Serializable;
 import java.util.HashMap;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class KeyConfigure. This class maps the game functions to keys.
  * @author ceyonur

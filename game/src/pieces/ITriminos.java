@@ -1,7 +1,6 @@
 package pieces;
 
-import java.awt.Color;
-import java.awt.Rectangle;
+import java.awt.*;
 
 /**
  * This class corresponds to the I-Triminos shape.

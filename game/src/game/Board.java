@@ -1,8 +1,6 @@
 package game;
 
-import gui.AudioPlayers;
-import gui.PlayGUI;
-import gui.BoardPanel;
+import gui.*;
 
 /**
  * The class Board handles the game board of tetris
