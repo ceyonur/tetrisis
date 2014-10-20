@@ -1,9 +1,7 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.color.ColorSpace;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Color class for the GUI

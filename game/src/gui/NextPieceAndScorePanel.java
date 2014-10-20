@@ -3,13 +3,16 @@ package gui;
 import game.Engine;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 import javax.swing.*;
 
 import pieces.Piece;
 
+/**
+ * This JPanel extending class shows in the actual game and indicates the score, next piece, deleted line etc. information to the player.
+ * @author bedirhancaldir
+ */
 public class NextPieceAndScorePanel extends JPanel {
 	private Engine callerEngine; // The Engine object generating this object
 	private PlayGUI playGUI; // The JFrame that contains this panel
@@ -37,9 +40,9 @@ public class NextPieceAndScorePanel extends JPanel {
 	private double pieceOldPositionX; // The x-axis of the first position of the piece which is positioned on the next piece area
 	private double pieceOldPositionY; // The y-axis of the first position of the piece which is positioned on the next piece area
 	
-	private boolean stateOfBackgroundMusic = true;
-	private boolean stateOfDotaEffects = true;
-	private boolean stateOfEffects = true;
+	private boolean stateOfBackgroundMusic = true; // The current state of the background music (if true, then it plays)
+	private boolean stateOfDotaEffects = true; // The current state of the dota effects (if true, then it plays)
+	private boolean stateOfEffects = true; // The current state of the effects (if true, then it plays)
 
 	/**
 	 * The constructor of the class. 
@@ -58,29 +61,26 @@ public class NextPieceAndScorePanel extends JPanel {
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		nextPiecePanel = new JPanel();
-		nextPiecePanel.setBackground(getBackground());
-		nextPiecePanel.setLayout(new BorderLayout());
+		createInfoPanel();
+		createNextPiecePanel();
+		createButtonsPanel();
 		
+		add(Box.createVerticalStrut(30));
+		add(nextPiecePanel);
+		add(infoPanel);
+		add(Box.createVerticalStrut(30));
+		add(buttonsPanel);
+		
+		increaseDeletedLineNo();
+	}
+	
+	/**
+	 * This method creates the info panel of the panel
+	 */
+	private void createInfoPanel(){
 		infoPanel = new JPanel();
 		infoPanel.setBackground(getBackground());
 		infoPanel.setLayout(new GridLayout(3,1));
-		
-		buttonsPanel = new JPanel();
-		buttonsPanel.setBackground(getBackground());
-		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
-		
-		nextPieceLabel = new SLabel("next piece :", SLabel.SIDE_PANEL_NEXT, JLabel.CENTER);
-		nextPiecePanel.add(nextPieceLabel, BorderLayout.NORTH);
-				
-		JPanel nextPieceContainerSuper = new JPanel();
-		nextPieceContainerSuper.setBackground(SColor.backgroundColor);
-		nextPiecePanel.add(nextPieceContainerSuper, BorderLayout.CENTER);
-		
-		JPanel nextPieceContainer = new JPanel();
-		nextPieceContainer.setBackground(Color.white);
-		nextPieceContainer.setPreferredSize(new Dimension(nextPieceAreaWidth, nextPieceAreaWidth));
-		nextPieceContainerSuper.add(nextPieceContainer);
 		
 		deletedLines = new SLabel(SLabel.SIDE_PANEL_LINES, SwingConstants.CENTER);
 		infoPanel.add(deletedLines);
@@ -90,6 +90,36 @@ public class NextPieceAndScorePanel extends JPanel {
 		
 		level = new SLabel(SLabel.SIDE_PANEL_LINES, SwingConstants.CENTER);
 		infoPanel.add(level);
+	}
+	
+	/**
+	 * This method creates the next piece panel of the panel
+	 */
+	private void createNextPiecePanel(){
+		nextPiecePanel = new JPanel();
+		nextPiecePanel.setBackground(getBackground());
+		nextPiecePanel.setLayout(new BorderLayout());
+		
+		nextPieceLabel = new SLabel("next piece :", SLabel.SIDE_PANEL_NEXT, JLabel.CENTER);
+		nextPiecePanel.add(nextPieceLabel, BorderLayout.NORTH);
+		
+		JPanel nextPieceContainerSuper = new JPanel();
+		nextPieceContainerSuper.setBackground(SColor.backgroundColor);
+		nextPiecePanel.add(nextPieceContainerSuper, BorderLayout.CENTER);
+		
+		JPanel nextPieceContainer = new JPanel();
+		nextPieceContainer.setBackground(Color.white);
+		nextPieceContainer.setPreferredSize(new Dimension(nextPieceAreaWidth, nextPieceAreaWidth));
+		nextPieceContainerSuper.add(nextPieceContainer);
+	}
+	
+	/**
+	 * This method creates the buttons panel of the panel
+	 */
+	private void createButtonsPanel(){
+		buttonsPanel = new JPanel();
+		buttonsPanel.setBackground(getBackground());
+		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 		
 		JPanel gameControlButtonsPanel = new JPanel();
 		gameControlButtonsPanel.setLayout(new GridLayout(1,2,20,0));
@@ -193,14 +223,6 @@ public class NextPieceAndScorePanel extends JPanel {
 		
 		buttonsPanel.add(gameControlButtonsPanelSuper);
 		buttonsPanel.add(soundControlButtonsPanelSuper);
-		
-		add(Box.createVerticalStrut(30));
-		add(nextPiecePanel);
-		add(infoPanel);
-		add(Box.createVerticalStrut(30));
-		add(buttonsPanel);
-		
-		increaseDeletedLineNo();
 	}
 	
 	/**
@@ -299,6 +321,10 @@ public class NextPieceAndScorePanel extends JPanel {
 		playGUI = play;
 	}
 	
+	/**
+	 * This method sets the given audioPlayer as the global audio player 
+	 * @param audioPlayers The audioPlayers object of this class
+	 */
 	public void setAudioPlayers(AudioPlayers audioPlayers){
 		this.audioPlayers = audioPlayers;
 	}

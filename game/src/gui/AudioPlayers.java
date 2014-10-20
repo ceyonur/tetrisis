@@ -1,19 +1,10 @@
 package gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
+import java.awt.event.*;
+import java.io.*;
 import java.util.ArrayList;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 import javax.swing.Timer;
 
 import settings.LevelChoice;
@@ -29,7 +20,7 @@ public class AudioPlayers {
 	 */
 	private Timer timerPlayGUIBackground;
 	private Timer timerGameOver;
-	private LevelChoice levelChoiceObject = new LevelChoice();
+	private LevelChoice levelChoiceObject;
 	private boolean effectSelector = true;
 	private MusicLoopPlayerListener musicPlayerListener;
 	private Clip clipGameOver = null;
@@ -51,23 +42,34 @@ public class AudioPlayers {
 		timerPlayGUIBackground = new Timer(5000, musicPlayerListener);
 		timerGameOver = new Timer(13503, gameOverPlayerListener);
 	}
+
+	/**
+	 * to get the levelchoice from LevelChoice object
+	 * 
+	 * @param LevelChoice
+	 */
+	public void setLevelChoice(LevelChoice levelChoice) {
+		levelChoiceObject = levelChoice;
+	}
+
 	/**
 	 * Arranging firstBlood wav files and select the correct one
+	 * 
 	 * @param boolean, int, boolean
 	 */
-	public void playFirstBloodWithDotaEffects(boolean status, int counter, boolean isTheFirstKill){
+	public void playFirstBloodWithDotaEffects(boolean status, int counter,
+			boolean isTheFirstKill) {
 		String stringFile = "assets/sounds/firstBlooddd.wav";
-		if(counter == 1)
-		stringFile = "assets/sounds/firstBlood.wav";
+		if (counter == 1)
+			stringFile = "assets/sounds/firstBlood.wav";
 		else
-			stringFile ="assets/sounds/firstBlooddd.wav";
-		
+			stringFile = "assets/sounds/firstBlooddd.wav";
+
 		AudioInputStream audioStream = null;
 		Clip clip = null;
 
 		try {
-			audioStream = AudioSystem.getAudioInputStream(new File(
-					stringFile));
+			audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
 			AudioFormat format = audioStream.getFormat();
 			DataLine.Info info = new DataLine.Info(Clip.class, format);
 			clip = (Clip) AudioSystem.getLine(info);
@@ -91,59 +93,59 @@ public class AudioPlayers {
 
 	/**
 	 * Arranging dota effects wav files and select the correct one
+	 * 
 	 * @param boolean, int, boolean
 	 */
-	public void playDotaEffects(boolean status, int counter
-			) {
+	public void playDotaEffects(boolean status, int counter) {
 		String stringFile = "assets/sounds/oneKill.wav";
 		if (stateOfDotaEffects) {
 			int level = levelChoiceObject.getLevel();
 
-				if (counter == ONEKILL)
-					stringFile = "assets/sounds/oneKill.wav";
-				else if (counter == TWOKILL) {
-					stringFile = "assets/sounds/DoubleKill.wav";
-				} else if (counter == THREEKILL && effectSelector) {
-					stringFile = "assets/sounds/TripleKill.wav";
-				} else if (counter == THREEKILL && !effectSelector) {
-					stringFile = "assets/sounds/MonsterKill.wav";
-				} else if (counter == FOURKILL && effectSelector && level < 5) {
-					stringFile = "assets/sounds/Rampage.wav";
-				} else if (counter == FOURKILL && effectSelector) {
-					stringFile = "assets/sounds/GodLike.wav";
-				} else if (counter == FOURKILL && !effectSelector && level == 5) {
-					stringFile = "assets/sounds/Unstopable.wav";
-				}
-			}
-			AudioInputStream audioStream = null;
-			Clip clip = null;
-
-			try {
-				audioStream = AudioSystem.getAudioInputStream(new File(
-						stringFile));
-				AudioFormat format = audioStream.getFormat();
-				DataLine.Info info = new DataLine.Info(Clip.class, format);
-				clip = (Clip) AudioSystem.getLine(info);
-				effectSelector = !effectSelector;
-				clip.open(audioStream);
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (UnsupportedAudioFileException e) {
-				e.printStackTrace();
-			} catch (LineUnavailableException e) {
-				e.printStackTrace();
-			}
-			if (status) {
-				clip.start();
-			} else {
-				if (clip != null)
-					clip.stop();
+			if (counter == ONEKILL)
+				stringFile = "assets/sounds/oneKill.wav";
+			else if (counter == TWOKILL) {
+				stringFile = "assets/sounds/DoubleKill.wav";
+			} else if (counter == THREEKILL && effectSelector) {
+				stringFile = "assets/sounds/TripleKill.wav";
+			} else if (counter == THREEKILL && !effectSelector) {
+				stringFile = "assets/sounds/MonsterKill.wav";
+			} else if (counter == FOURKILL && effectSelector && level < 5) {
+				stringFile = "assets/sounds/Rampage.wav";
+			} else if (counter == FOURKILL && effectSelector) {
+				stringFile = "assets/sounds/GodLike.wav";
+			} else if (counter == FOURKILL && !effectSelector && level == 5) {
+				stringFile = "assets/sounds/Unstopable.wav";
 			}
 		}
+		AudioInputStream audioStream = null;
+		Clip clip = null;
+
+		try {
+			audioStream = AudioSystem.getAudioInputStream(new File(stringFile));
+			AudioFormat format = audioStream.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, format);
+			clip = (Clip) AudioSystem.getLine(info);
+			effectSelector = !effectSelector;
+			clip.open(audioStream);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
+		if (status) {
+			clip.start();
+		} else {
+			if (clip != null)
+				clip.stop();
+		}
+	}
 
 	/**
 	 * Arranging tetris effects wav files and select the correct one
+	 * 
 	 * @param boolean, int
 	 */
 	public void playEffects(boolean status, int selector) {
@@ -201,6 +203,7 @@ public class AudioPlayers {
 	/**
 	 * Arranging background wav files and select the correct file according to
 	 * timer
+	 * 
 	 * @param boolean
 	 */
 	public void playPlayGUIBackground(boolean status) {
@@ -229,6 +232,7 @@ public class AudioPlayers {
 		/**
 		 * Opening background wav files according to timer's actionListener
 		 * timer
+		 * 
 		 * @param ActionEvent
 		 */
 		public void actionPerformed(ActionEvent e) {
@@ -260,6 +264,7 @@ public class AudioPlayers {
 	/**
 	 * Arranging gameover wav files and select the correct file according to
 	 * timer
+	 * 
 	 * @param boolean
 	 */
 	public void playGameOver(boolean status) {
@@ -376,7 +381,7 @@ public class AudioPlayers {
 		disableOrEnablePlayGUIBackgroundSound(state);
 		disableOrEnableDotaEffects(state);
 		disableOrEnableEffects(state);
-		
+
 	}
 
 	public static final int ROTATE = 11;

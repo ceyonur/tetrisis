@@ -1,10 +1,7 @@
 package highscores;
 
 import java.io.*;
-import java.text.*;
 import java.util.*;
-
-import javax.swing.text.DateFormatter;
 
 /**
  * This class keeps the first 5 highscores.

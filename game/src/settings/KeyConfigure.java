@@ -1,16 +1,19 @@
 package settings;
 
+import gui.SettingsGUI;
+
 import java.awt.event.KeyEvent;
 import java.io.Serializable;
 import java.util.HashMap;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class KeyConfigure. This class maps the game functions to keys.
  * @author ceyonur
  */
 public class KeyConfigure implements Serializable {
 	
+
 	/** The map. */
 	private HashMap<String, Integer> map;
 
@@ -24,6 +27,18 @@ public class KeyConfigure implements Serializable {
 		setDown(KeyEvent.VK_DOWN); // Default speedUp button (down arrow key)
 		setRotate(KeyEvent.VK_UP); // Default rotate button (up arrow key)
 		setPause(KeyEvent.VK_SPACE); // Default pause button (space)
+	}
+	
+	public String[][] getKeyStrings() {
+		String[][] keyString = {	
+				// {settingsLabel, keyString, mapKey}
+				{"move left", SettingsGUI.getKeyText(this.getLeft()), "Left"},
+				{"move right", SettingsGUI.getKeyText(this.getRight()), "Right"},
+				{"go down", SettingsGUI.getKeyText(this.getDown()), "Down"},
+				{"rotate", SettingsGUI.getKeyText(this.getRotate()), "Rotate"},
+				{"pause/continue", SettingsGUI.getKeyText(this.getPause()), "Pause"}
+		};
+		return keyString;
 	}
 
 	/**

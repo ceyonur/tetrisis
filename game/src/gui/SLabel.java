@@ -1,13 +1,9 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.*;
 import java.io.FileInputStream;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 /**
  * The class generates modified labels for GUI

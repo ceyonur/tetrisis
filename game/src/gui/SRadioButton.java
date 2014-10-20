@@ -1,13 +1,9 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.*;
 import java.io.FileInputStream;
 
-import javax.swing.Action;
-import javax.swing.Icon;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 
 public class SRadioButton extends JRadioButton {
 	
@@ -52,8 +48,8 @@ public class SRadioButton extends JRadioButton {
 	private void setType(int type) {
 		float f;
 		switch (type) {
-			case 21:
-				f = 18F;
+			case SETTINGS_RADIO:
+				f = 17F;
 				this.setForeground(Color.white);
 				break;
 			default:
