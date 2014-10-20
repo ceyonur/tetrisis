@@ -31,6 +31,7 @@ public class KeyConfigure implements Serializable {
 	
 	public String[][] getKeyStrings() {
 		String[][] keyString = {	
+				// {settingsLabel, keyString, mapKey}
 				{"move left", SettingsGUI.getKeyText(this.getLeft()), "Left"},
 				{"move right", SettingsGUI.getKeyText(this.getRight()), "Right"},
 				{"go down", SettingsGUI.getKeyText(this.getDown()), "Down"},

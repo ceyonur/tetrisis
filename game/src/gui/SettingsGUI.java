@@ -33,6 +33,12 @@ public class SettingsGUI extends JFrame {
 	private SCheckBox tetra;
 	private SCheckBox tri;
 	
+	/**
+	 * Constructor
+	 * Creates a GUI for settings
+	 * @param gui
+	 * @param settings
+	 */
 	public SettingsGUI(GUI ui, Settings settings) {
 		super();
 		gui = ui;
@@ -58,6 +64,9 @@ public class SettingsGUI extends JFrame {
 		});
 	}
 	
+	/**
+	 * Creates containers for header, buttons and footer sections
+	 */
 	private void createAndAddContainers() {
 		JPanel headerPanelContainer = new JPanel();
 		headerPanelContainer.setBackground(SColor.backgroundColor);
@@ -95,6 +104,10 @@ public class SettingsGUI extends JFrame {
 		add(buttonsPanelContainer);
 	}
 	
+	/**
+	 * Creates board size panel
+	 * @return sizes panel
+	 */
 	private JPanel createSizesPanel() {
 		
 		JPanel sizePanel = new JPanel();
@@ -145,6 +158,10 @@ public class SettingsGUI extends JFrame {
 		return sizePanel;
 	}
 	
+	/**
+	 * Creates level choice panel
+	 * @return levels panel
+	 */
 	private JPanel createLevelsPanel() {
 		
 		final String levelLabels[] = levelChoiceObject.levelLabels;
@@ -183,6 +200,10 @@ public class SettingsGUI extends JFrame {
 		return levelPanel;
 	}
 	
+	/**
+	 * Creates piece choice panel
+	 * @return pieces panel
+	 */
 	private JPanel createPiecesPanel() {
 		JPanel piecesPanel = new JPanel();
 		piecesPanel.setPreferredSize(new Dimension(500,100));
@@ -232,6 +253,10 @@ public class SettingsGUI extends JFrame {
 		return piecesPanel;
 	}
 
+	/**
+	 * Creates key configuration panel
+	 * @return keys panel
+	 */
 	private JPanel createKeysPanel() {
 
 		final String[][] keyStrings = keyConfigureObject.getKeyStrings();
@@ -305,6 +330,10 @@ public class SettingsGUI extends JFrame {
 		return keysPanel;
 	}
 	
+	/**
+	 * Creates buttons panel
+	 * @return buttons
+	 */
 	private JPanel createButtons() {
 		
 		JPanel buttonsPanel = new JPanel();
@@ -376,6 +405,10 @@ public class SettingsGUI extends JFrame {
 		return buttonsPanel;
 	}
 	
+	/**
+	 * Creates header panel
+	 * @return header
+	 */
 	private JPanel createHeader() {
 		JPanel header = new JPanel();
 		
@@ -387,6 +420,11 @@ public class SettingsGUI extends JFrame {
 		return header;
 	}
 	
+	/**
+	 * Returs the String representation of given key value
+	 * @param key value
+	 * @return string representation
+	 */
 	public static String getKeyText(int a){
 		if(a != 0){
 			return KeyEvent.getKeyText(a);
