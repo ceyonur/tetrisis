@@ -92,4 +92,8 @@ public class GUI extends JFrame {
 		highscoresGUI.setLocationRelativeTo(null);
 		highscoresGUI.setVisible(true);
 	}
+	
+	protected void menuMusicEnabler() {
+		menuGUI.menuMusicEnabler();
+	}
 }
